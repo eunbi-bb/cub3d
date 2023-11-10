@@ -6,9 +6,9 @@ else
 CFLAGS		= -Wall -Wextra -Werror -g
 endif
 
-LIBMLX		= ./lib/MLX42
-LIBFT		= ./lib/libft/libft.a
-LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
+LIBMLX		= ./lib/mlx42
+LIBFT		= ./lib/libft
+LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw3
 
 OBJ_DIR		= obj/
 SRC_DIR		= src/
@@ -17,7 +17,7 @@ HEADER_DIR	= include/
 HEADER_SRC	= cub3d.h
 HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 
-INCLUDES	= -I $(HEADER_DIR) ./lib/libft/ -I $(LIBMLX)/include/
+INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
 
 SRC_DIR		= src/
 SRC_FILE	= main.c
@@ -41,7 +41,7 @@ $(NAME): $(OBJ) $(OBJF)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c $(HEADER)| $(OBJF)
 			@mkdir -p $(@D)
-			@$(CC) $(CFLAGS) $(LIBFT) $(LIBS) $(INCLUDES) -c $< -o $@
+			@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJF):
 		@mkdir -p $(OBJ_DIR)
