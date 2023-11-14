@@ -10,16 +10,16 @@
 # include <math.h>
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 
-#define  MAPX   6
-#define  MAPY   5
+#define  MAPX   24
+#define  MAPY   24
 
 # define deg2rad(d)	((d)*M_PI/180.0) /* degree to radian */
 # define rad2deg(d)	((d)*180.0/M_PI)    /* radian to degree */
 # define min(a,b)	((a)<(b)? (a):(b))
 # define max(a,b)	((a)>(b)? (a):(b))
 
-# define SX		400
-# define SY		250
+# define SX		1600
+# define SY		1000
 # define FOV	60
 # define FOV_H	deg2rad(FOV)
 # define FOV_V	(FOV_H*(double)SY/(double)SX)

@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-int	worldMap[24][24] = {
+int	worldMap[MAPY][MAPX] = {
 							{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -213,10 +213,13 @@ int	main()
 	game.moveSpeed = 0.05;
 	game.rotSpeed = 0.05;
 	// game.win = mlx_new_window(game.mlx, SX, SY, "cub3d");
-	mlx_loop_hook(game.mlx, (void *)main_loop, &game);
-	mlx_key_hook(game.win, (void *)key_hook, &game);
-
+	printf("here\n");
+	// mlx_loop_hook(game.mlx, &main_loop, &game);
+	printf("here2\n");
+	// mlx_key_hook(game.win, &key_hook, &game);
+	printf("here3\n");
 	mlx_loop(game.mlx);
+	printf("here4\n");
 	mlx_terminate(game.mlx);
 	return (0);
 }
