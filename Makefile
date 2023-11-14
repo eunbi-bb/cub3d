@@ -8,7 +8,7 @@ endif
 
 LIBMLX		= ./lib/MLX42
 LIBFT		= ./lib/libft
-LIBS		= $(LIBMLX)/build/libmlx42.a
+LIBS		= $(LIBMLX)/build/libmlx42.a -lglfw
 MATH		= -lm
 
 OBJ_DIR		= obj/
@@ -37,7 +37,7 @@ libmlx:
 $(NAME): $(OBJ) $(OBJF)
 		@make -C $(LIBFT)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT)/libft.a -o $(NAME) $(MATH)
-		@echo "- Minishell is compiled -"
+		@echo "- cub3d is compiled -"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)| $(OBJF)
 			@mkdir -p $(@D)
