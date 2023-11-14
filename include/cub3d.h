@@ -18,8 +18,8 @@
 # define min(a,b)	((a)<(b)? (a):(b))
 # define max(a,b)	((a)>(b)? (a):(b))
 
-# define SX		1600
-# define SY		1000
+# define SX		640
+# define SY		480
 # define FOV	60
 # define FOV_H	deg2rad(FOV)
 # define FOV_V	(FOV_H*(double)SY/(double)SX)

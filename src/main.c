@@ -27,8 +27,11 @@ int	worldMap[MAPY][MAPX] = {
 							{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 						};
 
-void	*key_hook(mlx_key_data_t keydata, t_game *game)
+void	key_hook(mlx_key_data_t keydata, void *param)
 {
+	t_game *game;
+
+	game = param;
 	if (keydata.action == MLX_PRESS)
 	{
 		if (keydata.key == MLX_KEY_ESCAPE)
@@ -66,9 +69,8 @@ void	*key_hook(mlx_key_data_t keydata, t_game *game)
 			double oldPlaneX = game->planeX;
 			game->planeX = game->planeX * cos(game->rotSpeed) - game->planeY * sin(game->rotSpeed);
 			game->planeY = oldPlaneX * sin(game->rotSpeed) + game->planeY * cos(game->rotSpeed);
-		};
+		}
 	}
-	return (0);
 }
 
 void	draw_vline(t_game *game, int x, int y_start, int y_end, int color)
@@ -190,11 +192,12 @@ void	calc(t_game *info)
 	}
 }
 
-
-void	*main_loop(t_game *game)
+void	main_loop(void *param)
 {
+	t_game *game;
+
+	game = param;
 	calc(game);
-	return (0);
 }
 
 int	main()
@@ -212,11 +215,10 @@ int	main()
 	game.planeY = 0.66;
 	game.moveSpeed = 0.05;
 	game.rotSpeed = 0.05;
-	// game.win = mlx_new_window(game.mlx, SX, SY, "cub3d");
 	printf("here\n");
-	// mlx_loop_hook(game.mlx, &main_loop, &game);
+	mlx_loop_hook(game.mlx, &main_loop, &game);
 	printf("here2\n");
-	// mlx_key_hook(game.win, &key_hook, &game);
+	mlx_key_hook(game.win, key_hook, &game);
 	printf("here3\n");
 	mlx_loop(game.mlx);
 	printf("here4\n");
