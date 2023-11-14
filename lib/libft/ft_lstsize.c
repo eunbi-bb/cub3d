@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstsize_bonus.c                                 :+:    :+:            */
+/*   ft_lstsize.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/07 16:09:44 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/07 16:09:54 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:08:27 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/11 09:01:03 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* 
+	DESCRIPTION
+		lstsize() counts the number of nodes in a list.
+		'lst' : the beginning of the list.
+	RETURN VALUE
+		The length of the list. 
+*/
 #include "libft.h"
 
 int	ft_lstsize(t_list *lst)
 {
-	int		count;
-	t_list	*temp;
+	int	i;
 
-	if (!lst)
-		return (0);
-	count = 0;
-	temp = lst;
-	while (temp != NULL)
+	i = 0;
+	while (lst)
 	{
-		temp = temp->next;
-		count++;
+		lst = lst->next;
+		i++;
 	}
-	return (count);
+	return (i);
 }

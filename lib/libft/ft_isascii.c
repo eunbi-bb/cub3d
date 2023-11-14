@@ -3,23 +3,14 @@
 /*                                                        ::::::::            */
 /*   ft_isascii.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/08 15:31:40 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/10/17 14:27:29 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:05:09 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/24 15:25:15 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
 int	ft_isascii(int c)
 {
-	return ((c >= 0) && (c <= 127));
+	return (c >= 0 && c <= 127);
 }
-/*
-int main ()
-{
-    int  c = 129;
-    printf("%d\n", ft_isascii(c));
-    printf("%d\n", isascii(c));
-}
-*/

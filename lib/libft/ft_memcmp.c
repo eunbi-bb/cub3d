@@ -3,42 +3,37 @@
 /*                                                        ::::::::            */
 /*   ft_memcmp.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 17:42:12 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/04 15:22:12 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:08:48 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/24 15:27:52 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+/*
+	DESCRIPTION
+		memcmp() compares 2 strings as n nytes.
+	RETURN VALUE
+		'*s1' < '*s2' :  Negative
+		'*s1' > '*s2' :  Positive
+		'*s1' = '*s2' :  0
+*/
+#include <stdlib.h>
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t				i;
-	const unsigned char	*first;
-	const unsigned char	*second;
+	unsigned char	*str1;
+	unsigned char	*str2;
+	size_t			i;
 
-	first = s1;
-	second = s2;
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
 	i = 0;
 	while (i < n)
 	{
-		if (first[i] != second[i])
-		{
-			return (first[i] - second[i]);
-		}
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
 		i++;
 	}
 	return (0);
 }
-/*
-int main()
-{
-    size_t n = 3;
-    const unsigned char s1[] = "";
-    const unsigned char s2[] = "";
-
-    printf("%d\n", ft_memcmp(s1, s2, n));
-    printf("%d\n", memcmp(s1, s2, n));
-}
-*/

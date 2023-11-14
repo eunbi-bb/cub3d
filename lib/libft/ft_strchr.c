@@ -3,38 +3,34 @@
 /*                                                        ::::::::            */
 /*   ft_strchr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/03 14:53:00 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 14:53:49 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:10:10 by eucho         #+#    #+#                 */
+/*   Updated: 2023/10/15 02:00:54 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* 
+	DESCRIPTION
+		strchr() searches for the first occurrence 'c' in 's'. 
+	RETURN VALUE
+		Returns NULL if the character is not found.
+		Returns a pointer to the first occurrence of the character 'c' in 's'. 
+*/
 #include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
-	int	i;
-	int	len_s;
+	size_t	i;
+	size_t	len;
 
 	i = 0;
-	len_s = ft_strlen(s) + 1;
-	while (i < len_s)
+	len = ft_strlen(s);
+	while (i <= len)
 	{
 		if (s[i] == (char)c)
-		{
-			return ((char *)(s + i));
-		}
+			return (&((char *)s)[i]);
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
-/*
-int main()
-{
-        const char s[] = "banana";
-        int c = 'n';
-        printf("%s\n", ft_strchr(s, c));
-        printf("%s\n", strchr(s, c));
-}
-*/

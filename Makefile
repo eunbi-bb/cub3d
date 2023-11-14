@@ -6,12 +6,12 @@ else
 CFLAGS		= -Wall -Wextra -Werror -g
 endif
 
-LIBMLX		= ./lib/mlx42
+LIBMLX		= ./lib/MLX42
 LIBFT		= ./lib/libft
-LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw3
+LIBS		= $(LIBMLX)/build/libmlx42.a
+MATH		= -lm
 
 OBJ_DIR		= obj/
-SRC_DIR		= src/
 
 HEADER_DIR	= include/
 HEADER_SRC	= cub3d.h
@@ -20,7 +20,7 @@ HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
 
 SRC_DIR		= src/
-SRC_FILE	= main.c
+SRC_FILE	= main.c error.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))
 
@@ -32,14 +32,14 @@ CYAN		=	\033[0;96m
 all: libmlx $(NAME)
 
 libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && cmake --build $(LIBMLX)/build -j4
 
 $(NAME): $(OBJ) $(OBJF)
 		@make -C $(LIBFT)
-		@$(CC) $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME) 
+		@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT)/libft.a -o $(NAME) $(MATH)
 		@echo "- Minishell is compiled -"
 
-$(OBJ_DIR)%.o:$(SRC_DIR)%.c $(HEADER)| $(OBJF)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)| $(OBJF)
 			@mkdir -p $(@D)
 			@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 

@@ -2,12 +2,13 @@
 # define CUB3D_H
 
 # include "../lib/libft/libft.h"
+# include <stdio.h>
 # include  <sys/stat.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
 # include <math.h>
-# include "../lib/mlx42/include/MLX42/MLX42.h"
+# include "../lib/MLX42/include/MLX42/MLX42.h"
 
 #define  MAPX   6
 #define  MAPY   5

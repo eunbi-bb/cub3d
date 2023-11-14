@@ -3,41 +3,44 @@
 /*                                                        ::::::::            */
 /*   ft_strtrim.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/18 15:33:17 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/01 17:30:31 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:12:24 by eucho         #+#    #+#                 */
+/*   Updated: 2023/10/15 02:00:44 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+	DESCRIPTION
+		strtrim() allocates and returns a copy of '*s1' with tha characters
+		specified in '*set' removed from the beginning and the end of the string.
+	RETURN VALUE
+		returns the trimmed string.
+		NULL ig the allocation failed.
+*/
 #include "libft.h"
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		start;
-	int		end;
-	char	*newstr;
-	char	*temp;
+	int		front;
+	int		back;
+	char	*str;
 
-	start = 0;
-	temp = (char *)s1;
-	end = ft_strlen(temp) - 1;
+	str = 0;
 	if (!s1)
-		return (0);
+		return (NULL);
 	if (!set)
-		return (temp);
-	while (temp[start] && ft_strchr(set, temp[start]))
-			start++;
-	while (start < end && ft_strchr(set, temp[end]))
-			end--;
-	newstr = ft_substr(temp, start, (end - start + 1));
-	return (newstr);
+		return (ft_strdup(s1));
+	front = 0;
+	back = ft_strlen(s1);
+	while (s1[front] && ft_strchr(set, s1[front]))
+		front++;
+	while (back > front && ft_strchr(set, s1[back - 1]))
+		back--;
+	str = (char *)malloc(sizeof(char) * (back - front + 1));
+	if (!str)
+		return (NULL);
+	if (str)
+		ft_strlcpy(str, &s1[front], back - front + 1);
+	return (str);
 }
-/*
-int main()
-{
-	char const s1[] = NULL;
-	char const set[] = "";
-	printf("%s\n", ft_strtrim(s1, set));
-}
-*/

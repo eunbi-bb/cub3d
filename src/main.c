@@ -41,6 +41,7 @@ void	*key_hook(mlx_key_data_t keydata, t_game *game)
 			game->planeY = oldPlaneX * sin(game->rotSpeed) + game->planeY * cos(game->rotSpeed);
 		};
 	}
+	return (0);
 }
 
 void	draw_vline(t_game *game, int x, int y_start, int y_end, int color)
@@ -166,6 +167,7 @@ void	calc(t_game *info)
 void	*main_loop(t_game *game)
 {
 	calc(game);
+	return (0);
 }
 
 int	main()
@@ -184,8 +186,8 @@ int	main()
 	game.moveSpeed = 0.05;
 	game.rotSpeed = 0.05;
 	// game.win = mlx_new_window(game.mlx, SX, SY, "cub3d");
-	mlx_loop_hook(game.mlx, main_loop, &game);
-	mlx_key_hook(game.win, key_hook, &game);
+	mlx_loop_hook(game.mlx, (void *)main_loop, &game);
+	mlx_key_hook(game.win, (void *)key_hook, &game);
 
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);

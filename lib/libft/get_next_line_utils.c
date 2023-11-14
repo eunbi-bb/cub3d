@@ -3,103 +3,94 @@
 /*                                                        ::::::::            */
 /*   get_next_line_utils.c                              :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/25 11:31:09 by gozturk       #+#    #+#                 */
-/*   Updated: 2023/01/25 12:38:09 by gozturk       ########   odam.nl         */
+/*   Created: 2022/12/05 09:21:42 by eucho         #+#    #+#                 */
+/*   Updated: 2023/02/15 21:50:23 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-size_t	check_newline(char *buf)
+size_t	gnl_strlen(char *s)
 {
-	size_t	n;
-
-	n = 0;
-	if (!buf || gnl_strlen(buf) == 0)
-		return (0);
-	while (buf[n] != '\0')
-	{
-		if (buf[n] == '\n')
-			return (n);
-		n++;
-	}
-	return (0);
-}
-
-char	*fill_line(char *stash)
-{
-	char	*filled_line;
 	size_t	i;
 
 	i = 0;
-	filled_line = make_string(gnl_strlen(stash) + 1);
-	if (!filled_line)
-		return (NULL);
-	while (stash[i] != '\0')
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+void	gnl_strlcpy(char *dst, char *src, size_t size)
+{
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	len = gnl_strlen(src);
+	if (size > 0)
 	{
-		filled_line[i] = stash[i];
-		if (filled_line[i] == '\n')
-			break ;
+		while (i < len && i < size - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+}
+
+char	*gnl_strchr(char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (c == '\0')
+		return ((char *)&s[gnl_strlen(s)]);
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char) c)
+			return ((char *)&s[i]);
 		i++;
 	}
-	return (filled_line);
+	return (NULL);
 }
 
-char	*shift_stash(char *stash)
+void	*gnl_memcpy(void *dst, const void *src, size_t n)
 {
-	char	*shifted;
-	size_t	i_stash;
-	size_t	i_shift;
-	size_t	pos;
+	size_t	i;
 
-	i_stash = 0;
-	i_shift = 0;
-	pos = check_newline(stash);
-	if (pos == gnl_strlen(stash))
-		return (free(stash), NULL);
-	shifted = make_string(gnl_strlen(stash) - pos);
-	if (!shifted)
-		return (free(stash), NULL);
-	while (stash[i_stash] != '\0')
+	i = 0;
+	if (!dst && !src)
+		return (NULL);
+	if (dst == src)
+		return (dst);
+	while (i < n)
 	{
-		if (stash[i_stash] == '\n')
-		{
-			i_stash++;
-			while (stash[i_stash] != '\0')
-				shifted[i_shift++] = stash[i_stash++];
-			break ;
-		}
-		i_stash++;
+		((char *)dst)[i] = ((char *)src)[i];
+		i++;
 	}
-	return (free(stash), shifted);
+	return (dst);
 }
 
-char	*from_buf_to_stash(char *prev_stash, char *buf)
+char	*gnl_strjoin(char *s1, char *s2)
 {
-	char	*new_stash;
-	size_t	stash_i;
-	size_t	buf_i;
+	unsigned int	len_1;
+	unsigned int	len_2;
+	char			*str;
 
-	buf_i = 0;
-	stash_i = 0;
-	if (prev_stash == NULL)
-	{
-		prev_stash = make_string(BUFFER_SIZE + 1);
-		if (!prev_stash)
-			return (NULL);
-	}
-	new_stash = make_string(gnl_strlen(prev_stash) + BUFFER_SIZE + 1);
-	if (!new_stash)
-		return (free(prev_stash), NULL);
-	while (prev_stash[stash_i] != '\0')
-	{
-		new_stash[stash_i] = prev_stash[stash_i];
-		stash_i++;
-	}
-	while (buf[buf_i] != '\0')
-		new_stash[stash_i++] = buf[buf_i++];
-	new_stash[stash_i] = '\0';
-	return (free(prev_stash), new_stash);
+	len_1 = gnl_strlen(s1);
+	len_2 = gnl_strlen(s2);
+	str = malloc(sizeof(char) * (len_1 + len_2 + 1));
+	if (!str)
+		return (NULL);
+	gnl_memcpy(str, (char *)s1, len_1);
+	gnl_memcpy(str + len_1, (char *)s2, len_2);
+	str[len_1 + len_2] = '\0';
+	free (s1);
+	return (str);
 }

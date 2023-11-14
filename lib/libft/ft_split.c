@@ -3,116 +3,81 @@
 /*                                                        ::::::::            */
 /*   ft_split.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/03 13:32:43 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 14:52:51 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:10:04 by eucho         #+#    #+#                 */
+/*   Updated: 2023/01/14 20:16:28 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* 
+	DESCRIPTION
+		Allocates and returns an array of strings obtained by splitting 's'
+		using the character 'c' as a delimiter. The array must end with a NULL pointer.
+	RETURN VALUE
+		Returns the array of new strings resulting from the split.
+		NULL if the allocation fails.
+*/
 #include "libft.h"
 
-static int	how_many_words(const char *str, char c)
+size_t	word_counter(char const *s, char c)
 {
-	int	i;
-	int	count;
+	size_t	count;
 
-	i = 0;
 	count = 0;
-	if (str[i] == '\0')
-		return (0);
-	while (str[i] != '\0')
+	while (*s)
 	{
-		while (str[i] == c)
-			i++;
-		if (str[i] != c && str[i] != '\0')
+		if (*s != c)
 		{
 			count++;
-			while (str[i] != c && str[i] != '\0')
-				i++;
+			while (*s != '\0' && *s != c)
+				s++;
 		}
+		else
+			s++;
 	}
 	return (count);
 }
 
-static int	word_length(const char *str, char c)
+void	*free_pointer_array(char **s)
 {
 	int	i;
-	int	count;
 
 	i = 0;
-	count = 0;
-	while (str[i] == c)
-		i++;
-	while (str[i] != c && str[i] != '\0')
+	while (s[i])
 	{
-		count++;
+		free(s[i]);
 		i++;
 	}
-	return (count);
-}
-
-static char	*make_substr(const char *str, char c)
-{
-	char	*sub;
-	int		i;
-	int		j;
-	int		len;
-
-	i = 0;
-	j = 0;
-	while (str[i] == c)
-		i++;
-	len = word_length(str + i, c);
-	sub = (char *)malloc(sizeof(char) * (len + 1));
-	if (!sub)
-		return (0);
-	while (str[i] != '\0' && str[i] != c)
-	{
-		sub[j] = str[i];
-		j++;
-		i++;
-	}
-	sub[i] = '\0';
-	return (sub);
-}
-
-static char	**free_array(char **arr, int i)
-{
-	while (i)
-	{
-		i--;
-		free(arr[i]);
-	}
-	free(arr);
-	return (0);
+	free(s);
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**arr;
-	int		i;
-	int		words;
-	int		arr_i;
+	unsigned int	i;
+	const char		*start;
+	char			**str;
 
-	i = 0;
-	arr_i = 0;
 	if (!s)
-		return (0);
-	words = how_many_words(s, c);
-	arr = ft_calloc(sizeof(char *), words + 1);
-	if (!arr)
-		return (0);
-	while (s[i] != '\0' && arr_i < words)
+		return (NULL);
+	str = (char **)malloc(sizeof(*str) * (word_counter(s, c) + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (*s)
 	{
-		while (s[i] == c)
-			i++;
-		arr[arr_i] = make_substr(s + i, c);
-		if (!arr[arr_i])
-			return (free_array(arr, arr_i));
-		i = i + word_length(s + i, c);
-		arr_i++;
+		while (*s && *s == c)
+			s++;
+		start = s;
+		while (*s && *s != c)
+			s++;
+		if (*(s - 1) != c)
+			str[i++] = ft_substr(start, 0, s - start);
+		if (i)
+			if (str[i - 1] == NULL)
+				return (free_pointer_array(str - (i - 1)));
 	}
-	arr[arr_i] = NULL;
-	return (arr);
+	str[i] = 0;
+	return (str);
 }

@@ -3,48 +3,42 @@
 /*                                                        ::::::::            */
 /*   ft_substr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/14 15:04:47 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 12:54:46 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:12:29 by eucho         #+#    #+#                 */
+/*   Updated: 2023/09/25 22:20:16 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+	DESCRIPTION
+		substr() returns a 'len' length of specified substring 
+		from '*s' starts from 'start' .
+	RETURN VALUE
+		returns the specified substring.
+*/
 #include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
-{	
-	char	*sub;
+{
+	char	*str;
 	size_t	i;
 	size_t	s_len;
 
-	s_len = ft_strlen(s);
 	i = 0;
-	if (!s)
-		return (0);
-	if (start >= s_len || start < 0 || len <= 0)
-		return (ft_strdup(""));
-	if (start + len > s_len)
-		len = s_len - start;
-	sub = (char *)malloc(len + 1);
-	if (!sub)
-		return (0);
-	while (s[start] != '\0' && i < len)
+	s_len = ft_strlen(s);
+	if (s == NULL)
+		return (NULL);
+	if (len > s_len)
+		len = s_len;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	while (start + i < s_len && i < len)
 	{
-		sub[i] = s[start];
+		str[i] = s[start + i];
 		i++;
-		start++;
 	}
-	sub[i] = '\0';
-	return (sub);
+	str[i] = '\0';
+	return (str);
 }
-/*
-int main()
-{
-    char const *s = "lemonade";
-    unsigned int start = 9;
-    size_t len = 4;
-
-    printf("%s\n", ft_substr(s, start, len));
-}
-*/

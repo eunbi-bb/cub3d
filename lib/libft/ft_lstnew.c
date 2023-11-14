@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strrchr.c                                       :+:    :+:            */
+/*   ft_lstnew.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 16:12:19 by eucho         #+#    #+#                 */
-/*   Updated: 2022/10/17 13:50:49 by eucho         ########   odam.nl         */
+/*   Created: 2022/10/10 16:08:16 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/11 20:12:56 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
+/* 
 	DESCRIPTION
-		strrchr() searches for the last occurrence of 'c' in the string 
-		pointed to, by the argument '*s'.
+		lstnew() allocates and returns a new node. The member variable 'content'
+		is initialized with the value of the parameter 'content'.
+		The variable 'next' is initialized to NULL.
+		'content' : the content to create the node with.
 	RETURN VALUE
-		returns a pointer to the last occurrence of character in '*s'. 
-		If the value is not found, the function returns NULL.
+		The new node. 
 */
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+t_list	*ft_lstnew(void *content)
 {
-	int	i;
+	t_list	*lst;
 
-	i = ft_strlen(s) + 1;
-	while (i > 0)
-	{
-		i--;
-		if (s[i] == (char)c)
-			return (&((char *)s)[i]);
-	}
-	return (NULL);
+	lst = malloc(sizeof(t_list));
+	if (!lst)
+		return (NULL);
+	lst->content = content;
+	lst->next = NULL;
+	return (lst);
 }

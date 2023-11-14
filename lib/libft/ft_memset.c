@@ -3,38 +3,37 @@
 /*                                                        ::::::::            */
 /*   ft_memset.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/13 11:57:08 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/04 15:23:11 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:09:28 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/24 15:28:06 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+/* 
+	DESCRIPTION
+		memset() copies 'c' to the first 'n' of the string pointed to, 
+		by the argument 'str'.
+		'c' is the value to set. The value is passed as an int, 
+		but the function fills
+		the block of memory using the unisgned char conversion of this value.
+		'n' is the number of bytes to be set to the value.
+	RETURN VALUE
+		Returns a pointer to the memory area 'str'.	
+*/
+#include <stdlib.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memset(void *str, int c, size_t n)
 {
-	size_t			i;
-	unsigned char	*bptr;
+	char	*ptr;
+	size_t	i;
 
-	bptr = b;
+	ptr = str;
 	i = 0;
-	while (i < len)
+	while (i < n)
 	{
-		bptr[i] = (unsigned char)c;
+		ptr[i] = c;
 		i++;
 	}
-	return (b);
+	return (str);
 }
-/*
-int main()
-{
-	size_t  len = 9;
-    char b[10] = "";
-	int c = 'b';
-
-	printf("%s\n", ft_memset(b, c, len));
-	printf("%s\n", memset(b, c, len));
-		
-}
-*/

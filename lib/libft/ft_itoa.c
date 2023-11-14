@@ -3,64 +3,64 @@
 /*                                                        ::::::::            */
 /*   ft_itoa.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/18 17:40:10 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 14:48:06 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:05:38 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/25 11:40:05 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+	DESCRIPTION
+		Integer to Character. Dividing interger to get a length for a string.
+		
+	RETURN VALUE
+		returns converted string. 
+*/
 #include "libft.h"
+#include <stdlib.h>
 
-static	int	int_len(int n)
+static int	get_len(int n)
 {
-	int	count;
+	int	len;
 
-	count = 0;
 	if (n <= 0)
-	{
-		count = 1;
-	}
+		len = 1;
+	else
+		len = 0;
 	while (n != 0)
 	{
-		n /= 10;
-		count++;
+		n = n / 10;
+		len++;
 	}
-	return (count);
+	return (len);
 }
 
 char	*ft_itoa(int n)
 {
 	int		len;
-	int		numb;
-	char	*s;
+	char	*str;
+	int		num;
 
-	numb = n;
-	len = int_len(n);
-	if (n < 0)
-		numb = n * -1;
-	s = malloc((len + 1) * sizeof(char));
-	if (s == NULL)
-		return (NULL);
 	if (n == -2147483648)
-		return (ft_memcpy(s, "-2147483648", 12));
-	while (len >= 1)
+		return (ft_strdup("-2147483648"));
+	len = get_len(n);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	str[len] = '\0';
+	if (n < 0)
+		num = -n;
+	else
+		num = n;
+	len--;
+	while (len >= 0)
 	{
-		s[len - 1] = numb % 10 + '0';
-		if (numb >= 10)
-				numb /= 10;
+		str[len] = '0' + (num % 10);
+		num = num / 10;
 		len--;
 	}
-	len = int_len(n);
-	s[len] = '\0';
-	if (n < 0)
-		s[0] = '-';
-	return (s);
+	if (n < 0 && n != -2147483648)
+		str[0] = '-';
+	return (str);
 }
-/*
-int main()
-{
-	int n = -2147483648;
-	printf("%s\n", ft_itoa(n));
-}
-*/
