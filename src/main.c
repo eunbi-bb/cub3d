@@ -1,227 +1,233 @@
+/*
+ *	How to execute
+ *	shell $ cc -o ex01 -Wall ex01.c -lm
+*	shell $ ./ex01 1.5 3.5 355 
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include "cub3d.h"
+// #include <./lib/mlx42/include/MLX42/MLX42.h>
 
-int	worldMap[MAPY][MAPX] = {
-							{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-							{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-							{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-							{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-						};
+#define  EPS            (1e-06)
+#define  is_zero(d)     (fabs(d) < EPS)
+#define  deg2rad(d)     ((d)*M_PI/180.0)    /* degree to radian */
+#define  rad2deg(d)     ((d)*180.0/M_PI)    /* radian to degree */
+#define  min(a,b)       ((a)<(b)? (a):(b))
+#define  max(a,b)       ((a)>(b)? (a):(b))
 
-void	key_hook(mlx_key_data_t keydata, void *param)
+#define  SX         400      /* screen width */
+#define  SY         250     /* screen height*/
+#define  FOV        60      /* field of view (in degree) */
+#define  FOV_H      deg2rad(FOV)
+#define  FOV_V      (FOV_H*(double)SY/(double)SX)
+#define  WALL_H     1.0
+
+static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
+static const double FOVH_2 = FOV_H / 2.0;
+
+enum { VERT, HORIZ };
+
+#define  MAPX   24
+#define  MAPY   24
+
+static int map[MAPX][MAPY] = {  /* warning: index order is [x][y] */
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+                {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
+                {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
+
+int map_get_cell( int x, int y )
 {
-	t_game *game;
-
-	game = param;
-	if (keydata.action == MLX_PRESS)
-	{
-		if (keydata.key == MLX_KEY_ESCAPE)
-			mlx_close_window(game->mlx);
-		else if (keydata.key == MLX_KEY_W )
-		{
-			if (!worldMap[(int)(game->posX + game->dirX * game->moveSpeed)][(int)(game->posY)])
-			game->posX += game->dirX * game->moveSpeed;
-			if (!worldMap[(int)(game->posX)][(int)(game->posY + game->dirY * game->moveSpeed)])
-			game->posY += game->dirY * game->moveSpeed;
-		}
-		else if (keydata.key == MLX_KEY_S)
-		{
-		if (!worldMap[(int)(game->posX - game->dirX * game->moveSpeed)][(int)(game->posY)])
-			game->posX -= game->dirX * game->moveSpeed;
-		if (!worldMap[(int)(game->posX)][(int)(game->posY - game->dirY * game->moveSpeed)])
-			game->posY -= game->dirY * game->moveSpeed;
-		}
-		else if (keydata.key == MLX_KEY_D)
-		{
-			//both camera direction and camera plane must be rotated
-			double oldDirX = game->dirX;
-			game->dirX = game->dirX * cos(-game->rotSpeed) - game->dirY * sin(-game->rotSpeed);
-			game->dirY = oldDirX * sin(-game->rotSpeed) + game->dirY * cos(-game->rotSpeed);
-			double oldPlaneX = game->planeX;
-			game->planeX = game->planeX * cos(-game->rotSpeed) - game->planeY * sin(-game->rotSpeed);
-			game->planeY = oldPlaneX * sin(-game->rotSpeed) + game->planeY * cos(-game->rotSpeed);
-		}
-		else if (keydata.key == MLX_KEY_A)
-		{
-			//both camera direction and camera plane must be rotated
-			double oldDirX = game->dirX;
-			game->dirX = game->dirX * cos(game->rotSpeed) - game->dirY * sin(game->rotSpeed);
-			game->dirY = oldDirX * sin(game->rotSpeed) + game->dirY * cos(game->rotSpeed);
-			double oldPlaneX = game->planeX;
-			game->planeX = game->planeX * cos(game->rotSpeed) - game->planeY * sin(game->rotSpeed);
-			game->planeY = oldPlaneX * sin(game->rotSpeed) + game->planeY * cos(game->rotSpeed);
-		}
-	}
+    return (x >= 0 && x < MAPX && y >= 0 && y < MAPY) ? map[x][y] : -1;
 }
 
-void	draw_vline(t_game *game, int x, int y_start, int y_end, int color)
+int
+sgn( double d )
 {
-	int	y;
-
-	y = y_start;
-	while (y <= y_end)
-	{
-		mlx_put_pixel(game->mlx, x, y, color);
-		y++;
-	}
+    return is_zero(d) ? 0 : ((d > 0) ? 1 : -1);
 }
 
-
-void	calc(t_game *info)
+double l2dist( double x0, double y0, double x1, double y1 )
 {
-	int	x;
-
-	x = 0;
-	while (x < SX)
-	{
-		double cameraX = 2 * x / (double)SX - 1;
-		double rayDirX = info->dirX + info->planeX * cameraX;
-		double rayDirY = info->dirY + info->planeY * cameraX;
-		
-		int mapX = (int)info->posX;
-		int mapY = (int)info->posY;
-
-		//length of ray from current position to next x or y-side
-		double sideDistX;
-		double sideDistY;
-		
-		 //length of ray from one x or y-side to next x or y-side
-		double deltaDistX = fabs(1 / rayDirX);
-		double deltaDistY = fabs(1 / rayDirY);
-		double perpWallDist;
-		
-		//what direction to step in x or y-direction (either +1 or -1)
-		int stepX;
-		int stepY;
-		
-		int hit = 0; //was there a wall hit?
-		int side; //was a NS or a EW wall hit?
-
-		if (rayDirX < 0)
-		{
-			stepX = -1;
-			sideDistX = (info->posX - mapX) * deltaDistX;
-		}
-		else
-		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - info->posX) * deltaDistX;
-		}
-		if (rayDirY < 0)
-		{
-			stepY = -1;
-			sideDistY = (info->posY - mapY) * deltaDistY;
-		}
-		else
-		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - info->posY) * deltaDistY;
-		}
-
-		while (hit == 0)
-		{
-			//jump to next map square, OR in x-direction, OR in y-direction
-			if (sideDistX < sideDistY)
-			{
-				sideDistX += deltaDistX;
-				mapX += stepX;
-				side = 0;
-			}
-			else
-			{
-				sideDistY += deltaDistY;
-				mapY += stepY;
-				side = 1;
-			}
-			//Check if ray has hit a wall
-			if (worldMap[mapX][mapY] > 0) hit = 1;
-		}
-		if (side == 0)
-			perpWallDist = (mapX - info->posX + (1 - stepX) / 2) / rayDirX;
-		else
-			perpWallDist = (mapY - info->posY + (1 - stepY) / 2) / rayDirY;
-
-		//Calculate height of line to draw on screen
-		int lineHeight = (int)(SY / perpWallDist);
-
-		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + SY / 2;
-		if(drawStart < 0)
-			drawStart = 0;
-		int drawEnd = lineHeight / 2 + SY / 2;
-		if(drawEnd >= SY)
-			drawEnd = SY - 1;
-
-		int	color;
-		if (worldMap[mapY][mapX] == 1)
-			color = 0xFF0000;
-		else if (worldMap[mapY][mapX] == 2)
-			color = 0x00FF00;
-		else if (worldMap[mapY][mapX] == 3)
-			color = 0x0000FF;
-		else if (worldMap[mapY][mapX] == 4)
-			color = 0xFFFFFF;
-		else
-			color = 0xFFFF00;
-		
-		if (side == 1)
-			color = color / 2;
-
-		draw_vline(info, x, drawStart, drawEnd, color);
-		
-		x++;
-	}
+    double dx = x0 - x1;
+    double dy = y0 - y1;
+    return sqrt(dx*dx + dy*dy);
 }
 
-void	main_loop(void *param)
+bool get_wall_intersection( double ray, double px, double py, dir_t* wdir, double* wx, double* wy )
 {
-	t_game *game;
+    int xstep = sgn( cos(ray) );  /* +1 (right), 0 (no change), -1 (left) */
+    int ystep = sgn( sin(ray) );  /* +1 (up),    0 (no change), -1 (down) */
 
-	game = param;
-	calc(game);
+    double xslope = (xstep == 0) ? INFINITY : tan(ray);
+    double yslope = (ystep == 0) ? INFINITY : 1./tan(ray);
+
+    double nx = (xstep > 0) ? floor(px)+1 : ((xstep < 0) ? ceil(px)-1 : px);
+    double ny = (ystep > 0) ? floor(py)+1 : ((ystep < 0) ? ceil(py)-1 : py);
+
+    printf("\nray=%.2f deg, xstep=%d, ystep=%d, xslope=%.2f, yslope=%.2f, nx=%.2f, ny=%.2f\n",
+        rad2deg(ray), xstep, ystep, xslope, yslope, nx, ny);
+
+    double f=INFINITY, g=INFINITY;
+    bool hit = false;
+    int hit_side; /* either VERT or HORIZ */
+
+    while( !hit )
+    {
+        int mapx, mapy;
+
+        if( xstep != 0 ) f = xslope * (nx-px) + py;
+        if( ystep != 0 ) g = yslope * (ny-py) + px;
+
+        /* which is nearer to me - VERT(nx,f) or HORIZ(g,ny)? */
+        double dist_v = l2dist(px, py, nx, f);
+        double dist_h = l2dist(px, py, g, ny);
+
+        if( dist_v < dist_h ) { /* VERT is nearer; go along x-axis */
+            mapx = (xstep == 1) ? (int)(nx) : (int)(nx)-1 ;
+            mapy = (int) f;
+            hit_side = VERT;
+            printf(" V(%d, %.2f) ->", mapx, f);
+        }
+        else {  /* HORIZ is nearer; go along y-axis */
+            mapx = (int) g;
+            mapy = (ystep == 1) ? (int)(ny) : (int)(ny)-1 ;
+            hit_side = HORIZ;
+            printf(" H(%.2f, %d) ->", g, mapy);
+        }
+        int cell = map_get_cell(mapx, mapy);
+        if( cell < 0 ) break;   /* out of map */
+
+        if( cell == 1 ) {   /* hit wall? */
+            if( hit_side == VERT ) {
+                *wdir = (xstep > 0) ? DIR_W : DIR_E;
+                *wx = nx;
+                *wy = f;
+            }
+            else { /* HORIZ */
+                *wdir = (ystep > 0) ? DIR_S : DIR_N;
+                *wx = g;
+                *wy = ny;
+            }
+            hit = true;
+            printf(" hit wall!\n");
+            break;
+        }
+
+        if( hit_side == VERT ) nx += xstep;
+        else ny += ystep;
+    }
+    /* end of while(!hit) */
+
+    return hit;
 }
 
-int	main()
+double cast_single_ray( int x, double px, double py, double th )
 {
-	t_game	game;
+    double ray = (th + FOVH_2) - (x * ANGLE_PER_PIXEL);
 
-	// if (argc != 2)
-	// 	err_msg(ERR_INPUT);
-	game.mlx = mlx_init(SX, SY, "cub3d", false);
-	game.posX = 12;
-	game.posY = 5;
-	game.dirX = -1;
-	game.dirY = 0;
-	game.planeX = 0;
-	game.planeY = 0.66;
-	game.moveSpeed = 0.05;
-	game.rotSpeed = 0.05;
-	printf("here\n");
-	mlx_loop_hook(game.mlx, &main_loop, &game);
-	printf("here2\n");
-	mlx_key_hook(game.win, key_hook, &game);
-	printf("here3\n");
-	mlx_loop(game.mlx);
-	printf("here4\n");
-	mlx_terminate(game.mlx);
-	return (0);
+    dir_t wdir;     /* direction of wall */
+    double wx, wy;  /* coord. of wall intersection point */
+
+    if( get_wall_intersection(ray, px, py, &wdir, &wx, &wy) == false )
+        return INFINITY; /* no intersection - maybe bad map? */
+
+    double wdist = l2dist(px, py, wx, wy);
+    wdist *=cos(th -ray);
+
+    return wdist;
+}
+
+int get_wall_height(double dist)
+{
+    double fov_h = 2.0 * dist * tan(FOV_V/2.0);
+    return (int)(SY * (WALL_H / fov_h)); /* in pixels */
+}
+
+void    draw_vline(void *wall, int ystart, int yend)
+{
+    int i;
+
+    i = ystart;
+    while (i < yend)
+    {
+        mlx_put_pixel(wall, 0, i, 0X7F);
+        i++;
+    }
+}
+
+void draw_wall(void *wall, double wdist, int x, int color)
+{
+    int wh = get_wall_height(wdist); /* wall height, in pixels */
+    
+    /* starting/ending y pos of the wall slice */
+    int y0 = (int)((SY - wh)/2.0);
+    int y1 = y0 + wh - 1;
+
+    /* needs clipping */
+    int ystart = max(0, y0);
+    int yend = min(SY-1, y1);
+
+    draw_vline(wall, ystart, yend);
+}
+
+int main(int ac, char **av)
+{
+
+    if( ac != 4 ) {
+        fprintf(stderr,"usage: %s x y th(deg)\n", av[0]);
+        exit(1);
+    }
+    double px, py, th;
+    px = atof(av[1]);
+    py = atof(av[2]);
+    th = deg2rad(atof(av[3]));
+
+    void    *wall;
+
+    wall = mlx_init(SX, SY, "cub3d", false);
+    for( int x=0; x<SX; x++ )
+    {
+        dir_t wdir;
+        double wdist = cast_single_ray(x, px, py, th, &wdir);
+        draw_wall(wall, wdist, x, wall_colors[wdir]);
+    }
+    mlx_terminate(wall);
+    // /* print map */
+    // for( int y=MAPY-1; y>=0; y-- ) {
+    //     for( int x=0; x<MAPX; x++ ) {
+    //         printf("%c ", (map_get_cell(x,y)==1 ? '#':'.'));
+    //     }
+    //     putchar('\n');
+    // }
+
+    // for( int x=0; x<SX; x++ ) {
+    //     double wdist = cast_single_ray(x, px, py, th);
+    //     printf("** ray %3d : dist %.2f\n", x, wdist);
+    // }
+
+    return 0;
 }
