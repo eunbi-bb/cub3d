@@ -3,42 +3,36 @@
 /*                                                        ::::::::            */
 /*   ft_memcpy.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 13:27:16 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 14:49:20 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:08:57 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/24 15:27:56 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+/*
+	DESCRIPTION
+		memcpy() copies 'n' characters from '*src' in to '*dst'.
+		const means readonly.
+	
+	RETURN VALUE
+		A pointer to the destination.
+*/
+#include <stdlib.h>
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	size_t		i;
-	char		*dst_y;
-	const char	*src_y;
+	size_t	i;
 
-	dst_y = dst;
-	src_y = src;
 	i = 0;
 	if (!dst && !src)
 		return (NULL);
+	if (dst == src)
+		return (dst);
 	while (i < n)
 	{
-		dst_y[i] = src_y[i];
+		((char *)dst)[i] = ((char *)src)[i];
 		i++;
 	}
 	return (dst);
 }
-/*
-int main()
-{
-	size_t n = 3;
-	char dst[10] = "";
-	const char src[] = "lemonade";
-
-	printf("%s\n", ft_memcpy(dst, src, n));
-	char ds[10] = "";
-	printf("%s\n", memcpy(ds, src, n));
-}
-*/

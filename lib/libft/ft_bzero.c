@@ -3,26 +3,30 @@
 /*                                                        ::::::::            */
 /*   ft_bzero.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/13 15:19:42 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/04 15:43:04 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:03:01 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/24 15:23:36 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+/*
+	DESCRIPTION
+		Writes 'n' zeroed bytes to the string 's'.
+		Set all charater as 0.
+*/
+#include <stdlib.h>
 
 void	ft_bzero(void *s, size_t n)
 {
-	ft_memset(s, 0, n);
-}
-/*
-int main()
-{
-	size_t  n = 9;
-    char *s = "";
+	char	*ptr;
+	size_t	i;
 
-	printf("%s\n", ft_bzero(s, n));
-	printf("%s\n", bzero(s, n));
+	ptr = s;
+	i = 0;
+	while (i < n)
+	{
+		ptr[i] = 0;
+		i++;
+	}
 }
-*/

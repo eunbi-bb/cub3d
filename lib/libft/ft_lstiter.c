@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstiter_bonus.c                                 :+:    :+:            */
+/*   ft_lstiter.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/07 16:10:55 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/07 16:11:04 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:07:28 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/11 09:12:55 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* 
+	DESCRIPTION
+		Iterates the list 'lst' and applies the function 'f' on the content 
+		of each node.
+		'lst'	: the address of a pointer to a node.
+		'f'		: the adress of the function used to iterate on the list.
+*/
 #include "libft.h"
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	t_list	*new;
-
-	new = lst;
-	while (new)
+	while (lst)
 	{
-		f(new->content);
-		new = new->next;
+		f(lst->content);
+		lst = lst->next;
 	}
 }

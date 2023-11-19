@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   first_shot.c                                       :+:    :+:            */
+/*   ft_isalpha.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/06 13:10:06 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/04 15:20:24 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:03:43 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/24 15:25:09 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 int	ft_isalpha(int c)
 {
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
-/*
-int main()
-{
-	int c = 75;
-	printf("%d\n", ft_isalpha(c));
-	printf("%d\n", isalpha(c));
-}
-*/

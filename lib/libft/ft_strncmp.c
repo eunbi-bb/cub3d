@@ -3,44 +3,34 @@
 /*                                                        ::::::::            */
 /*   ft_strncmp.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/03 12:29:07 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 12:29:48 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:12:06 by eucho         #+#    #+#                 */
+/*   Updated: 2022/10/24 15:33:37 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+/*
+	DESCRIPTION
+		strncmp compares the two strings provided up to 'n' characters
+		strncmp() will stop comparing if a null character is encountered in 
+		either '*s1' or '*s2'.
+	RETURN VALUE
+		returns a negative, zero, or positive integer depending on 
+		whether the first 'n' characters of the object pointed to 
+		by '*s1' are less than, equal to, or greater than the first 'n' characters
+		of the object pointed to by '*s2'.
+*/
+#include <stdlib.h>
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t			i;
-	unsigned char	first_s;
-	unsigned char	second_s;
+	size_t	i;
 
 	i = 0;
-	while (i < n)
-	{
-		first_s = (unsigned char) s1[i];
-		second_s = (unsigned char) s2[i];
-		if (first_s != second_s)
-		{
-			return (first_s - second_s);
-		}
-		else if (first_s == '\0' && second_s == '\0')
-		{
-			return (0);
-		}
+	if (n == 0)
+		return (0);
+	while (s1[i] == s2[i] && (s1[i] && s2[i]) && i < n - 1)
 		i++;
-	}
-	return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-/*
-int main()
-{
-	const char s1[] = "lemonade";
-	const char s2[] = "ba";
-	size_t n = 3;
-	printf("%d\n", ft_strncmp(s1, s2, n));
-	printf("%d\n", strncmp(s1, s2, n));
-}*/

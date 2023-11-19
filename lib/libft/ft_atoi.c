@@ -3,53 +3,46 @@
 /*                                                        ::::::::            */
 /*   ft_atoi.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/12 12:59:08 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 15:00:26 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:01:55 by eucho         #+#    #+#                 */
+/*   Updated: 2023/10/22 11:58:04 by ssemanco      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-static	int	is_space(char c)
-{
-	return (c == ' ' || c == '\f' || c == '\n'
-		|| c == '\r' || c == '\t' || c == '\v');
-}
+/*	
+	DESCRIPTION
+		A to interger. 
+		Convert character(string) to integer.
+	RETUTRN VALUE
+		returns converted integral number.
+*/
 
 int	ft_atoi(const char *str)
 {
-	int					i;
-	unsigned long int	n;
-	int					sign;
+	int			i;
+	long long	num;
+	int			sign;
 
 	i = 0;
-	n = 0;
+	num = 0;
 	sign = 1;
-	while (is_space(str[i]))
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' \
+		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
 		i++;
 	if (str[i] == '-')
+		sign *= -1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
-		sign = -1;
+		if (num * sign > 2147483647)
+			return (-1);
+		else if (num * sign < -2147483648)
+			return (0);
+		else
+			num = num * 10 + (str[i] - '0');
 		i++;
 	}
-	else if (str[i] == '+')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		n = n * 10 + (str[i] - '0');
-		i++;
-	}
-	if (n > LONG_MAX && sign == -1)
-		return (0);
-	return ((int)(n * sign));
+	return (sign * num);
 }
-/*
-int main()
-{
-	const char s[] = "2147483649";
-	printf("%d\n", ft_atoi(s));
-	printf("%d\n", atoi(s));
-}
-*/

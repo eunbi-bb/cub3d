@@ -3,52 +3,44 @@
 /*                                                        ::::::::            */
 /*   ft_strlcat.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/19 11:19:46 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/10/27 17:49:54 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:11:18 by eucho         #+#    #+#                 */
+/*   Updated: 2022/12/21 14:03:37 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* 
+	DESCRIPTION
+		strlcat() concatenates two strings.
+		strlcat() guarantees that the total length of 
+		the result string will be between the initial length of 'dst' and 'size'. 
+		The zero at the end of the string is included. This function is mainly 
+		used to avoid oversize of the character array.
+		if size < dst, returns strlen(src) + size
+		if size > dst, returns strlen(src) + strlen(dst)
+	RETURN VALUE
+		returns the total length of the string strlcat() tried to create.
+*/
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 	size_t	j;
-	size_t	dst_len;
-	size_t	src_len;
 
-	src_len = ft_strlen(src);
-	dst_len = ft_strlen(dst);
 	i = 0;
-	j = dst_len;
-	if (dstsize <= dst_len)
-		return (dstsize + src_len);
-	if (dstsize > dst_len)
+	j = 0;
+	if (size == 0)
+		return (ft_strlen(src));
+	while (dst[i] && i < size)
+		i++;
+	while (src[j] && i + j < size - 1)
 	{
-		while (src[i] && i < (dstsize - dst_len - 1))
-		{
-			dst[j] = src[i];
-			i++;
-			j++;
-		}
-		dst[j] = '\0';
-		return (dst_len + src_len);
+		dst[i + j] = src [j];
+		j++;
 	}
-	return (0);
+	if (i < size)
+		dst[i + j] = '\0';
+	return (i + ft_strlen(src));
 }
-/*
-int main ()
-{
-    char dst1[15] = "rrrrrrrrrrrrrrr";
-    char dst2[15] = "mrlemonadecaker";
-    const char src[] = "lorem ipsum dolor sit amet";
-    size_t    dstsize = 5;
-
-    printf("me=%lu\n", ft_strlcat(dst1, src, dstsize));
-    printf("me=%s\n", dst1);
-    printf("fn=%lu\n", strlcat(dst2, src, dstsize));
-    printf("fn=%s\n", dst2);
-}
-*/

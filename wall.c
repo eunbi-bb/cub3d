@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <./lib/mlx42/include/MLX42/MLX42.h>
 
 #define  EPS            (1e-06)
 #define  is_zero(d)     (fabs(d) < EPS)
@@ -16,9 +17,12 @@
 #define  min(a,b)       ((a)<(b)? (a):(b))
 #define  max(a,b)       ((a)>(b)? (a):(b))
 
-#define  SX         3       /* screen width */
-#define  FOV        10      /* field of view (in degree) */
+#define  SX         400      /* screen width */
+#define  SY         250     /* screen height*/
+#define  FOV        60      /* field of view (in degree) */
 #define  FOV_H      deg2rad(FOV)
+#define  FOV_V      (FOV_H*(double)SY/(double)SX)
+#define  WALL_H     1.0
 
 static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
 static const double FOVH_2 = FOV_H / 2.0;
@@ -137,12 +141,47 @@ double cast_single_ray( int x, double px, double py, double th )
         return INFINITY; /* no intersection - maybe bad map? */
 
     double wdist = l2dist(px, py, wx, wy);
+    wdist *=cos(th -ray);
 
     return wdist;
 }
 
+int get_wall_height(double dist)
+{
+    double fov_h = 2.0 * dist * tan(FOV_V/2.0);
+    return (int)(SY * (WALL_H / fov_h)); /* in pixels */
+}
+
+void    draw_vline(void *wall, int ystart, int yend)
+{
+    int i;
+
+    i = ystart;
+    while (i < yend)
+    {
+        mlx_put_pixel(wall, 0, i, 0X7F);
+        i++;
+    }
+}
+
+void draw_wall(void *wall, double wdist, int x, int color)
+{
+    int wh = get_wall_height(wdist); /* wall height, in pixels */
+    
+    /* starting/ending y pos of the wall slice */
+    int y0 = (int)((SY - wh)/2.0);
+    int y1 = y0 + wh - 1;
+
+    /* needs clipping */
+    int ystart = max(0, y0);
+    int yend = min(SY-1, y1);
+
+    draw_vline(wall, ystart, yend);
+}
+
 int main(int ac, char **av)
 {
+
     if( ac != 4 ) {
         fprintf(stderr,"usage: %s x y th(deg)\n", av[0]);
         exit(1);
@@ -152,6 +191,16 @@ int main(int ac, char **av)
     py = atof(av[2]);
     th = deg2rad(atof(av[3]));
 
+    void    *wall;
+
+    wall = mlx_init();
+    for( int x=0; x<SX; x++ )
+    {
+        dir_t wdir;
+        double wdist = cast_single_ray(x, px, py, th, &wdir);
+        draw_wall(wall, wdist, x, wall_colors[wdir]);
+    }
+    mlx_terminate(wall);
     /* print map */
     for( int y=MAPY-1; y>=0; y-- ) {
         for( int x=0; x<MAPX; x++ ) {

@@ -3,53 +3,44 @@
 /*                                                        ::::::::            */
 /*   ft_strlcpy.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/19 14:53:39 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 14:57:44 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:11:26 by eucho         #+#    #+#                 */
+/*   Updated: 2022/12/21 14:03:41 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* 
+	DESCRIPTION
+		strlcpy() takes the full size of the buffer, not only the length,
+		and terminates the result with NUL as long as is greater than 0. 
+		Include a byte for the NUL in your value.
+	RETURN VALUE
+		returns the total length of the string that would have been copied 
+		if there was unlimited space.
+		This might or might not be equal to the length 
+		of the string actually copied, depending on whether there was enough space.
+		This means that you can call strlcpy() once to find out how much space 
+		is required, then allocate it if you do not have enough, 
+		and finally call strlcpy() a second time to do the required copy.
+*/
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
-	size_t	src_len;
+	size_t	len;
 
 	i = 0;
-	src_len = ft_strlen(src);
-	if (dstsize == 0)
-		return (src_len);
-	if (dstsize <= src_len + 1)
+	len = ft_strlen(src);
+	if (size > 0)
 	{
-		while (src[i] != '\0' && i < (dstsize - 1))
+		while (i < len && i < size - 1)
 		{
 			dst[i] = src[i];
 			i++;
 		}
 		dst[i] = '\0';
-		return (src_len);
 	}
-	while (src[i] != '\0')
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (src_len);
+	return (len);
 }
-/*
-int main ()
-{
-    char dst[15] = "ban";
-    const char src[] = "l";
-    size_t  dstsize = 0;
-
-    printf("%lu\n", ft_strlcpy(dst, src, dstsize));
-    printf("%s\n", dst);
-    char ds[15] = "ban";
-    printf("%lu\n", strlcpy(ds, src, dstsize));
-    printf("%s\n", ds);
-}
-*/

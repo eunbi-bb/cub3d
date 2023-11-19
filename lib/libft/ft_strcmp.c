@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_putendl_fd.c                                    :+:    :+:            */
+/*   ft_strcmp.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 16:09:42 by eucho         #+#    #+#                 */
-/*   Updated: 2022/12/21 14:03:10 by eunbi         ########   odam.nl         */
+/*   Created: 2022/10/10 16:10:16 by eucho         #+#    #+#                 */
+/*   Updated: 2023/10/22 11:56:37 by ssemanco      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+/* 
+	DESCRIPTION
+		strcmp() compares two strings character by character.
+	RETURN VALUE
+		Returns 0 if the strings are equal.
+		Returns positive if s1 > s2
+		Returns negative if s1 < s2
+*/
+#include <stdlib.h>
 
-void	ft_putendl_fd(char *s, int fd)
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	if (!s || fd < 0)
-		return ;
-	write(fd, s, ft_strlen(s));
-	write(fd, "\n", 1);
+	while (*str1 != '\0' || *str2 != '\0')
+	{
+		if (*str1 != *str2)
+			return (*str1 - *str2);
+		str1++;
+		str2++;
+	}
+	return (0);
 }

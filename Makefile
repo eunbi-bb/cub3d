@@ -7,20 +7,20 @@ CFLAGS		= -Wall -Wextra -Werror -g
 endif
 
 LIBMLX		= ./lib/MLX42
-LIBFT		= ./lib/libft/libft.a
-LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
+LIBFT		= ./lib/libft
+LIBS		= $(LIBMLX)/build/libmlx42.a -lglfw
+MATH		= -lm
 
 OBJ_DIR		= obj/
-SRC_DIR		= src/
 
 HEADER_DIR	= include/
 HEADER_SRC	= cub3d.h
 HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 
-INCLUDES	= -I $(HEADER_DIR) ./lib/libft/ -I $(LIBMLX)/include/
+INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
 
 SRC_DIR		= src/
-SRC_FILE	= main.c
+SRC_FILE	= main.c error.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))
 
@@ -32,16 +32,16 @@ CYAN		=	\033[0;96m
 all: libmlx $(NAME)
 
 libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && cmake --build $(LIBMLX)/build -j4
 
 $(NAME): $(OBJ) $(OBJF)
 		@make -C $(LIBFT)
-		@$(CC) $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME) 
-		@echo "- Minishell is compiled -"
+		@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT)/libft.a -o $(NAME) $(MATH)
+		@echo "- cub3d is compiled -"
 
-$(OBJ_DIR)%.o:$(SRC_DIR)%.c $(HEADER)| $(OBJF)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)| $(OBJF)
 			@mkdir -p $(@D)
-			@$(CC) $(CFLAGS) $(LIBFT) $(LIBS) $(INCLUDES) -c $< -o $@
+			@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJF):
 		@mkdir -p $(OBJ_DIR)

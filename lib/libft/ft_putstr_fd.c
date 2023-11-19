@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_putstr_fd.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gozturk <marvin@codam.nl>                    +#+                     */
+/*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/11/03 14:46:27 by gozturk       #+#    #+#                 */
-/*   Updated: 2022/11/03 14:46:59 by gozturk       ########   odam.nl         */
+/*   Created: 2022/10/10 16:09:57 by eucho         #+#    #+#                 */
+/*   Updated: 2022/12/21 14:03:17 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	size_t	len;
-
-	len = ft_strlen(s);
-	write(fd, s, len);
+	if (!s || fd < 0)
+		return ;
+	write(fd, s, ft_strlen(s));
 }
