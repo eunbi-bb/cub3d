@@ -8,7 +8,7 @@ endif
 
 LIBMLX		= ./lib/MLX42
 LIBFT		= ./lib/libft
-LIBS		= $(LIBMLX)/build/libmlx42.a -lglfw
+LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -ldl -lglfw -pthread
 MATH		= -lm
 
 OBJ_DIR		= obj/

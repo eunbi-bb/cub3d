@@ -13,10 +13,12 @@
 #define  MAPX   24
 #define  MAPY   24
 
-# define deg2rad(d)	((d)*M_PI/180.0) /* degree to radian */
-# define rad2deg(d)	((d)*180.0/M_PI)    /* radian to degree */
-# define min(a,b)	((a)<(b)? (a):(b))
-# define max(a,b)	((a)>(b)? (a):(b))
+#define  EPS            (1e-06)
+#define  is_zero(d)     (fabs(d) < EPS)
+#define  deg2rad(d)     ((d)*M_PI/180.0)    /* degree to radian */
+#define  rad2deg(d)     ((d)*180.0/M_PI)    /* radian to degree */
+#define  min(a,b)       ((a)<(b)? (a):(b))
+#define  max(a,b)       ((a)>(b)? (a):(b))
 
 # define SX		640
 # define SY		480

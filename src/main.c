@@ -10,27 +10,27 @@
 #include "cub3d.h"
 // #include <./lib/mlx42/include/MLX42/MLX42.h>
 
-#define  EPS            (1e-06)
-#define  is_zero(d)     (fabs(d) < EPS)
-#define  deg2rad(d)     ((d)*M_PI/180.0)    /* degree to radian */
-#define  rad2deg(d)     ((d)*180.0/M_PI)    /* radian to degree */
-#define  min(a,b)       ((a)<(b)? (a):(b))
-#define  max(a,b)       ((a)>(b)? (a):(b))
+// #define  EPS            (1e-06)
+// #define  is_zero(d)     (fabs(d) < EPS)
+// #define  deg2rad(d)     ((d)*M_PI/180.0)    /* degree to radian */
+// #define  rad2deg(d)     ((d)*180.0/M_PI)    /* radian to degree */
+// #define  min(a,b)       ((a)<(b)? (a):(b))
+// #define  max(a,b)       ((a)>(b)? (a):(b))
 
-#define  SX         400      /* screen width */
-#define  SY         250     /* screen height*/
-#define  FOV        60      /* field of view (in degree) */
-#define  FOV_H      deg2rad(FOV)
-#define  FOV_V      (FOV_H*(double)SY/(double)SX)
-#define  WALL_H     1.0
+// #define  SX         400      /* screen width */
+// #define  SY         250     /* screen height*/
+// #define  FOV        60      /* field of view (in degree) */
+// #define  FOV_H      deg2rad(FOV)
+// #define  FOV_V      (FOV_H*(double)SY/(double)SX)
+// #define  WALL_H     1.0
 
-static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
-static const double FOVH_2 = FOV_H / 2.0;
+// static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
+// static const double FOVH_2 = FOV_H / 2.0;
 
 enum { VERT, HORIZ };
 
-#define  MAPX   24
-#define  MAPY   24
+// #define  MAPX   24
+// #define  MAPY   24
 
 static int map[MAPX][MAPY] = {  /* warning: index order is [x][y] */
                 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
