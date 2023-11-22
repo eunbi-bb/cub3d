@@ -37,10 +37,10 @@ typedef enum { DIR_N=0, DIR_E, DIR_W, DIR_S } dir_t;
 #define  MAPX   6
 #define  MAPY   5
 
-#define COLOR_N 0xFF0000
-#define COLOR_S 0x00FF00
-#define COLOR_E 0x0000FF
-#define COLOR_W 0xFFFFFF
+#define COLOR_N 0x56BBFD
+#define COLOR_S 0x9BF585
+#define COLOR_E 0xA585F5
+#define COLOR_W 0x85F5D8
 
 int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
 
@@ -82,8 +82,8 @@ bool get_wall_intersection( double ray, double px, double py, dir_t* wdir, doubl
     double nx = (xstep > 0) ? floor(px)+1 : ((xstep < 0) ? ceil(px)-1 : px);
     double ny = (ystep > 0) ? floor(py)+1 : ((ystep < 0) ? ceil(py)-1 : py);
 
-    printf("\nray=%.2f deg, xstep=%d, ystep=%d, xslope=%.2f, yslope=%.2f, nx=%.2f, ny=%.2f\n",
-        rad2deg(ray), xstep, ystep, xslope, yslope, nx, ny);
+    // printf("\nray=%.2f deg, xstep=%d, ystep=%d, xslope=%.2f, yslope=%.2f, nx=%.2f, ny=%.2f\n",
+    //     rad2deg(ray), xstep, ystep, xslope, yslope, nx, ny);
 
     double f=INFINITY, g=INFINITY;
     bool hit = false;
@@ -104,13 +104,13 @@ bool get_wall_intersection( double ray, double px, double py, dir_t* wdir, doubl
             mapx = (xstep == 1) ? (int)(nx) : (int)(nx)-1 ;
             mapy = (int) f;
             hit_side = VERT;
-            printf(" V(%d, %.2f) ->", mapx, f);
+            // printf(" V(%d, %.2f) ->", mapx, f);
         }
         else {  /* HORIZ is nearer; go along y-axis */
             mapx = (int) g;
             mapy = (ystep == 1) ? (int)(ny) : (int)(ny)-1 ;
             hit_side = HORIZ;
-            printf(" H(%.2f, %d) ->", g, mapy);
+            // printf(" H(%.2f, %d) ->", g, mapy);
         }
         int cell = map_get_cell(mapx, mapy);
         if( cell < 0 ) break;   /* out of map */
@@ -127,7 +127,7 @@ bool get_wall_intersection( double ray, double px, double py, dir_t* wdir, doubl
                 *wy = ny;
             }
             hit = true;
-            printf(" hit wall!\n");
+            // printf(" hit wall!\n");
             break;
         }
 
@@ -176,7 +176,7 @@ void    draw_ver_line(int x, int y_start, int y_end, int color)
 	}
 }
 
-void    draw_wall(double wdist, int x, int color)
+void    draw_wall(double wdist, int x, long long color)
 {
     int wh = get_wall_height(wdist);
     int y0 = (int)((SY - wh)/ 2.0);
