@@ -3,6 +3,7 @@
 		"errno.h": "c",
 		"random": "c",
 		"mlx42.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"cub3d.h": "c"
 	}
 }

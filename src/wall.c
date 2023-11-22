@@ -8,7 +8,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <./lib/mlx42/include/MLX42/MLX42.h>
+#include <stdbool.h>
+#include "cub3d.h"
+
+static mlx_image_t  *image;
+
+#define  SX         400     /* screen width */
+#define  SY         250     /* screen height */
+#define  FOV        60      /* field of view (in degree) */
+#define  FOV_H      deg2rad(FOV)
+#define  FOV_V      (FOV_H*(double)SY/(double)SX)
+#define  WALL_H     1.0
 
 #define  EPS            (1e-06)
 #define  is_zero(d)     (fabs(d) < EPS)
@@ -17,23 +27,22 @@
 #define  min(a,b)       ((a)<(b)? (a):(b))
 #define  max(a,b)       ((a)>(b)? (a):(b))
 
-#define  SX         400      /* screen width */
-#define  SY         250     /* screen height*/
-#define  FOV        60      /* field of view (in degree) */
-#define  FOV_H      deg2rad(FOV)
-#define  FOV_V      (FOV_H*(double)SY/(double)SX)
-#define  WALL_H     1.0
-
 static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
 static const double FOVH_2 = FOV_H / 2.0;
 
 enum { VERT, HORIZ };
 
-typedef enum { false=0, true=1 } bool;
 typedef enum { DIR_N=0, DIR_E, DIR_W, DIR_S } dir_t;
 
 #define  MAPX   6
 #define  MAPY   5
+
+#define COLOR_N 0xFF0000
+#define COLOR_S 0x00FF00
+#define COLOR_E 0x0000FF
+#define COLOR_W 0xFFFFFF
+
+int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
 
 static int map[MAPX][MAPY] = {  /* warning: index order is [x][y] */
     {1,1,1,1,1}, /* [0][*] */
@@ -130,58 +139,93 @@ bool get_wall_intersection( double ray, double px, double py, dir_t* wdir, doubl
     return hit;
 }
 
-double cast_single_ray( int x, double px, double py, double th )
+double cast_single_ray( int x, double px, double py, double th, dir_t *wdir)
 {
     double ray = (th + FOVH_2) - (x * ANGLE_PER_PIXEL);
 
-    dir_t wdir;     /* direction of wall */
+    // dir_t wdir;     /* direction of wall */
     double wx, wy;  /* coord. of wall intersection point */
 
-    if( get_wall_intersection(ray, px, py, &wdir, &wx, &wy) == false )
+    if( get_wall_intersection(ray, px, py, wdir, &wx, &wy) == false )
         return INFINITY; /* no intersection - maybe bad map? */
 
     double wdist = l2dist(px, py, wx, wy);
-    wdist *=cos(th -ray);
+    wdist *= cos(th -ray);
 
     return wdist;
 }
 
-int get_wall_height(double dist)
+int
+get_wall_height( double dist )
 {
     double fov_h = 2.0 * dist * tan(FOV_V/2.0);
     return (int)(SY * (WALL_H / fov_h)); /* in pixels */
 }
 
-void    draw_vline(void *wall, int ystart, int yend)
-{
-    int i;
+/*********** MLX ***********/
 
-    i = ystart;
-    while (i < yend)
-    {
-        mlx_put_pixel(wall, 0, i, 0X7F);
-        i++;
-    }
+void    draw_ver_line(int x, int y_start, int y_end, int color)
+{
+    int	y;
+
+	y = y_start;
+	while (y <= y_end)
+	{
+		mlx_put_pixel(image, x, y, color);
+		y++;
+	}
 }
 
-void draw_wall(void *wall, double wdist, int x, int color)
+void    draw_wall(double wdist, int x, int color)
 {
-    int wh = get_wall_height(wdist); /* wall height, in pixels */
-    
-    /* starting/ending y pos of the wall slice */
-    int y0 = (int)((SY - wh)/2.0);
+    int wh = get_wall_height(wdist);
+    int y0 = (int)((SY - wh)/ 2.0);
     int y1 = y0 + wh - 1;
 
-    /* needs clipping */
     int ystart = max(0, y0);
-    int yend = min(SY-1, y1);
+    int yend = min(SY - 1, y1);
 
-    draw_vline(wall, ystart, yend);
+    draw_ver_line(x, ystart, yend, color);
+}
+
+void ft_hook(void* param)
+{
+	mlx_t* mlx = param;
+
+	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(mlx);
+	if (mlx_is_key_down(mlx, MLX_KEY_UP))
+		image->instances[0].y -= 5;
+	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
+		image->instances[0].y += 5;
+	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+		image->instances[0].x -= 5;
+	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+		image->instances[0].x += 5;
 }
 
 int main(int ac, char **av)
 {
+    mlx_t   *mlx;
 
+    // mlx
+    if (!(mlx = mlx_init(SX, SY, "cub3d", true)))
+	{
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+    if (!(image = mlx_new_image(mlx, SX, SY)))
+	{
+		mlx_close_window(mlx);
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+    if (mlx_image_to_window(mlx, image, 0, 0) == -1)
+	{
+		mlx_close_window(mlx);
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
     if( ac != 4 ) {
         fprintf(stderr,"usage: %s x y th(deg)\n", av[0]);
         exit(1);
@@ -191,28 +235,28 @@ int main(int ac, char **av)
     py = atof(av[2]);
     th = deg2rad(atof(av[3]));
 
-    void    *wall;
-
-    wall = mlx_init();
-    for( int x=0; x<SX; x++ )
-    {
+    for( int x=0; x<SX; x++ ) {
         dir_t wdir;
         double wdist = cast_single_ray(x, px, py, th, &wdir);
-        draw_wall(wall, wdist, x, wall_colors[wdir]);
-    }
-    mlx_terminate(wall);
-    /* print map */
-    for( int y=MAPY-1; y>=0; y-- ) {
-        for( int x=0; x<MAPX; x++ ) {
-            printf("%c ", (map_get_cell(x,y)==1 ? '#':'.'));
-        }
-        putchar('\n');
+        draw_wall(wdist, x, wall_colors[wdir]);
     }
 
-    for( int x=0; x<SX; x++ ) {
-        double wdist = cast_single_ray(x, px, py, th);
-        printf("** ray %3d : dist %.2f\n", x, wdist);
-    }
+    // mlx_loop_hook(mlx, draw_wall, mlx);
+    mlx_loop_hook(mlx, ft_hook, mlx);
+    mlx_loop(mlx);
+    mlx_terminate(mlx);
+    // /* print map */
+    // for( int y=MAPY-1; y>=0; y-- ) {
+    //     for( int x=0; x<MAPX; x++ ) {
+    //         printf("%c ", (map_get_cell(x,y)==1 ? '#':'.'));
+    //     }
+    //     putchar('\n');
+    // }
+
+    // for( int x=0; x<SX; x++ ) {
+    //     double wdist = cast_single_ray(x, px, py, th);
+    //     printf("** ray %3d : dist %.2f\n", x, wdist);
+    // }
 
     return 0;
 }
