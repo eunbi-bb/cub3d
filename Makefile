@@ -8,7 +8,13 @@ endif
 
 LIBMLX		= ./lib/MLX42
 LIBFT		= ./lib/libft
+
+ifdef LINUX
 LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -ldl -lglfw -pthread
+else
+LIBS	= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+endif
+
 MATH		= -lm
 
 OBJ_DIR		= obj/
