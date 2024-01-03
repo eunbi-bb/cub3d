@@ -27,6 +27,8 @@ static mlx_image_t  *image;
 #define  min(a,b)       ((a)<(b)? (a):(b))
 #define  max(a,b)       ((a)>(b)? (a):(b))
 
+
+
 static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
 static const double FOVH_2 = FOV_H / 2.0;
 
@@ -43,6 +45,22 @@ typedef enum { DIR_N=0, DIR_E, DIR_W, DIR_S } dir_t;
 #define COLOR_W 0x85F5D8
 
 int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
+
+
+// moving
+
+#define _2PI		6.28318530717958647692  /* 360 degrees */
+
+#define	ROT_UNIT	0.03 /* rad */
+#define	MOVE_UNIT	0.1
+
+enum { KEY_OTHER, KEY_W, KEY_A, KEY_S, KEY_D, KEY_LEFT, KEY_RIGHT, KEY_ESC };
+
+typedef struct {
+    double x;
+    double y;
+    double th;
+} player_t;
 
 static int map[MAPX][MAPY] = {  /* warning: index order is [x][y] */
     {1,1,1,1,1}, /* [0][*] */
@@ -204,6 +222,75 @@ void ft_hook(void* param)
 		image->instances[0].x += 5;
 }
 
+void	render(double px, double py, double th)
+{
+	for( int x=0; x<SX; x++ ) 
+	{
+        dir_t wdir;
+        double wdist = cast_single_ray(x, px, py, th, &wdir);
+        draw_wall(wdist, x, wall_colors[wdir]);
+    }
+}
+
+//angle range is from 0 - 360
+void	player_rotate(player_t *pp, double th)
+{
+	pp->th += th;
+	if (pp->th < 0)
+		pp->th += _2PI;
+	else if (pp->th > _2PI) //If the angle is bigger than 360
+		pp->th -= _2PI;
+}
+
+/*	offset per direction
+*	W : (+m cos th, +m sin th)
+*	S : (-m cos th, -m sin th)
+*	A : (m cos(th + 90), m sin(th + 90))
+*	D : (m cos()th - 90),m sin(th - 90))
+*/
+static int get_move_offset(double th, int key, double amt, double *pdx, double *pdy)
+{
+	switch(key)
+	{
+		case KEY_W:
+		case KEY_S:
+			*pdx = (key==KEY_W ? 1 : -1) * amt * cos(th);
+            *pdy = (key==KEY_W ? 1 : -1) * amt * sin(th);
+            break;
+		case KEY_A:
+        case KEY_D:
+            *pdx = amt * cos(th + (key==KEY_A ? 1 : -1) * M_PI_2);
+            *pdy = amt * sin(th + (key==KEY_A ? 1 : -1) * M_PI_2);
+            break;
+		default: /* invalid */
+            return -1;
+	}
+	return (0);
+}
+
+int	player_move(player_t *pp, int key, double amt)
+{
+	double dx = 0;
+	double dy = 0;
+
+	if (get_move_offset(pp->th, key, amt, &dx, &dy) < 0)
+	{
+		fprintf(stderr, "player_move: invalid key %d\n", key);
+		return -1;
+	}
+	nx = pp->x + dx;
+	ny = pp->y + dy;
+
+	if (map_get_cell((int)nx, (int)ny != 0))
+	{
+		printf(" bump! \n");
+		return (-1);
+	}
+	pp->x = nx;
+	pp->y = ny;
+	return (0);
+}
+
 int main(int ac, char **av)
 {
     mlx_t   *mlx;
@@ -230,16 +317,28 @@ int main(int ac, char **av)
         fprintf(stderr,"usage: %s x y th(deg)\n", av[0]);
         exit(1);
     }
-    double px, py, th;
-    px = atof(av[1]);
-    py = atof(av[2]);
-    th = deg2rad(atof(av[3]));
+/*******************************/	
+	player_t	pl;
+    pl.x = atof(av[1]);
+    pl.y = atof(av[2]);
+    pl.th = deg2rad(atof(av[3]));
 
-    for( int x=0; x<SX; x++ ) {
-        dir_t wdir;
-        double wdist = cast_single_ray(x, px, py, th, &wdir);
-        draw_wall(wdist, x, wall_colors[wdir]);
-    }
+	for(;;)
+	{
+		int	key = get key;
+		if (key < 0 ||  key == KEY_ESC)
+			break ;
+		if (key == KEY_LEFT || key == KEY_RIGHT)
+		{
+			player_roate(&pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
+			render(pl.x, pl.y, pl.th);
+		}
+		else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
+		{
+			if (player_move(&pl, key, MOVE_UNIT) == 0)
+				render(pl.x, pl.y, pl.th);
+		}
+	}
 
     // mlx_loop_hook(mlx, draw_wall, mlx);
     mlx_loop_hook(mlx, ft_hook, mlx);
@@ -257,6 +356,7 @@ int main(int ac, char **av)
     //     double wdist = cast_single_ray(x, px, py, th);
     //     printf("** ray %3d : dist %.2f\n", x, wdist);
     // }
+
 
     return 0;
 }
