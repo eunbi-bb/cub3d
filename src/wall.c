@@ -11,6 +11,9 @@
 #include <stdbool.h>
 #include "cub3d.h"
 
+// #include <GLFW/glfw3.h>
+#include "MLX42/MLX42_Int.h"
+
 static mlx_image_t  *image;
 
 #define  SX         400     /* screen width */
@@ -206,21 +209,21 @@ void    draw_wall(double wdist, int x, long long color)
     draw_ver_line(x, ystart, yend, color);
 }
 
-void ft_hook(void* param)
-{
-	mlx_t* mlx = param;
+// int get_key_value(mlx_t *mlx)
+// {
+//     keys_t  key;
+//     MLX_NONNULL(mlx);
 
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		image->instances[0].y -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		image->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
-}
+//     key = GLFW_KEY_SPACE;
+//     while (key <= GLFW_KEY_LAST)
+//     {
+//         if (glfwGetKey(mlx->window, key) == GLFW_PRESS)
+//             return (key);
+//         ++key;
+//     }
+//     return (-1);
+// }
+
 
 void	render(double px, double py, double th)
 {
@@ -252,15 +255,15 @@ static int get_move_offset(double th, int key, double amt, double *pdx, double *
 {
 	switch(key)
 	{
-		case KEY_W:
-		case KEY_S:
-			*pdx = (key==KEY_W ? 1 : -1) * amt * cos(th);
-            *pdy = (key==KEY_W ? 1 : -1) * amt * sin(th);
+		case MLX_KEY_W:
+		case MLX_KEY_S:
+			*pdx = (key==MLX_KEY_W ? 1 : -1) * amt * cos(th);
+            *pdy = (key==MLX_KEY_W ? 1 : -1) * amt * sin(th);
             break;
-		case KEY_A:
-        case KEY_D:
-            *pdx = amt * cos(th + (key==KEY_A ? 1 : -1) * M_PI_2);
-            *pdy = amt * sin(th + (key==KEY_A ? 1 : -1) * M_PI_2);
+		case MLX_KEY_A:
+        case MLX_KEY_D:
+            *pdx = amt * cos(th + (key==MLX_KEY_A ? 1 : -1) * M_PI_2);
+            *pdy = amt * sin(th + (key==MLX_KEY_A ? 1 : -1) * M_PI_2);
             break;
 		default: /* invalid */
             return -1;
@@ -270,8 +273,10 @@ static int get_move_offset(double th, int key, double amt, double *pdx, double *
 
 int	player_move(player_t *pp, int key, double amt)
 {
-	double dx = 0;
-	double dy = 0;
+	double  dx = 0;
+	double  dy = 0;
+    double  nx;
+    double  ny;
 
 	if (get_move_offset(pp->th, key, amt, &dx, &dy) < 0)
 	{
@@ -289,6 +294,30 @@ int	player_move(player_t *pp, int key, double amt)
 	pp->x = nx;
 	pp->y = ny;
 	return (0);
+}
+
+void ft_hook(void* param)
+{
+	mlx_t*      mlx = param;
+
+    if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
+        mlx_close_window(mlx);
+}
+
+void key_press(mlx_key_data_t *keydata, player_t *pl)
+{
+    keys_t key = keydata;
+
+    if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+    {
+        if (player_move(pl, key, MOVE_UNIT) == 0)
+            render(pl->x, pl->y, pl->th);
+    }
+    else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
+    {
+        player_rotate(pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
+        render(pl->x, pl->y, pl->th);
+    }
 }
 
 int main(int ac, char **av)
@@ -323,25 +352,40 @@ int main(int ac, char **av)
     pl.y = atof(av[2]);
     pl.th = deg2rad(atof(av[3]));
 
-	for(;;)
-	{
-		int	key = get key;
-		if (key < 0 ||  key == KEY_ESC)
-			break ;
-		if (key == KEY_LEFT || key == KEY_RIGHT)
-		{
-			player_roate(&pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
-			render(pl.x, pl.y, pl.th);
-		}
-		else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
-		{
-			if (player_move(&pl, key, MOVE_UNIT) == 0)
-				render(pl.x, pl.y, pl.th);
-		}
-	}
+	// while(1)
+	// {
+	// 	if (key < 0 ||  key == KEY_ESC)
+	// 		break ;
+	// 	if (key == KEY_LEFT || key == KEY_RIGHT)
+	// 	{
+	// 		player_rotate(&pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
+	// 		render(pl.x, pl.y, pl.th);
+	// 	}
+	// 	else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
+	// 	{
+	// 		if (player_move(&pl, key, MOVE_UNIT) == 0)
+	// 			render(pl.x, pl.y, pl.th);
+	// 	}
+	// }
+
+    // while (1)
+    // {
+    //     int key = get_key_value(mlx);
+    //     if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+    //     {
+    //     if (player_move(&pl, key, MOVE_UNIT) == 0)
+    //         render(pl.x, pl.y, pl.th);
+    //     }
+    //     else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
+    //     {
+    //         player_rotate(&pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
+    //         render(pl.x, pl.y, pl.th);
+    //     }
+    // }
 
     // mlx_loop_hook(mlx, draw_wall, mlx);
     mlx_loop_hook(mlx, ft_hook, mlx);
+    mlx_key_hook(mlx, key_press, &pl);
     mlx_loop(mlx);
     mlx_terminate(mlx);
     // /* print map */

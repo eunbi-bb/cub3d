@@ -1,24 +1,12 @@
 #include "cub3d.h"
 
-void	move_down(t_game *game)
-{
-		game->move++;
-		game->y_p_location++;
-}
+// int	key_value(mlx_t *mlx, keys_t key)
+// {
+// 	int	data;
+	
+// 	MLX_NONNULL(mlx);
+// 	data = glfwGetKey(mlx->window, key);
+// 	printf("key data : %d\n", data);
 
-void	move_up(t_game *game)
-{
-		game->move++;
-		game->y_p_location--;
-}
-void	move_left(t_game *game)
-{
-		game->move++;
-		game->x_p_location--;
-}
-
-void	move_right(t_game *game)
-{
-		game->move++;
-		game->x_p_location++;
-}
+// 	return (data);
+// }
