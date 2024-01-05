@@ -312,7 +312,8 @@ void key_press(struct mlx_key_data keydata, void *user_data)
     printf("HERE!!!\n");
     // if (keydata.action == MLX_KEY_DOWN)
     // {
-        printf("key : %d\n", key);
+        if (key == MLX_KEY_ESCAPE)
+            exit(EXIT_SUCCESS);
         if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
         {
             if (player_move(pl, key, MOVE_UNIT) == 0)
@@ -320,11 +321,10 @@ void key_press(struct mlx_key_data keydata, void *user_data)
         }
         else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
         {
-            player_rotate(pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
+            printf("key : %d\n", key);
+            player_rotate(pl, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
             render(pl->x, pl->y, pl->th);
         }
-        else if (key == MLX_KEY_ESCAPE)
-            return;
     // }
 }
 
@@ -378,6 +378,7 @@ int main(int ac, char **av)
 
     // mlx_loop_hook(mlx, draw_wall, mlx);
     mlx_key_hook(mlx, key_press, &pl);
+    // mlx_key_hook(mlx, ft_hook, mlx);
     // mlx_loop_hook(mlx, ft_hook, mlx);
     mlx_loop(mlx);
     mlx_terminate(mlx);
