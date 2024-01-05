@@ -304,19 +304,23 @@ void ft_hook(void* param)
         mlx_close_window(mlx);
 }
 
-void key_press(mlx_key_data_t *keydata, player_t *pl)
+void key_press(struct mlx_key_data keydata, void *user_data)
 {
-    keys_t key = keydata;
+    keys_t key = keydata.key;
+    player_t *pl = (player_t *)user_data;
 
-    if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+    if (keydata.action == MLX_KEY_DOWN)
     {
-        if (player_move(pl, key, MOVE_UNIT) == 0)
+        if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+        {
+            if (player_move(pl, key, MOVE_UNIT) == 0)
+                render(pl->x, pl->y, pl->th);
+        }
+        else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
+        {
+            player_rotate(pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
             render(pl->x, pl->y, pl->th);
-    }
-    else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
-    {
-        player_rotate(pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
-        render(pl->x, pl->y, pl->th);
+        }
     }
 }
 
