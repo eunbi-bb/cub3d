@@ -26,6 +26,7 @@ HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
 
 SRC_DIR		= src/
+# SRC_FILE	= main.c move.c ray_casting.c render.c
 SRC_FILE	= wall.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))

@@ -11,68 +11,9 @@
 #include <stdbool.h>
 #include "cub3d.h"
 
-// #include <GLFW/glfw3.h>
 #include "MLX42/MLX42_Int.h"
 
-static mlx_image_t  *image;
-
-#define  SX         400     /* screen width */
-#define  SY         250     /* screen height */
-#define  FOV        60      /* field of view (in degree) */
-#define  FOV_H      deg2rad(FOV)
-#define  FOV_V      (FOV_H*(double)SY/(double)SX)
-#define  WALL_H     1.0
-
-#define  EPS            (1e-06)
-#define  is_zero(d)     (fabs(d) < EPS)
-#define  deg2rad(d)     ((d)*M_PI/180.0)    /* degree to radian */
-#define  rad2deg(d)     ((d)*180.0/M_PI)    /* radian to degree */
-#define  min(a,b)       ((a)<(b)? (a):(b))
-#define  max(a,b)       ((a)>(b)? (a):(b))
-
-
-
-static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
-static const double FOVH_2 = FOV_H / 2.0;
-
-enum { VERT, HORIZ };
-
-typedef enum { DIR_N=0, DIR_E, DIR_W, DIR_S } dir_t;
-
-#define  MAPX   6
-#define  MAPY   5
-
-#define COLOR_N 0x56BBFD
-#define COLOR_S 0x9BF585
-#define COLOR_E 0xA585F5
-#define COLOR_W 0x85F5D8
-
 int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
-
-
-// moving
-
-#define _2PI		6.28318530717958647692  /* 360 degrees */
-
-#define	ROT_UNIT	0.03 /* rad */
-#define	MOVE_UNIT	0.1
-
-enum { KEY_OTHER, KEY_W, KEY_A, KEY_S, KEY_D, KEY_LEFT, KEY_RIGHT, KEY_ESC };
-
-typedef struct {
-    double x;
-    double y;
-    double th;
-} player_t;
-
-static int map[MAPX][MAPY] = {  /* warning: index order is [x][y] */
-    {1,1,1,1,1}, /* [0][*] */
-    {1,0,0,0,1}, /* [1][*] */
-    {1,0,0,0,1}, /* [2][*] */
-    {1,1,0,0,1}, /* and so on... */
-    {1,1,0,0,1},
-    {1,1,1,1,1}
-};
 
 int map_get_cell( int x, int y )
 {
@@ -160,11 +101,10 @@ bool get_wall_intersection( double ray, double px, double py, dir_t* wdir, doubl
     return hit;
 }
 
-double cast_single_ray( int x, double px, double py, double th, dir_t *wdir)
+double cast_single_ray(int x, double px, double py, double th, dir_t *wdir)
 {
     double ray = (th + FOVH_2) - (x * ANGLE_PER_PIXEL);
 
-    // dir_t wdir;     /* direction of wall */
     double wx, wy;  /* coord. of wall intersection point */
 
     if( get_wall_intersection(ray, px, py, wdir, &wx, &wy) == false )
@@ -182,19 +122,31 @@ get_wall_height( double dist )
     double fov_h = 2.0 * dist * tan(FOV_V/2.0);
     return (int)(SY * (WALL_H / fov_h)); /* in pixels */
 }
-
-/*********** MLX ***********/
-
+/*
+*   First while loop: Drawing vertical lines from top to the first pixel of the wall.
+*   Second while loop: Drawing vertical lines of the wall.
+*   Third while loop: Drawing vertical lines from the end of the wall to bottom.
+*/
 void    draw_ver_line(int x, int y_start, int y_end, int color)
 {
     int	y;
 
-	y = y_start;
+    y = 0;
+    while (y <= y_start)
+	{
+		mlx_put_pixel(image, x, y, COLOR_BACK);
+		y++;
+	}
 	while (y <= y_end)
 	{
 		mlx_put_pixel(image, x, y, color);
 		y++;
 	}
+    while (y <= SY -1)
+    {
+        mlx_put_pixel(image, x, y, COLOR_BACK);
+		y++;
+    }
 }
 
 void    draw_wall(double wdist, int x, long long color)
@@ -205,25 +157,8 @@ void    draw_wall(double wdist, int x, long long color)
 
     int ystart = max(0, y0);
     int yend = min(SY - 1, y1);
-
     draw_ver_line(x, ystart, yend, color);
 }
-
-// int get_key_value(mlx_t *mlx)
-// {
-//     keys_t  key;
-//     MLX_NONNULL(mlx);
-
-//     key = GLFW_KEY_SPACE;
-//     while (key <= GLFW_KEY_LAST)
-//     {
-//         if (glfwGetKey(mlx->window, key) == GLFW_PRESS)
-//             return (key);
-//         ++key;
-//     }
-//     return (-1);
-// }
-
 
 void	render(double px, double py, double th)
 {
@@ -236,7 +171,7 @@ void	render(double px, double py, double th)
 }
 
 //angle range is from 0 - 360
-void	player_rotate(player_t *pp, double th)
+void	player_rotate(t_player *pp, double th)
 {
 	pp->th += th;
 	if (pp->th < 0)
@@ -271,7 +206,7 @@ static int get_move_offset(double th, int key, double amt, double *pdx, double *
 	return (0);
 }
 
-int	player_move(player_t *pp, int key, double amt)
+int	player_move(t_player *pp, int key, double amt)
 {
 	double  dx = 0;
 	double  dy = 0;
@@ -296,43 +231,29 @@ int	player_move(player_t *pp, int key, double amt)
 	return (0);
 }
 
-void ft_hook(void* param)
-{
-	mlx_t*      mlx = param;
-
-    if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-        mlx_close_window(mlx);
-}
-
 void key_press(struct mlx_key_data keydata, void *user_data)
 {
     keys_t key = keydata.key;
-    player_t *pl = (player_t *)user_data;
+    t_player *pl = (t_player *)user_data;
 
-    printf("HERE!!!\n");
-    // if (keydata.action == MLX_KEY_DOWN)
-    // {
-        if (key == MLX_KEY_ESCAPE)
-            exit(EXIT_SUCCESS);
-        if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
-        {
-            if (player_move(pl, key, MOVE_UNIT) == 0)
-                render(pl->x, pl->y, pl->th);
-        }
-        else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
-        {
-            printf("key : %d\n", key);
-            player_rotate(pl, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
+    if (key == MLX_KEY_ESCAPE)
+        exit(EXIT_SUCCESS);
+    if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+    {
+        if (player_move(pl, key, MOVE_UNIT) == 0)
             render(pl->x, pl->y, pl->th);
-        }
-    // }
+    }
+    else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
+    {
+        player_rotate(pl, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
+        render(pl->x, pl->y, pl->th);
+    }
 }
 
 int main(int ac, char **av)
 {
     mlx_t   *mlx;
 
-    // mlx
     if (!(mlx = mlx_init(SX, SY, "cub3d", true)))
 	{
 		puts(mlx_strerror(mlx_errno));
@@ -354,47 +275,14 @@ int main(int ac, char **av)
         fprintf(stderr,"usage: %s x y th(deg)\n", av[0]);
         exit(1);
     }
-/*******************************/	
-	player_t	pl;
+	t_player	pl;
     pl.x = atof(av[1]);
     pl.y = atof(av[2]);
     pl.th = deg2rad(atof(av[3]));
 
-	// while(1)
-	// {
-	// 	if (key < 0 ||  key == KEY_ESC)
-	// 		break ;
-	// 	if (key == KEY_LEFT || key == KEY_RIGHT)
-	// 	{
-	// 		player_rotate(&pl, ROT_UNIT * (key == KEY_LEFT ? 1 : -1));
-	// 		render(pl.x, pl.y, pl.th);
-	// 	}
-	// 	else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
-	// 	{
-	// 		if (player_move(&pl, key, MOVE_UNIT) == 0)
-	// 			render(pl.x, pl.y, pl.th);
-	// 	}
-	// }
-
-    // mlx_loop_hook(mlx, draw_wall, mlx);
     mlx_key_hook(mlx, key_press, &pl);
-    // mlx_key_hook(mlx, ft_hook, mlx);
-    // mlx_loop_hook(mlx, ft_hook, mlx);
     mlx_loop(mlx);
     mlx_terminate(mlx);
-    // /* print map */
-    // for( int y=MAPY-1; y>=0; y-- ) {
-    //     for( int x=0; x<MAPX; x++ ) {
-    //         printf("%c ", (map_get_cell(x,y)==1 ? '#':'.'));
-    //     }
-    //     putchar('\n');
-    // }
-
-    // for( int x=0; x<SX; x++ ) {
-    //     double wdist = cast_single_ray(x, px, py, th);
-    //     printf("** ray %3d : dist %.2f\n", x, wdist);
-    // }
-
 
     return 0;
 }
