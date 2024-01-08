@@ -2,8 +2,8 @@
 
 static bool valid_map_rows(int r, t_file *file)
 {
-	int     c;
-	t_map   *map;
+	int		c;
+	t_map	*map;
 
 	c = 0;
 	map = &file->map;
@@ -77,6 +77,33 @@ static bool valid_first_last_row(t_file *file)
 	return (true);
 }
 
+static void check_different_shapes(int r, t_file *file)
+{
+	int c;
+	int len_cur_line;
+	int len_next_line;
+
+	c = 0;
+	if (r == file->map.row - 1)
+		return ;
+	len_cur_line = ft_strlen(file->map.map_arr[r]);
+	len_next_line = ft_strlen(file->map.map_arr[r + 1]);
+	while (file->map.map_arr[r][c] != '\0')
+	{
+		if (file->map.map_arr[r][c] == '0'
+			&& len_cur_line > len_next_line
+			&& (file->map.map_arr[r + 1][c] != '0'
+				&& file->map.map_arr[r + 1][c] != '1'
+				&& file->map.map_arr[r + 1][c] !=
+				file->map.player_char))
+		{
+			printf("%d %d\n", r, c);
+			err_msg("SICTIK");
+		}
+		c++;
+	}
+}
+
 void check_walls(t_file *file)
 {
 	int r;
@@ -87,6 +114,7 @@ void check_walls(t_file *file)
 	{
 		if (!valid_map_rows(r, file))
 			err_msg("Map is not enclosed");
+		check_different_shapes(r, file);
 			// err_msg("Invalid first last map");
 		r++;
 	}
