@@ -26,7 +26,22 @@ HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
 
 SRC_DIR		= src/
-SRC_FILE	= wall.c
+SRC_FILE	= main.c \
+				test.c \
+				parser.c \
+				error.c \
+				free.c \
+				handle_file.c \
+				utils.c \
+				file_extension.c \
+				file_content_validation.c \
+				map.c \
+				seperate_file_content.c \
+				setting_texture_paths.c \
+				setting_colors.c \
+				map_validation.c \
+				flood_fill.c \
+				check_walls.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))
 

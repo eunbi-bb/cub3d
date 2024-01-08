@@ -4,6 +4,8 @@
 # include "../lib/libft/libft.h"
 # include <stdio.h>
 # include <sys/stat.h>
+ #include <sys/types.h>
+#include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -55,8 +57,127 @@
 // 	DIR_S
 // }	dir_t;
 
+typedef struct s_identifier
+{
+	char	*path_no_texture;
+	bool	no_set;
+	char	*path_so_texture;
+	bool	so_set;
+	char	*path_we_texture;
+	bool	we_set;
+	char	*path_ea_texture;
+	bool	ea_set;
+	bool	ceiling_set;
+	bool	floor_set;
+	int		number_of_lines;
+	int		f_r;
+	int		f_g;
+	int		f_b;
+	int		c_r;
+	int		c_g;
+	int		c_b;
+}	t_identifier;
+
+typedef struct s_map
+{
+	int		row;
+	int		column;
+	char	player_char;
+	double	player_pos_r;
+	double	player_pos_c;
+	char	**map_arr;
+	char	**copy_arr;
+}	t_map;
+
+typedef struct s_file
+{
+	char *file_extension;
+	char **content_arr;
+	int total_lines;
+	t_identifier identifier;
+	t_map map;
+}	t_file;
+
+
+typedef struct s_data
+{
+	t_file file;
+}	t_data;
+
+
+//PRINT STATEMENTS FOR TESTING PURPOSE
+/*** test.c ***/
+void print_file_content(t_file *file);
+void print_texture_paths(t_file *file);
+void print_colors(t_file *file);
+void print_map(t_file *file);
+
 /*** error.c ***/
 int		err_msg(char *str);
 void	perror_exit(char *str);
+
+/*** main.c ***/
+
+/*** parser.c ***/
+void init_identifiers(t_file *file);
+void init_map(t_file *file);
+void init_file_struct(t_file *file);
+int parser(int argc, char **argv, t_file *file);
+
+/*** handle_file.c ***/
+int		check_empty_new_line(char *str);
+char	*file_content_arr(t_file *file, t_map *map, int fd);
+int		get_content_from_file(t_file *file, char *file_name);
+bool empty_line_in_map(char *content, int i);
+
+/*** map.c ***/
+bool	valid_player(char c);
+void	create_map(t_file *file, char *line, int *row);
+int		handle_map(t_file *file);
+void	find_player_pos(t_file *file);
+
+
+/*** map_validation.c ***/
+char **copy_map(t_file *file);
+void check_walls(t_file *file);
+
+/*** seperate_file_content.c ***/
+bool is_texture_type(char *texture);
+bool is_color_type(char *color);
+bool identifiers_complete(t_file *file);
+int handle_content(t_file *file);
+
+/*** flood_fill.c ***/
+bool	walkable_point(int r, int c, t_file *file);
+int	flood_fill(int r, int c, t_file *file);
+
+/*** setting_texture_paths.c ***/
+void set_textures(t_file *file, char **texture_arr);
+
+/*** setting_colors.c ***/
+void set_colors(t_file *file, char *content, char **texture_arr);
+
+/*** file_extension.c ***/
+bool valid_file_extension(char *extension, char *file_name);
+
+/*** file_content_validation.c ***/
+bool check_valid_chars(char c);
+bool valid_map_content(t_file *file, char **map_arr);
+bool valid_content_order(t_file *file);
+void last_check_content(t_file *file);
+
+/*** utils.c ***/
+char	*protect_mem(char *str);
+int	ft_strlen_protect(char *str);
+int ft_strsame(const char *s1, const char *s2);
+char	**array_dup(t_file *file, char **arr);
+
+/*** free.c ***/
+void	free_arr(char **arr);
+
+
+// void enclosed_wall(int r, int c, t_file *file);
+// void check_walls(t_file *file);
+
 
 #endif
