@@ -1,14 +1,16 @@
 #include "cub3d.h"
 
-static bool valid_map_rows(int r, t_file *file)
+static bool valid_map_rows(int r, int c, t_file *file)
 {
-	int		c;
 	t_map	*map;
 
-	c = 0;
 	map = &file->map;
 	while (map->map_arr[r][c] != '\0')
 	{
+		if (map->map_arr[r][c] == '0'
+			&& (map->map_arr[r][c - 1] == ' '
+				|| map->map_arr[r][c + 1] == ' '))
+			return (false);
 		if (map->map_arr[r][c] == ' ')
 		{
 			if (r != 0
@@ -20,7 +22,6 @@ static bool valid_map_rows(int r, t_file *file)
 		}
 		c++;
 	}
-	//printf("r = %d\nc = %d\n", r, c);
 	if (map->map_arr[r][c - 1] != '1')
 		return (false);
 	return (true);
@@ -112,7 +113,7 @@ void check_walls(t_file *file)
 	valid_first_last_row(file);
 	while (r < file->map.row && file->map.map_arr[r] != NULL)
 	{
-		if (!valid_map_rows(r, file))
+		if (!valid_map_rows(r, 0, file))
 			err_msg("Map is not enclosed");
 		check_different_shapes(r, file);
 			// err_msg("Invalid first last map");
