@@ -40,7 +40,6 @@ SRC_FILE	= main.c \
 				setting_texture_paths.c \
 				setting_colors.c \
 				map_validation.c \
-				flood_fill.c \
 				check_walls.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))

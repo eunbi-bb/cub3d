@@ -139,17 +139,12 @@ void	find_player_pos(t_file *file);
 
 /*** map_validation.c ***/
 char **copy_map(t_file *file);
-void check_walls(t_file *file);
 
 /*** seperate_file_content.c ***/
 bool is_texture_type(char *texture);
 bool is_color_type(char *color);
 bool identifiers_complete(t_file *file);
 int handle_content(t_file *file);
-
-/*** flood_fill.c ***/
-bool	walkable_point(int r, int c, t_file *file);
-int	flood_fill(int r, int c, t_file *file);
 
 /*** setting_texture_paths.c ***/
 void set_textures(t_file *file, char **texture_arr);
@@ -165,6 +160,10 @@ bool check_valid_chars(char c);
 bool valid_map_content(t_file *file, char **map_arr);
 bool valid_content_order(t_file *file);
 void last_check_content(t_file *file);
+
+/*** check_walls.c.c ***/
+void check_walls(t_file *file);
+
 
 /*** utils.c ***/
 char	*protect_mem(char *str);
