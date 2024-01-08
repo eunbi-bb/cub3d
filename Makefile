@@ -46,7 +46,7 @@ $(NAME): $(OBJ) $(OBJF)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT)/libft.a -o $(NAME) $(MATH)
 		@echo "- cub3d is compiled -"
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)| $(OBJF)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)| $(OBJF)
 			@mkdir -p $(@D)
 			@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 

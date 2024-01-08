@@ -13,8 +13,8 @@
 
 static mlx_image_t  *image;
 
-#define  SX         1600     /* screen width */
-#define  SY         1000    /* screen height */
+#define  SX         800     /* screen width */
+#define  SY         500    /* screen height */
 #define  FOV        60      /* field of view (in degree) */
 #define  FOV_H      deg2rad(FOV)
 #define  FOV_V      (FOV_H*(double)SY/(double)SX)
@@ -34,14 +34,14 @@ static mlx_image_t  *image;
 static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
 static const double FOVH_2 = FOV_H / 2.0;
 
-#define  MAPX   6
-#define  MAPY   5
+#define  MAPX   9
+#define  MAPY   9
 
-#define COLOR_N     0x56BBFD
-#define COLOR_S     0x9BF585
-#define COLOR_E     0xA585F5
-#define COLOR_W     0x85F5D8
-#define COLOR_BACK  0x000000
+#define COLOR_N     0x00ffafff
+#define COLOR_S     0xffffafff
+#define COLOR_E     0xA585F5ff
+#define COLOR_W     0x00d7d7ff
+#define COLOR_BACK  0x000000ff
 
 enum 
 { 
@@ -51,7 +51,7 @@ enum
 
 typedef enum
 { 
-	DIR_N=0, 
+	DIR_N=0,
 	DIR_E, 
 	DIR_W, 
 	DIR_S 
@@ -63,13 +63,21 @@ typedef struct s_player{
     double th;
 } t_player;
 
+/*
+*		S
+*	E		W
+*		N
+*/
 static int map[MAPX][MAPY] = {  /* warning: index order is [x][y] */
-    {1,1,1,1,1}, /* [0][*] */
-    {1,0,0,0,1}, /* [1][*] */
-    {1,0,0,0,1}, /* [2][*] */
-    {1,0,0,0,1}, /* and so on... */
-    {1,0,0,0,1},
-    {1,1,1,1,1}
+    {1,1,1,1,1,1,1,1,1}, /* [0][*] */
+    {1,0,0,0,0,0,0,0,1}, /* [1][*] */
+    {1,0,0,0,0,0,0,0,1}, /* [2][*] */
+    {1,0,0,0,0,0,0,0,1}, /* and so on... */
+	{1,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,1},
+    {1,1,1,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1}
 };
 
 /*** error.c ***/

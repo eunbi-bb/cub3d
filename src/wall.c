@@ -17,7 +17,7 @@ int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
 
 int map_get_cell( int x, int y )
 {
-    return (x >= 0 && x < MAPX && y >= 0 && y < MAPY) ? map[x][y] : -1;
+    return (x >= 0 && x < MAPX && y >= 0 && y <= MAPY-1) ? map[x][y] : -1;
 }
 
 int
@@ -127,7 +127,7 @@ get_wall_height( double dist )
 *   Second while loop: Drawing vertical lines of the wall.
 *   Third while loop: Drawing vertical lines from the end of the wall to bottom.
 */
-void    draw_ver_line(int x, int y_start, int y_end, int color)
+void    draw_ver_line(int x, int y_start, int y_end, long long color)
 {
     int	y;
 
@@ -220,6 +220,9 @@ int	player_move(t_player *pp, int key, double amt)
 	}
 	nx = pp->x + dx;
 	ny = pp->y + dy;
+
+	printf("nx %d\n", (int)nx);
+	printf("ny %d\n", (int)ny);
 
 	if (map_get_cell((int)nx, (int)ny != 0))
 	{
