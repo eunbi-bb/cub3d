@@ -125,12 +125,13 @@ int get_content_from_file(t_file *file, char *file_name)
 	if (handle_content(file) == 1)
 		err_msg("Identifiers can not be set");
 	empty_line_in_map(content, 0);
+	make_int_arr(file, 0, 0);
 	//copy_map(file);
 	//print_file_content(file);
 	//print_texture_paths(file);
 	//print_colors(file);
 	//print_number_map_lines(file);
 	//printf("map row = %d\n", file->map.row);
-	//print_map(file);
+	print_int_map(file);
 	return (0);
 }

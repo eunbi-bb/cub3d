@@ -44,9 +44,28 @@ void print_map(t_file *file)
 	{
 		//printf("%s\n", file->map.copy_arr[i]);
 		//printf("%s\n", file->map.map_arr[i]);
-		printf("%s\n", file->content_arr[i]);
+		//printf("%s\n", file->content_arr[i]);
 		i++;
 	}
 	printf("player r = %lf\nplayer c = %lf\nchar = %c\n"
 		, file->map.player_pos_x, file->map.player_pos_y, file->map.p_direction);
+}
+
+void print_int_map(t_file *file)
+{
+	int r;
+	int c;
+
+	r = 0;
+	c = 0;
+	while (r < file->map.row)
+	{
+		c = 0;
+		while (c < (int)ft_strlen(file->map.map_arr[r]))
+		{
+			printf("%d\n", file->map.map_int_arr[r][c]);
+			c++;
+		}
+		r++;
+	}
 }
