@@ -43,18 +43,18 @@ bool valid_content_order(t_file *file)
 	//print_map(file);
 	while (r < 6 && file->content_arr[r] != NULL)
 	{
+		if (file->content_arr[r][c] == '1')
+			 	err_msg("Wrong content order");
 		c = 0;
 		while (file->content_arr[r][c] != '\0'
 			&& file->content_arr[r][c] == ' ')
 		{
-			// if (file->content_arr[r][c] == '1')
-			// 	err_msg("Wrong content order");
 			if (file->content_arr[r][c] != 'N'
-				&& file->content_arr[r][c] != 'S'
-				&& file->content_arr[r][c] != 'E'
-				&& file->content_arr[r][c] != 'W'
-				&& file->content_arr[r][c] != 'F'
-				&& file->content_arr[r][c] != 'C')
+				|| file->content_arr[r][c] != 'S'
+				|| file->content_arr[r][c] != 'E'
+				|| file->content_arr[r][c] != 'W'
+				|| file->content_arr[r][c] != 'F'
+				|| file->content_arr[r][c] != 'C')
 				err_msg("Wrong content order");
 			c++;
 		}
@@ -72,7 +72,7 @@ void last_check_content(t_file *file)
 	find_player_pos(file);
 	copy_map(file);
 	//print_map(file);
-	//printf("laaa = %d\n", flood_fill(file->map.player_pos_r, file->map.player_pos_c, file));
+	//printf("laaa = %d\n", flood_fill(file->map.player_pos_x, file->map.player_pos_y, file));
 	//print_map(file);
 	check_walls(file);
 }

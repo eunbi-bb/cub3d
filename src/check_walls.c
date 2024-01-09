@@ -96,7 +96,7 @@ static void check_different_shapes(int r, t_file *file)
 			&& (file->map.map_arr[r + 1][c] != '0'
 				&& file->map.map_arr[r + 1][c] != '1'
 				&& file->map.map_arr[r + 1][c] !=
-				file->map.player_char))
+				file->map.p_direction))
 		{
 			printf("%d %d\n", r, c);
 			err_msg("SICTIK");

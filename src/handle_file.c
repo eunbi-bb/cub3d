@@ -88,10 +88,10 @@ bool empty_line_in_map(char *content, int i)
 			i++;
 			if (content[i] == 'C' || content[i] == 'F')
 			{
-				while (content[i] != '\n')
+				while (content[i] != '\n' && content[i] != '\0')
 					i++;
 			}
-			while (content[i] != '1')
+			while (content[i] != '1' && content[i] != '\0')
 				i++;
 			while ((content[i] == '1') || (content[i] == ' ')
 					|| (content[i] == '0') || content[i] == '\n'
@@ -128,9 +128,9 @@ int get_content_from_file(t_file *file, char *file_name)
 	//copy_map(file);
 	//print_file_content(file);
 	//print_texture_paths(file);
-	print_colors(file);
+	//print_colors(file);
 	//print_number_map_lines(file);
 	//printf("map row = %d\n", file->map.row);
-	print_map(file);
+	//print_map(file);
 	return (0);
 }

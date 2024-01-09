@@ -42,17 +42,17 @@ void find_player_pos(t_file *file)
 		{
 			if (valid_player(file->map.map_arr[r][c]))
 			{
-				file->map.player_pos_r = r;
-				file->map.player_pos_c = c;
-				file->map.player_char = file->map.map_arr[r][c];
+				file->map.player_pos_x = r;
+				file->map.player_pos_y = c;
+				file->map.p_direction = file->map.map_arr[r][c];
 				player_count++;
 			}
 			c++;
 		}
 		r++;
 	}
-	if ((file->map.player_pos_r == -1
-		&& file->map.player_pos_c == -1)
+	if ((file->map.player_pos_x == -1
+		&& file->map.player_pos_y == -1)
 		|| player_count > 1)
 		err_msg("Wrong number of player");
 }

@@ -25,9 +25,9 @@ void init_map(t_file *file)
 {
 	file->map.row = 0;
 	file->map.column = 0;
-	file->map.player_char = '0';
-	file->map.player_pos_r = -1;
-	file->map.player_pos_c = -1;
+	file->map.p_direction = '0';
+	file->map.player_pos_x = -1;
+	file->map.player_pos_y = -1;
 	file->map.map_arr = NULL;
 	file->map.copy_arr = NULL;
 }
