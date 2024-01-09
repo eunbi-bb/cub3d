@@ -30,6 +30,7 @@ void init_map(t_file *file)
 	file->map.player_pos_y = -1;
 	file->map.map_arr = NULL;
 	file->map.copy_arr = NULL;
+	file->map.map_int_arr = NULL;
 }
 
 void init_file_struct(t_file *file)

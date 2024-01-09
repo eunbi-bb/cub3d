@@ -87,6 +87,7 @@ typedef struct s_map
 	double	player_pos_y;
 	char	**map_arr;
 	char	**copy_arr;
+	int		**map_int_arr;
 }	t_map;
 
 typedef struct s_file
@@ -111,6 +112,7 @@ void print_file_content(t_file *file);
 void print_texture_paths(t_file *file);
 void print_colors(t_file *file);
 void print_map(t_file *file);
+void print_int_map(t_file *file);
 
 /*** error.c ***/
 int		err_msg(char *str);
@@ -135,7 +137,7 @@ bool	valid_player(char c);
 void	create_map(t_file *file, char *line, int *row);
 int		handle_map(t_file *file);
 void	find_player_pos(t_file *file);
-
+void make_int_arr(t_file *file, int r, int c);
 
 /*** map_validation.c ***/
 char **copy_map(t_file *file);
