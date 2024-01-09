@@ -50,11 +50,11 @@ bool valid_content_order(t_file *file)
 			// if (file->content_arr[r][c] == '1')
 			// 	err_msg("Wrong content order");
 			if (file->content_arr[r][c] != 'N'
-				|| file->content_arr[r][c] != 'S'
-				|| file->content_arr[r][c] != 'E'
-				|| file->content_arr[r][c] != 'W'
-				|| file->content_arr[r][c] != 'F'
-				|| file->content_arr[r][c] != 'C')
+				&& file->content_arr[r][c] != 'S'
+				&& file->content_arr[r][c] != 'E'
+				&& file->content_arr[r][c] != 'W'
+				&& file->content_arr[r][c] != 'F'
+				&& file->content_arr[r][c] != 'C')
 				err_msg("Wrong content order");
 			c++;
 		}

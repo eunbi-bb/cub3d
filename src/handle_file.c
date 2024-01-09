@@ -120,11 +120,11 @@ int get_content_from_file(t_file *file, char *file_name)
 	//file_content_arr(file, &file->map, fd);
 	valid_content_order(file);
 	//print_map(file);
-	empty_line_in_map(content, 0);
 	map_lines = file->total_lines - 5;
 	file->map.map_arr = (char**)malloc(sizeof(char*) * map_lines);
 	if (handle_content(file) == 1)
 		err_msg("Identifiers can not be set");
+	empty_line_in_map(content, 0);
 	//copy_map(file);
 	//print_file_content(file);
 	//print_texture_paths(file);
