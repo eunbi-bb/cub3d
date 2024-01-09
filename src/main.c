@@ -43,9 +43,9 @@ int main(int argc, char **argv)
 		err_msg("Wrong number of arguments");
 	parser(argc, argv, &data.file);
 		//err_msg("Parser has failded");
-    data.player.x = data.file.map.player_pos_x;
-    data.player.y = data.file.map.player_pos_y;
-    data.player.th = position_to_degree(data.file.map.p_direction);
+    data.player->x = data.file.map.player_pos_x;
+    data.player->y = data.file.map.player_pos_y;
+    data.player->th = position_to_degree(data.file.map.p_direction);
     mlx_key_hook(mlx, key_press, &data);
     mlx_loop(mlx);
     mlx_terminate(mlx);

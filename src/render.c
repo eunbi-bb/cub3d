@@ -15,12 +15,18 @@
 
 int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
 
+/*
+*	To retrieve the value of a cell in a map.
+*	It checks if the prvided coords (x, y) are within the valind range for the map.
+*	It returns the value stored in the correspongin cell of the map[y][x].
+*	If the coords are out of bounds, it returns -1.
+*/
 int map_get_cell(t_data *data, int x, int y)
 {
 	int	result;
 
 	if (x >= 0 && y >= 0)
-		result = map[y][x];
+		result = data->file.map.map_int_arr[y][x];
 	else
 		result = -1;
 	return (result);
@@ -31,18 +37,27 @@ int map_get_cell(t_data *data, int x, int y)
 //     return (x >= 0 && x < MAPX && y >= 0 && y <= MAPY-1) ? map[x][y] : -1;
 // }
 
+/*
+*	Recieving float number and convert it into the sign (+1 or 0 or -1)
+*/
 int	sgn( double d )
 {
     return is_zero(d) ? 0 : ((d > 0) ? 1 : -1);
 }
 
-double l2dist( double x0, double y0, double x1, double y1 )
+/*
+*	Calculating between two points
+*/
+double get_distance( double x0, double y0, double x1, double y1 )
 {
     double dx = x0 - x1;
     double dy = y0 - y1;
     return sqrt(dx*dx + dy*dy);
 }
 
+/*
+*	DDA algorithm. Calculating intersections.
+*/
 bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, double* wx, double* wy )
 {
     int xstep = sgn( cos(ray) );  /* +1 (right), 0 (no change), -1 (left) */
@@ -51,6 +66,8 @@ bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, doubl
     double xslope = (xstep == 0) ? INFINITY : tan(ray);
     double yslope = (ystep == 0) ? INFINITY : 1./tan(ray);
 
+	// nx and ny are the next intersection coordinates of a ray from (px,py)
+	// Intial value is depening on xstep and ystep.
     double nx = (xstep > 0) ? floor(px)+1 : ((xstep < 0) ? ceil(px)-1 : px);
     double ny = (ystep > 0) ? floor(py)+1 : ((ystep < 0) ? ceil(py)-1 : py);
 
@@ -69,8 +86,8 @@ bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, doubl
         if( ystep != 0 ) g = yslope * (ny-py) + px;
 
         /* which is nearer to me - VERT(nx,f) or HORIZ(g,ny)? */
-        double dist_v = l2dist(px, py, nx, f);
-        double dist_h = l2dist(px, py, g, ny);
+        double dist_v = get_distance(px, py, nx, f);
+        double dist_h = get_distance(px, py, g, ny);
 
         if( dist_v < dist_h ) { /* VERT is nearer; go along x-axis */
             mapx = (xstep == 1) ? (int)(nx) : (int)(nx)-1 ;
@@ -111,6 +128,10 @@ bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, doubl
     return hit;
 }
 
+/*
+*	Casting a single ray. 
+*	ANGLE_PER_PIXEL = FOV_H / (SX - 1)
+*/
 double cast_single_ray(int x, double px, double py, double th, t_dir *wdir)
 {
     double ray = (th + FOVH_2) - (x * ANGLE_PER_PIXEL);
@@ -120,7 +141,7 @@ double cast_single_ray(int x, double px, double py, double th, t_dir *wdir)
     if( get_wall_intersection(ray, px, py, wdir, &wx, &wy) == false )
         return INFINITY; /* no intersection - maybe bad map? */
 
-    double wdist = l2dist(px, py, wx, wy);
+    double wdist = get_distance(px, py, wx, wy);
     wdist *= cos(th -ray);
 
     return wdist;
