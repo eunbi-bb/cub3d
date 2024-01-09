@@ -63,6 +63,13 @@ typedef struct s_player{
     double th;
 } t_player;
 
+typedef	struct s_img
+{
+	int		w;
+	int		h;
+	char	*name;
+}	t_img;
+
 /*
 *		S
 *	E		W
