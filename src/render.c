@@ -15,13 +15,23 @@
 
 int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
 
-int map_get_cell( int x, int y )
+int map_get_cell(t_data *data, int x, int y)
 {
-    return (x >= 0 && x < MAPX && y >= 0 && y <= MAPY-1) ? map[x][y] : -1;
+	int	result;
+
+	if (x >= 0 && y >= 0)
+		result = map[y][x];
+	else
+		result = -1;
+	return (result);
 }
 
-int
-sgn( double d )
+// int map_get_cell( int x, int y )
+// {
+//     return (x >= 0 && x < MAPX && y >= 0 && y <= MAPY-1) ? map[x][y] : -1;
+// }
+
+int	sgn( double d )
 {
     return is_zero(d) ? 0 : ((d > 0) ? 1 : -1);
 }
@@ -33,7 +43,7 @@ double l2dist( double x0, double y0, double x1, double y1 )
     return sqrt(dx*dx + dy*dy);
 }
 
-bool get_wall_intersection( double ray, double px, double py, dir_t* wdir, double* wx, double* wy )
+bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, double* wx, double* wy )
 {
     int xstep = sgn( cos(ray) );  /* +1 (right), 0 (no change), -1 (left) */
     int ystep = sgn( sin(ray) );  /* +1 (up),    0 (no change), -1 (down) */
@@ -101,7 +111,7 @@ bool get_wall_intersection( double ray, double px, double py, dir_t* wdir, doubl
     return hit;
 }
 
-double cast_single_ray(int x, double px, double py, double th, dir_t *wdir)
+double cast_single_ray(int x, double px, double py, double th, t_dir *wdir)
 {
     double ray = (th + FOVH_2) - (x * ANGLE_PER_PIXEL);
 
@@ -116,8 +126,7 @@ double cast_single_ray(int x, double px, double py, double th, dir_t *wdir)
     return wdist;
 }
 
-int
-get_wall_height( double dist )
+int get_wall_height( double dist )
 {
     double fov_h = 2.0 * dist * tan(FOV_V/2.0);
     return (int)(SY * (WALL_H / fov_h)); /* in pixels */
@@ -162,10 +171,11 @@ void    draw_wall(double wdist, int x, long long color)
 
 void	render(double px, double py, double th)
 {
-	for( int x=0; x<SX; x++ ) 
+	for( int x=0; x < SX; x++ ) 
 	{
-        dir_t wdir;
-        double wdist = cast_single_ray(x, px, py, th, &wdir);
+        t_dir	wdir;
+        double	wdist;
+		wdist = cast_single_ray(x, px, py, th, &wdir);
         draw_wall(wdist, x, wall_colors[wdir]);
     }
 }
@@ -234,22 +244,22 @@ int	player_move(t_player *pp, int key, double amt)
 	return (0);
 }
 
-void key_press(struct mlx_key_data keydata, void *user_data)
+void key_press(struct mlx_key_data keydata, void *game_data)
 {
     keys_t key = keydata.key;
-    t_player *pl = (t_player *)user_data;
+    t_data *data = (t_data *)game_data;
 
     if (key == MLX_KEY_ESCAPE)
         exit(EXIT_SUCCESS);
     if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
     {
-        if (player_move(pl, key, MOVE_UNIT) == 0)
-            render(pl->x, pl->y, pl->th);
+        if (player_move(data->player, key, MOVE_UNIT) == 0)
+            render(data->player->x, data->player->y, data->player->th);
     }
     else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
     {
-        player_rotate(pl, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
-        render(pl->x, pl->y, pl->th);
+        player_rotate(data->player, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
+        render(data->player->x, data->player->y, data->player->th);
     }
 }
 

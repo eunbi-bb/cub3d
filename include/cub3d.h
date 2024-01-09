@@ -8,10 +8,11 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <math.h>
+# include <fcntl.h>
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "MLX42/MLX42_Int.h"
 
-static mlx_image_t  *image;
+extern mlx_image_t  *image;
 
 #define  SX         800     /* screen width */
 #define  SY         500    /* screen height */
@@ -55,7 +56,7 @@ typedef enum
 	DIR_E, 
 	DIR_W, 
 	DIR_S 
-} dir_t;
+} t_dir;
 
 typedef struct s_player{
     double x;
@@ -134,6 +135,7 @@ typedef struct s_file
 typedef struct s_data
 {
 	t_file file;
+	t_player *player;
 }	t_data;
 
 
