@@ -63,12 +63,12 @@ typedef struct s_player{
     double th;
 } t_player;
 
-typedef	struct s_img
-{
-	int		w;
-	int		h;
-	char	*name;
-}	t_img;
+// typedef	struct s_img
+// {
+// 	int		w;
+// 	int		h;
+// 	char	*name;
+// }	t_img;
 
 /*
 *		S
@@ -205,6 +205,9 @@ char	**array_dup(t_file *file, char **arr);
 /*** free.c ***/
 void	free_arr(char **arr);
 
+
+/*** wall.c ***/
+void key_press(struct mlx_key_data keydata, void *user_data);
 
 // void enclosed_wall(int r, int c, t_file *file);
 // void check_walls(t_file *file);
