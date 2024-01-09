@@ -39,12 +39,12 @@ void print_map(t_file *file)
 
 	i = 0;
 	//printf("file->map.row = %d\n", file->map.row);
-	while (i < file->map.row)
-	//while (i < file->total_lines)
+	//while (i < file->map.row)
+	while (i < file->total_lines)
 	{
 		//printf("%s\n", file->map.copy_arr[i]);
-		printf("%s\n", file->map.map_arr[i]);
-		//printf("%s\n", file->content_arr[i]);
+		//printf("%s\n", file->map.map_arr[i]);
+		printf("%s\n", file->content_arr[i]);
 		i++;
 	}
 	printf("player r = %lf\nplayer c = %lf\nchar = %c\n"

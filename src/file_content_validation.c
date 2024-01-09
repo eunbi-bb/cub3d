@@ -43,12 +43,12 @@ bool valid_content_order(t_file *file)
 	//print_map(file);
 	while (r < 6 && file->content_arr[r] != NULL)
 	{
+		if (file->content_arr[r][c] == '1')
+			 	err_msg("Wrong content order");
 		c = 0;
 		while (file->content_arr[r][c] != '\0'
 			&& file->content_arr[r][c] == ' ')
 		{
-			// if (file->content_arr[r][c] == '1')
-			// 	err_msg("Wrong content order");
 			if (file->content_arr[r][c] != 'N'
 				|| file->content_arr[r][c] != 'S'
 				|| file->content_arr[r][c] != 'E'

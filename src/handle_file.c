@@ -88,10 +88,10 @@ bool empty_line_in_map(char *content, int i)
 			i++;
 			if (content[i] == 'C' || content[i] == 'F')
 			{
-				while (content[i] != '\n')
+				while (content[i] != '\n' && content[i] != '\0')
 					i++;
 			}
-			while (content[i] != '1')
+			while (content[i] != '1' && content[i] != '\0')
 				i++;
 			while ((content[i] == '1') || (content[i] == ' ')
 					|| (content[i] == '0') || content[i] == '\n'
@@ -120,17 +120,17 @@ int get_content_from_file(t_file *file, char *file_name)
 	//file_content_arr(file, &file->map, fd);
 	valid_content_order(file);
 	//print_map(file);
-	empty_line_in_map(content, 0);
 	map_lines = file->total_lines - 5;
 	file->map.map_arr = (char**)malloc(sizeof(char*) * map_lines);
 	if (handle_content(file) == 1)
 		err_msg("Identifiers can not be set");
+	empty_line_in_map(content, 0);
 	//copy_map(file);
 	//print_file_content(file);
 	//print_texture_paths(file);
-	print_colors(file);
+	//print_colors(file);
 	//print_number_map_lines(file);
 	//printf("map row = %d\n", file->map.row);
-	print_map(file);
+	//print_map(file);
 	return (0);
 }
