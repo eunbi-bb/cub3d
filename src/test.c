@@ -48,5 +48,5 @@ void print_map(t_file *file)
 		i++;
 	}
 	printf("player r = %lf\nplayer c = %lf\nchar = %c\n"
-		, file->map.player_pos_r, file->map.player_pos_c, file->map.player_char);
+		, file->map.player_pos_x, file->map.player_pos_y, file->map.p_direction);
 }

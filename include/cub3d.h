@@ -113,9 +113,9 @@ typedef struct s_map
 {
 	int		row;
 	int		column;
-	char	player_char;
-	double	player_pos_r;
-	double	player_pos_c;
+	char	p_direction;
+	double	player_pos_x;
+	double	player_pos_y;
 	char	**map_arr;
 	char	**copy_arr;
 }	t_map;

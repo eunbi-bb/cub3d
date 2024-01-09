@@ -72,7 +72,7 @@ void last_check_content(t_file *file)
 	find_player_pos(file);
 	copy_map(file);
 	//print_map(file);
-	//printf("laaa = %d\n", flood_fill(file->map.player_pos_r, file->map.player_pos_c, file));
+	//printf("laaa = %d\n", flood_fill(file->map.player_pos_x, file->map.player_pos_y, file));
 	//print_map(file);
 	check_walls(file);
 }
