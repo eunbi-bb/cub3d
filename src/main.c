@@ -12,6 +12,17 @@ double	position_to_degree(char p_direction)
 		return (deg2rad(270));
 }
 
+void	init_player(t_data *data)
+{
+	data->player = (t_player *)malloc(sizeof(t_player));
+    data->player->x = data->file.map.player_pos_x + 1;
+    data->player->y = data->file.map.player_pos_y + 1;
+    data->player->th = position_to_degree(data->file.map.p_direction);
+			printf("data.px	: %f\n", data->player->x);
+			printf("data.py	: %f\n", data->player->y);
+			printf("data.pth: %f\n", data->player->y);
+}
+
 int main(int argc, char **argv)
 {
 	t_data		data;
@@ -38,10 +49,11 @@ int main(int argc, char **argv)
 		err_msg("Wrong number of arguments");
 	parser(argc, argv, &data.file);
 		//err_msg("Parser has failded");
-    data.player->x = data.file.map.player_pos_x;
-    data.player->y = data.file.map.player_pos_y;
-    data.player->th = position_to_degree(data.file.map.p_direction);
+	init_player(&data);
     mlx_key_hook(mlx, key_press, &data);
+	printf("HERE3\n");
     mlx_loop(mlx);
+	printf("HERE4\n");
+	free(data.player);
     mlx_terminate(mlx);
 }
