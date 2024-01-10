@@ -217,6 +217,5 @@ void key_press(struct mlx_key_data keydata, void *user_data);
 // void check_walls(t_file *file);
 
 /*** draw_map.c ***/
-void draw_map(t_data *data);
-
+void display(struct mlx_key_data keydata, void *game_data);
 #endif

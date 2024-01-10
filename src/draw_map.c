@@ -5,9 +5,19 @@
 #define mapY	14
 
 float FixAng(float a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
-float distance(ax,ay,bx,by,ang){ return cos(degToRad(ang))*(bx-ax)-sin(degToRad(ang))*(by-ay);}
-float pdx,pdy,pa;
+float distance(ax,ay,bx,by,ang){ return cos(deg2rad(ang))*(bx-ax)-sin(deg2rad(ang))*(by-ay);}
+float pdx,pdy;
 float frame1,frame2,fps;
+
+void	draw_square(int x, int y_end, long long color)
+{
+	int	y = 0;
+	while (y < y_end)
+	{
+		mlx_put_pixel(image, x, y_end, color);
+		y++;
+	}
+}
 
 void draw_2d_map(t_data *data)
 {
@@ -16,26 +26,39 @@ void draw_2d_map(t_data *data)
 	{
 		for(x=0;x<mapX;x++)
 		{
-			if(data->file.map.map_int_arr[y*mapX+x]>0)
-				glColor3f(1,1,1);
-			else
-				glColor3f(0,0,0);
    			xo=x*mapS; yo=y*mapS;
-			glBegin(GL_QUADS); 
-   			glVertex2i( 0   +xo+1, 0   +yo+1); 
-   			glVertex2i( 0   +xo+1, mapS+yo-1); 
-   			glVertex2i( mapS+xo-1, mapS+yo-1);  
-   			glVertex2i( mapS+xo-1, 0   +yo+1); 
-   			glEnd();
+			if(data->file.map.map_int_arr[y][mapX+x]>0)
+				draw_square(xo, yo, COLOR_N);
+			else
+				draw_square(xo, yo, COLOR_BACK);
+			// glBegin(GL_QUADS); 
+   			// glVertex2i( 0   +xo+1, 0   +yo+1); 
+   			// glVertex2i( 0   +xo+1, mapS+yo-1); 
+   			// glVertex2i( mapS+xo-1, mapS+yo-1);  
+   			// glVertex2i( mapS+xo-1, 0   +yo+1); 
+   			// glEnd();
 		} 
  	}
 }
 
 void drawPlayer2D(t_data *data)
 {
-	glColor3f(1,1,0);   glPointSize(8);    glLineWidth(4);
-	glBegin(GL_POINTS); glVertex2i(data->player->x,data->player->y); glEnd();
-	glBegin(GL_LINES);  glVertex2i(data->player->x,data->player->y); glVertex2i(data->player->x+pdx*20,data->player->y+pdy*20); glEnd();
+	int	x,y;
+	x = data->player->x;
+	y = data->player->y;
+	while (x <= x + 10)
+	{
+		mlx_put_pixel(image, x, y, COLOR_E);
+		while (y <= y + 10)
+		{
+			mlx_put_pixel(image, x, y, COLOR_E);
+			y++;
+		}
+		x++;
+	}
+	// glColor3f(1,1,0);   glPointSize(8);    glLineWidth(4);
+	// glBegin(GL_POINTS); glVertex2i(data->player->x,data->player->y); glEnd();
+	// glBegin(GL_LINES);  glVertex2i(data->player->x,data->player->y); glVertex2i(data->player->x+pdx*20,data->player->y+pdy*20); glEnd();
 }
 
 
@@ -47,22 +70,22 @@ void draw_2d_rays(t_data *data)
 	
  int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH; 
  
- ra=FixAng(pa+30);                                                              //ray set back 30 degrees
+ ra=FixAng(data->player->th+30);                                                              //ray set back 30 degrees
  
  for(r=0;r<60;r++)
  {
   int vmt=0,hmt=0;                                                              //vertical and horizontal map texture number 
   //---Vertical--- 
   dof=0; side=0; disV=100000;
-  float Tan=tan(degToRad(ra));
-       if(cos(degToRad(ra))> 0.001){ rx=(((int)data->player->x >> 6)<<6)+64;      ry=(data->player->x-rx)*Tan+data->player->y; xo= 64; yo=-xo*Tan;}//looking left
-  else if(cos(degToRad(ra))<-0.001){ rx=(((int)data->player->x>>6)<<6) -0.0001; ry=(data->player->x-rx)*Tan+data->player->y; xo=-64; yo=-xo*Tan;}//looking right
+  float Tan=tan(deg2rad(ra));
+       if(cos(deg2rad(ra))> 0.001){ rx=(((int)data->player->x >> 6)<<6)+64;      ry=(data->player->x-rx)*Tan+data->player->y; xo= 64; yo=-xo*Tan;}//looking left
+  else if(cos(deg2rad(ra))<-0.001){ rx=(((int)data->player->x>>6)<<6) -0.0001; ry=(data->player->x-rx)*Tan+data->player->y; xo=-64; yo=-xo*Tan;}//looking right
   else { rx=data->player->x; ry=data->player->y; dof=8;}                                                  //looking up or down. no hit  
 
   while(dof<8) 
   { 
    mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*mapX+mx;                     
-   if(mp>0 && mp<mapX*mapY &&  data->file.map.map_int_arr[mp]>0){ vmt= data->file.map.map_int_arr[mp]-1; dof=8; disV=cos(degToRad(ra))*(rx-data->player->x)-sin(degToRad(ra))*(ry-data->player->y);}//hit         
+   if(mp>0 && mp<mapX*mapY &&  data->file.map.map_int_arr[mp]>0){ vmt= data->file.map.map_int_arr[mp]-1; dof=8; disV=cos(deg2rad(ra))*(rx-data->player->x)-sin(deg2rad(ra))*(ry-data->player->y);}//hit         
    else{ rx+=xo; ry+=yo; dof+=1;}                                               //check next horizontal
   } 
   vx=rx; vy=ry;
@@ -70,14 +93,14 @@ void draw_2d_rays(t_data *data)
   //---Horizontal---
   dof=0; disH=100000;
   Tan=1.0/Tan; 
-       if(sin(degToRad(ra))> 0.001){ ry=(((int)data->player->y>>6)<<6) -0.0001; rx=(data->player->y-ry)*Tan+data->player->x; yo=-64; xo=-yo*Tan;}//looking up 
-  else if(sin(degToRad(ra))<-0.001){ ry=(((int)data->player->y>>6)<<6)+64;      rx=(data->player->y-ry)*Tan+data->player->x; yo= 64; xo=-yo*Tan;}//looking down
+       if(sin(deg2rad(ra))> 0.001){ ry=(((int)data->player->y>>6)<<6) -0.0001; rx=(data->player->y-ry)*Tan+data->player->x; yo=-64; xo=-yo*Tan;}//looking up 
+  else if(sin(deg2rad(ra))<-0.001){ ry=(((int)data->player->y>>6)<<6)+64;      rx=(data->player->y-ry)*Tan+data->player->x; yo= 64; xo=-yo*Tan;}//looking down
   else{ rx=data->player->x; ry=data->player->y; dof=8;}                                                   //looking straight left or right
  
   while(dof<8) 
   { 
    mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*mapX+mx;                          
-   if(mp>0 && mp<mapX*mapY &&  data->file.map.map_int_arr[mp]>0){ hmt= data->file.map.map_int_arr[mp]-1; dof=8; disH=cos(degToRad(ra))*(rx-data->player->x)-sin(degToRad(ra))*(ry-data->player->y);}//hit         
+   if(mp>0 && mp<mapX*mapY &&  data->file.map.map_int_arr[mp]>0){ hmt= data->file.map.map_int_arr[mp]-1; dof=8; disH=cos(deg2rad(ra))*(rx-data->player->x)-sin(deg2rad(ra))*(ry-data->player->y);}//hit         
    else{ rx+=xo; ry+=yo; dof+=1;}                                               //check next horizontal
   } 
   
@@ -93,11 +116,11 @@ void display(struct mlx_key_data keydata, void *game_data)
 	keys_t key = keydata.key;
     t_data *data = (t_data *)game_data;
  //frames per second
- frame2=glutGet(GLUT_ELAPSED_TIME); fps=(frame2-frame1); frame1=glutGet(GLUT_ELAPSED_TIME); 
+ frame2=mlx_get_time(); fps=(frame2-frame1); frame1=mlx_get_time(); 
 
  //buttons
- if(key == MLX_KEY_A){ pa+=0.2*fps; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));} 	
- if(key == MLX_KEY_D){ pa-=0.2*fps; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));} 
+ if(key == MLX_KEY_A){ data->player->th+=0.2*fps; data->player->th=FixAng(data->player->th); pdx=cos(deg2rad(data->player->th)); pdy=-sin(deg2rad(data->player->th));} 	
+ if(key == MLX_KEY_D){ data->player->th-=0.2*fps; data->player->th=FixAng(data->player->th); pdx=cos(deg2rad(data->player->th)); pdy=-sin(deg2rad(data->player->th));} 
 
  int xo=0; if(pdx<0){ xo=-20;} else{ xo=20;}                                    //x offset to check map
  int yo=0; if(pdy<0){ yo=-20;} else{ yo=20;}                                    //y offset to check map
@@ -117,16 +140,8 @@ void display(struct mlx_key_data keydata, void *game_data)
  glutPostRedisplay();
  
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
- drawMap2D();
- drawPlayer2D();
- drawRays2D();
- glutSwapBuffers();  
-}
-
-void	draw_map(t_data *data)
-{
-	draw_2d_map(data);
-	drawPlayer2D(data);
-	draw_2d_rays(data);
-	display(data);
+ draw_2d_map(data);
+ drawPlayer2D(data);
+ draw_2d_rays(data);
+//  glutSwapBuffers();  
 }
