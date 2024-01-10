@@ -1,3 +1,7 @@
 *.pdf
 cub3d
 *.o
+.cache_exists
+.vscode
+obj
+

@@ -252,8 +252,8 @@ int	player_move(t_data *data, int key, double amt)
 	nx = data->player->x + dx;
 	ny = data->player->y + dy;
 
-	printf("nx %d\n", (int)nx);
-	printf("ny %d\n", (int)ny);
+	// printf("nx %d\n", (int)nx);
+	// printf("ny %d\n", (int)ny);
 
 	if (map_get_cell(data, (int)nx, (int)ny != 0))
 	{

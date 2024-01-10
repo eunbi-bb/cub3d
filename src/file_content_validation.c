@@ -24,7 +24,7 @@ bool valid_map_content(t_file *file, char **map_arr)
 			//printf("char = %d %d\n", row, col);
 			if (!check_valid_chars(map_arr[row][col]))
 			{
-				printf("%d %d\n", row, col);
+				// printf("%d %d\n", row, col);
 				err_msg("Invalid map content");
 			}
 			col++;

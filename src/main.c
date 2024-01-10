@@ -34,11 +34,6 @@ int main(int argc, char **argv)
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-    if( argc != 4 )
-	{
-        fprintf(stderr,"usage: %s x y th(deg)\n", argv[0]);
-        exit(1);
-    }
 	if (argc != 2)
 		err_msg("Wrong number of arguments");
 	parser(argc, argv, &data.file);
