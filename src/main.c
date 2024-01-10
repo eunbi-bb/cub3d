@@ -18,9 +18,11 @@ void	init_player(t_data *data)
     data->player->x = data->file.map.player_pos_x;
     data->player->y = data->file.map.player_pos_y;
     data->player->th = position_to_degree(data->file.map.p_direction);
-			printf("data.px	: %f\n", data->player->x);
-			printf("data.py	: %f\n", data->player->y);
-			printf("data.pth: %f\n", data->player->th);
+			printf("**-----------------------------**\n");
+			printf("*	data.px	: %f	*\n", data->player->x);
+			printf("*	data.py	: %f	*\n", data->player->y);
+			printf("*	data.pth: %f	*\n", data->player->th);
+			printf("**-----------------------------**\n");
 }
 
 int main(int argc, char **argv)
@@ -50,7 +52,8 @@ int main(int argc, char **argv)
 	parser(argc, argv, &data.file);
 		//err_msg("Parser has failded");
 	init_player(&data);
-    mlx_key_hook(mlx, key_press, &data);
+	mlx_key_hook(mlx, draw_map, &data);
+    // mlx_key_hook(mlx, key_press, &data);
     mlx_loop(mlx);
 	free(data.player);
     mlx_terminate(mlx);

@@ -210,11 +210,13 @@ char	**array_dup(t_file *file, char **arr);
 void	free_arr(char **arr);
 
 
-/*** wall.c ***/
+/*** render.c ***/
 void key_press(struct mlx_key_data keydata, void *user_data);
 
 // void enclosed_wall(int r, int c, t_file *file);
 // void check_walls(t_file *file);
 
+/*** draw_map.c ***/
+void draw_map(t_data *data);
 
 #endif
