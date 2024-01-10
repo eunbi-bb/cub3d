@@ -58,7 +58,7 @@ double get_distance( double x0, double y0, double x1, double y1 )
 /*
 *	DDA algorithm. Calculating intersections.
 */
-bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, double* wx, double* wy )
+bool get_wall_intersection(t_data *data, double ray, t_dir* wdir, double* wx, double* wy )
 {
     int xstep = sgn( cos(ray) );  /* +1 (right), 0 (no change), -1 (left) */
     int ystep = sgn( sin(ray) );  /* +1 (up),    0 (no change), -1 (down) */
@@ -68,8 +68,8 @@ bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, doubl
 
 	// nx and ny are the next intersection coordinates of a ray from (px,py)
 	// Intial value is depening on xstep and ystep.
-    double nx = (xstep > 0) ? floor(px)+1 : ((xstep < 0) ? ceil(px)-1 : px);
-    double ny = (ystep > 0) ? floor(py)+1 : ((ystep < 0) ? ceil(py)-1 : py);
+    double nx = (xstep > 0) ? floor(data->player->x)+1 : ((xstep < 0) ? ceil(data->player->x)-1 : data->player->x);
+    double ny = (ystep > 0) ? floor(data->player->y)+1 : ((ystep < 0) ? ceil(data->player->y)-1 : data->player->y);
 
     // printf("\nray=%.2f deg, xstep=%d, ystep=%d, xslope=%.2f, yslope=%.2f, nx=%.2f, ny=%.2f\n",
     //     rad2deg(ray), xstep, ystep, xslope, yslope, nx, ny);
@@ -82,12 +82,12 @@ bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, doubl
     {
         int mapx, mapy;
 
-        if( xstep != 0 ) f = xslope * (nx-px) + py;
-        if( ystep != 0 ) g = yslope * (ny-py) + px;
+        if( xstep != 0 ) f = xslope * (nx - data->player->x) + data->player->y;
+        if( ystep != 0 ) g = yslope * (ny - data->player->y) + data->player->x;
 
         /* which is nearer to me - VERT(nx,f) or HORIZ(g,ny)? */
-        double dist_v = get_distance(px, py, nx, f);
-        double dist_h = get_distance(px, py, g, ny);
+        double dist_v = get_distance(data->player->x, data->player->y, nx, f);
+        double dist_h = get_distance(data->player->x, data->player->y, g, ny);
 
         if( dist_v < dist_h ) { /* VERT is nearer; go along x-axis */
             mapx = (xstep == 1) ? (int)(nx) : (int)(nx)-1 ;
@@ -101,7 +101,7 @@ bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, doubl
             hit_side = HORIZ;
             // printf(" H(%.2f, %d) ->", g, mapy);
         }
-        int cell = map_get_cell(mapx, mapy);
+        int cell = map_get_cell(data, mapx, mapy);
         if( cell < 0 ) break;   /* out of map */
 
         if( cell == 1 ) {   /* hit wall? */
@@ -132,17 +132,17 @@ bool get_wall_intersection( double ray, double px, double py, t_dir* wdir, doubl
 *	Casting a single ray. 
 *	ANGLE_PER_PIXEL = FOV_H / (SX - 1)
 */
-double cast_single_ray(int x, double px, double py, double th, t_dir *wdir)
+double cast_single_ray(int x, t_data *data, t_dir *wdir)
 {
-    double ray = (th + FOVH_2) - (x * ANGLE_PER_PIXEL);
+    double ray = (data->player->th + FOVH_2) - (x * ANGLE_PER_PIXEL);
 
     double wx, wy;  /* coord. of wall intersection point */
 
-    if( get_wall_intersection(ray, px, py, wdir, &wx, &wy) == false )
+    if( get_wall_intersection(data, ray, wdir, &wx, &wy) == false )
         return INFINITY; /* no intersection - maybe bad map? */
 
-    double wdist = get_distance(px, py, wx, wy);
-    wdist *= cos(th -ray);
+    double wdist = get_distance(data->player->x, data->player->y, wx, wy);
+    wdist *= cos(data->player->th -ray);
 
     return wdist;
 }
@@ -190,25 +190,25 @@ void    draw_wall(double wdist, int x, long long color)
     draw_ver_line(x, ystart, yend, color);
 }
 
-void	render(double px, double py, double th)
+void	render(t_data *data)
 {
 	for( int x=0; x < SX; x++ ) 
 	{
         t_dir	wdir;
         double	wdist;
-		wdist = cast_single_ray(x, px, py, th, &wdir);
+		wdist = cast_single_ray(x, data, &wdir);
         draw_wall(wdist, x, wall_colors[wdir]);
     }
 }
 
 //angle range is from 0 - 360
-void	player_rotate(t_player *pp, double th)
+void	player_rotate(t_data *data, double th)
 {
-	pp->th += th;
-	if (pp->th < 0)
-		pp->th += _2PI;
-	else if (pp->th > _2PI) //If the angle is bigger than 360
-		pp->th -= _2PI;
+	data->player->th += th;
+	if (data->player->th < 0)
+		data->player->th += _2PI;
+	else if (data->player->th > _2PI) //If the angle is bigger than 360
+		data->player->th -= _2PI;
 }
 
 /*	offset per direction
@@ -237,31 +237,31 @@ static int get_move_offset(double th, int key, double amt, double *pdx, double *
 	return (0);
 }
 
-int	player_move(t_player *pp, int key, double amt)
+int	player_move(t_data *data, int key, double amt)
 {
 	double  dx = 0;
 	double  dy = 0;
     double  nx;
     double  ny;
 
-	if (get_move_offset(pp->th, key, amt, &dx, &dy) < 0)
+	if (get_move_offset(data->player->th, key, amt, &dx, &dy) < 0)
 	{
 		fprintf(stderr, "player_move: invalid key %d\n", key);
 		return -1;
 	}
-	nx = pp->x + dx;
-	ny = pp->y + dy;
+	nx = data->player->x + dx;
+	ny = data->player->y + dy;
 
 	printf("nx %d\n", (int)nx);
 	printf("ny %d\n", (int)ny);
 
-	if (map_get_cell((int)nx, (int)ny != 0))
+	if (map_get_cell(data, (int)nx, (int)ny != 0))
 	{
 		printf(" bump! \n");
 		return (-1);
 	}
-	pp->x = nx;
-	pp->y = ny;
+	data->player->x = nx;
+	data->player->y = ny;
 	return (0);
 }
 
@@ -274,13 +274,13 @@ void key_press(struct mlx_key_data keydata, void *game_data)
         exit(EXIT_SUCCESS);
     if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
     {
-        if (player_move(data->player, key, MOVE_UNIT) == 0)
-            render(data->player->x, data->player->y, data->player->th);
+        if (player_move(data, key, MOVE_UNIT) == 0)
+            render(data);
     }
     else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
     {
-        player_rotate(data->player, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
-        render(data->player->x, data->player->y, data->player->th);
+        player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
+        render(data);
     }
 }
 
