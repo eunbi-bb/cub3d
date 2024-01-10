@@ -13,6 +13,9 @@
 
 #include "MLX42/MLX42_Int.h"
 
+
+static mlx_image_t  *image;
+
 int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
 
 /*
@@ -25,7 +28,7 @@ int map_get_cell(t_data *data, int x, int y)
 {
 	int	result;
 
-	if (x >= 0 && y >= 0)
+	if (x >= 0 && data->file.map.map_int_arr[y] != NULL && data->file.map.map_int_arr[y][x] != '\0'  && y >= 0)
 		result = data->file.map.map_int_arr[y][x];
 	else
 		result = -1;

@@ -27,7 +27,6 @@ INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
 
 SRC_DIR		= src/
 SRC_FILE	= main.c \
-				test.c \
 				parser.c \
 				error.c \
 				free.c \
@@ -41,7 +40,7 @@ SRC_FILE	= main.c \
 				setting_colors.c \
 				map_validation.c \
 				check_walls.c \
-				render.c \
+				test.c \
 				draw_map.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))
