@@ -42,8 +42,8 @@ void find_player_pos(t_file *file)
 		{
 			if (valid_player(file->map.map_arr[r][c]))
 			{
-				file->map.player_pos_x = r;
-				file->map.player_pos_y = c;
+				file->map.player_pos_x = c;
+				file->map.player_pos_y = r;
 				file->map.p_direction = file->map.map_arr[r][c];
 				player_count++;
 			}

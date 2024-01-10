@@ -14,8 +14,8 @@
 
 static mlx_image_t  *image;
 
-#define  SX         800     /* screen width */
-#define  SY         500    /* screen height */
+#define  SX         1600     /* screen width */
+#define  SY         1000    /* screen height */
 #define  FOV        60      /* field of view (in degree) */
 #define  FOV_H      deg2rad(FOV)
 #define  FOV_V      (FOV_H*(double)SY/(double)SX)

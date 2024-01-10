@@ -29,6 +29,7 @@ int map_get_cell(t_data *data, int x, int y)
 		result = data->file.map.map_int_arr[y][x];
 	else
 		result = -1;
+    printf("result : %d\n", result);
 	return (result);
 }
 
@@ -144,12 +145,14 @@ double cast_single_ray(int x, t_data *data, t_dir *wdir)
     double wdist = get_distance(data->player->x, data->player->y, wx, wy);
     wdist *= cos(data->player->th -ray);
 
-    return wdist;
+    printf("cast single ray\n");
+    return (wdist);
 }
 
 int get_wall_height( double dist )
 {
     double fov_h = 2.0 * dist * tan(FOV_V/2.0);
+    printf("get_wall_height\n");
     return (int)(SY * (WALL_H / fov_h)); /* in pixels */
 }
 /*
@@ -162,6 +165,7 @@ void    draw_ver_line(int x, int y_start, int y_end, long long color)
     int	y;
 
     y = 0;
+    printf("y : %d\n", y);
     while (y <= y_start)
 	{
 		mlx_put_pixel(image, x, y, COLOR_BACK);
@@ -177,6 +181,7 @@ void    draw_ver_line(int x, int y_start, int y_end, long long color)
         mlx_put_pixel(image, x, y, COLOR_BACK);
 		y++;
     }
+    printf("draw ver line\n");
 }
 
 void    draw_wall(double wdist, int x, long long color)
@@ -188,6 +193,7 @@ void    draw_wall(double wdist, int x, long long color)
     int ystart = max(0, y0);
     int yend = min(SY - 1, y1);
     draw_ver_line(x, ystart, yend, color);
+    printf("draw_wall\n");
 }
 
 void	render(t_data *data)
@@ -199,6 +205,7 @@ void	render(t_data *data)
 		wdist = cast_single_ray(x, data, &wdir);
         draw_wall(wdist, x, wall_colors[wdir]);
     }
+    printf("render\n");
 }
 
 //angle range is from 0 - 360
@@ -262,6 +269,10 @@ int	player_move(t_data *data, int key, double amt)
 	}
 	data->player->x = nx;
 	data->player->y = ny;
+            // printf("nx : %f\n", nx);
+            // printf("ny : %f\n", ny);
+            // printf("player->x : %f\n", data->player->x);
+            // printf("player->y : %f\n", data->player->y);
 	return (0);
 }
 
