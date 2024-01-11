@@ -63,7 +63,7 @@ void print_int_map(t_file *file)
 		c = 0;
 		while (c < (int)ft_strlen(file->map.map_arr[r]))
 		{
-			// printf("%d\n", file->map.map_int_arr[r][c]);
+			//printf("%d\n", file->map.map_int_arr[r][c]);
 			c++;
 		}
 		r++;

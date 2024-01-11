@@ -16,7 +16,7 @@
 
 static mlx_image_t  *image;
 
-int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
+int wall_colors[4] = {COLOR_N, COLOR_E, COLOR_W, COLOR_S};
 
 /*
 *	To retrieve the value of a cell in a map.
@@ -28,8 +28,11 @@ int map_get_cell(t_data *data, int x, int y)
 {
 	int	result;
 
-	if (x >= 0 && data->file.map.map_int_arr[y] != NULL && data->file.map.map_int_arr[y][x] != '\0'  && y >= 0)
-		result = data->file.map.map_int_arr[y][x];
+    printf("char = %d\n", data->file.map.map_int_arr[y][x]);
+	//if (x >= 0 && data->file.map.map_int_arr[y] != NULL && data->file.map.map_int_arr[y][x] != '\0'  && y >= 0)
+		//result = data->file.map.map_int_arr[y][x];
+    if (x >= 0 && y < data->file.map.row && x < (int)ft_strlen(data->file.map.map_arr[y]) && y >= 0)
+        result = data->file.map.map_int_arr[y][x];
 	else
 		result = -1;
     printf("result : %d\n", result);
@@ -169,6 +172,7 @@ void    draw_ver_line(int x, int y_start, int y_end, long long color)
 
     y = 0;
     printf("y : %d\n", y);
+    printf("y_start : %d\n", y_start);
     while (y <= y_start)
 	{
 		mlx_put_pixel(image, x, y, COLOR_BACK);
