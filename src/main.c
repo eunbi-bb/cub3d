@@ -1,4 +1,6 @@
 #include "cub3d.h"
+#include "img.h"
+
 
 double	position_to_degree(char p_direction)
 {
@@ -35,18 +37,18 @@ int main(int argc, char **argv)
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-    // if (!(image = mlx_new_image(mlx, SX, SY)))
-	// {
-	// 	mlx_close_window(mlx);
-	// 	puts(mlx_strerror(mlx_errno));
-	// 	return(EXIT_FAILURE);
-	// }
-    // if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	// {
-	// 	mlx_close_window(mlx);
-	// 	puts(mlx_strerror(mlx_errno));
-	// 	return(EXIT_FAILURE);
-	// }
+    if (!(image = mlx_new_image(mlx, SX, SY)))
+	{
+		mlx_close_window(mlx);
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+    if (mlx_image_to_window(mlx, image, 0, 0) == -1)
+	{
+		mlx_close_window(mlx);
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
 	if (argc != 2)
 		err_msg("Wrong number of arguments");
 	parser(argc, argv, &data.file);

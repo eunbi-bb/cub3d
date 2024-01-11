@@ -1,7 +1,6 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-
 # include "../lib/libft/libft.h"
 # include <stdio.h>
 # include <sys/stat.h>
@@ -12,8 +11,6 @@
 # include <fcntl.h>
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "MLX42/MLX42_Int.h"
-
-static mlx_image_t  *image;
 
 #define  SX         800     /* screen width */
 #define  SY         500    /* screen height */

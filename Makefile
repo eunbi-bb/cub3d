@@ -20,7 +20,7 @@ MATH		= -lm
 OBJ_DIR		= obj/
 
 HEADER_DIR	= include/
-HEADER_SRC	= cub3d.h
+HEADER_SRC	= cub3d.h img.h
 HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 
 INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
