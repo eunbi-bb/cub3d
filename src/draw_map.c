@@ -4,31 +4,36 @@
 #define mapY  12      //map height
 #define mapS  64      //map cube size
 
-void draw_square(int x, int y_end, long long color)
+static mlx_image_t  *image;
+
+void draw_square(int xo, int yo, long long color)
 {
-    int y = 0;
-	while (x <= mapS)
+	int x = xo;
+	int y = yo;
+	while (x <= xo + mapS && (xo + mapS) <= MAPX * mapS)
 	{
-		while (y <= y_end && y > 0)
+		while (y <= yo + mapS && (yo + mapS) <= MAPY * mapS)
 		{
-			mlx_put_pixel(image, x, y, color);  // Vertical line
+			printf("x : %d\n", x);
+			printf("y : %d\n", y);
+			printf("image : %d\n", image == NULL ? 0 : 1);
+			printf("color : %lld\n", color);
+			//mlx_put_pixel(image, x, y, color);  // Vertical line
 			y++;
 		}
 		x++;
 	}
 }
 
-
-
 void drawMap2D(t_data *data)
 {
  int	xo,yo;
  for(int y=0; y < mapY; y++)
  {
-	yo=y*mapS;
 	// printf("yo : %d\n", yo);
 	for(int x=0; x < mapX; x++)
 	{
+		yo=y*mapS;
 		xo=x*mapS;
 		// printf("xo : %d\n", xo);
 		if(data->file.map.map_int_arr[y][x] == 1)
@@ -143,7 +148,7 @@ void display(struct mlx_key_data keydata, void *game_data)
 	{ data->player->x -= pdx*5; data->player->y -= pdy*5;} 
 	drawMap2D(data);
 	printf("here1\n");
-	drawPlayer2D(data);
+	// drawPlayer2D(data);
 	printf("here2\n");
 	// drawRays2D(data);
 }

@@ -13,8 +13,6 @@
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "MLX42/MLX42_Int.h"
 
-static mlx_image_t  *image;
-
 #define  SX         800     /* screen width */
 #define  SY         500    /* screen height */
 #define  FOV        60      /* field of view (in degree) */
