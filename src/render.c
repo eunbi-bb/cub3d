@@ -163,7 +163,7 @@ int get_wall_height( double dist )
 *   Second while loop: Drawing vertical lines of the wall.
 *   Third while loop: Drawing vertical lines from the end of the wall to bottom.
 */
-void    draw_ver_line(int x, int y_start, int y_end, long long color)
+void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long color)
 {
     int	y;
 
@@ -172,23 +172,23 @@ void    draw_ver_line(int x, int y_start, int y_end, long long color)
     printf("y_start : %d\n", y_start);
     while (y <= y_start)
 	{
-		mlx_put_pixel(image, x, y, COLOR_BACK);
+		mlx_put_pixel(data->image, x, y, COLOR_BACK);
 		y++;
 	}
 	while (y <= y_end)
 	{
-		mlx_put_pixel(image, x, y, color);
+		mlx_put_pixel(data->image, x, y, color);
 		y++;
 	}
     while (y <= SY -1)
     {
-        mlx_put_pixel(image, x, y, COLOR_BACK);
+        mlx_put_pixel(data->image, x, y, COLOR_BACK);
 		y++;
     }
     printf("draw ver line\n");
 }
 
-void    draw_wall(double wdist, int x, long long color)
+void    draw_wall(t_data *data, double wdist, int x, long long color)
 {
     int wh = get_wall_height(wdist);
     int y0 = (int)((SY - wh)/ 2.0);
@@ -196,7 +196,7 @@ void    draw_wall(double wdist, int x, long long color)
 
     int ystart = max(0, y0);
     int yend = min(SY - 1, y1);
-    draw_ver_line(x, ystart, yend, color);
+    draw_ver_line(data, x, ystart, yend, color);
     printf("draw_wall\n");
 }
 
@@ -207,7 +207,7 @@ void	render(t_data *data)
         t_dir	wdir;
         double	wdist;
 		wdist = cast_single_ray(x, data, &wdir);
-        draw_wall(wdist, x, wall_colors[wdir]);
+        draw_wall(data, wdist, x, wall_colors[wdir]);
     }
     printf("render\n");
 }
@@ -266,7 +266,7 @@ int	player_move(t_data *data, int key, double amt)
 	// printf("nx %d\n", (int)nx);
 	// printf("ny %d\n", (int)ny);
 
-	if (map_get_cell(data, (int)nx, (int)ny != 0))
+	if (map_get_cell(data, (int)nx, (int)ny) != 0)
 	{
 		printf(" bump! \n");
 		return (-1);
@@ -285,18 +285,21 @@ void key_press(struct mlx_key_data keydata, void *game_data)
     keys_t key = keydata.key;
     t_data *data = (t_data *)game_data;
 
-    if (key == MLX_KEY_ESCAPE)
-        exit(EXIT_SUCCESS);
-    if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
-    {
-        if (player_move(data, key, MOVE_UNIT) == 0)
+    //if (keydata.action == MLX_PRESS)
+    //{
+        if (key == MLX_KEY_ESCAPE)
+            exit(EXIT_SUCCESS);
+        if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+        {
+            if (player_move(data, key, MOVE_UNIT) == 0)
+                render(data);
+        }
+        else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
+        {
+            player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
             render(data);
-    }
-    else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
-    {
-        player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
-        render(data);
-    }
+        }
+    //}
 }
 
 // int main(int ac, char **av)

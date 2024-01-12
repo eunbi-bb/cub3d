@@ -159,6 +159,8 @@ typedef struct s_data
 {
 	t_file file;
 	t_player *player;
+	mlx_t		*mlx;
+	mlx_image_t	*image;
 	//t_color color;
 }	t_data;
 

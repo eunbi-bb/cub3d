@@ -30,22 +30,23 @@ void	init_player(t_data *data)
 int main(int argc, char **argv)
 {
 	t_data		data;
-	mlx_t		*mlx;
+	//mlx_t		*mlx;
+	// mlx_image_t	*image;
 
-    if (!(mlx = mlx_init(SX, SY, "cub3d", true)))
+    if (!(data.mlx = mlx_init(SX, SY, "cub3d", true)))
 	{
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-    if (!(image = mlx_new_image(mlx, SX, SY)))
+    if (!(data.image = mlx_new_image(data.mlx, SX, SY)))
 	{
-		mlx_close_window(mlx);
+		mlx_close_window(data.mlx);
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-    if (mlx_image_to_window(mlx, image, 0, 0) == -1)
+    if (mlx_image_to_window(data.mlx, data.image, 0, 0) == -1)
 	{
-		mlx_close_window(mlx);
+		mlx_close_window(data.mlx);
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
@@ -55,8 +56,8 @@ int main(int argc, char **argv)
 		//err_msg("Parser has failded");
 	init_player(&data);
 	//mlx_key_hook(mlx, display, &data);
-     mlx_key_hook(mlx, key_press, &data);
-    mlx_loop(mlx);
+     mlx_key_hook(data.mlx, key_press, &data);
+    mlx_loop(data.mlx);
 	free(data.player);
-    mlx_terminate(mlx);
+    mlx_terminate(data.mlx);
 }
