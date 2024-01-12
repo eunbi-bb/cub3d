@@ -7,9 +7,9 @@ double	position_to_degree(char p_direction)
 	if (p_direction == 'N')
 		return (deg2rad(90));
 	else if (p_direction == 'E')
-		return (deg2rad(180));
-	else if (p_direction == 'W')
 		return (deg2rad(0));
+	else if (p_direction == 'W')
+		return (deg2rad(180));
 	else
 		return (deg2rad(270));
 }
