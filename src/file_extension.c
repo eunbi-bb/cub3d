@@ -1,5 +1,9 @@
 #include "cub3d.h"
 
+/*
+** Compares expected extension (param1) and extension of
+** given file (param2)
+*/
 bool valid_file_extension(char *extension, char *file_name)
 {
 	int	len_1;

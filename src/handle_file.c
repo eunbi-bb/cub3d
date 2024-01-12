@@ -1,19 +1,19 @@
 #include "cub3d.h"
 
-int	check_empty_new_line(char *str)
-{
-	int	i;
+// int	check_empty_new_line(char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			if (str[i + 1] == '\n')
-				return (1);
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '\n')
+// 			if (str[i + 1] == '\n')
+// 				return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 /*
 **	Appends a string to a existed string
@@ -77,6 +77,14 @@ char	*file_content_arr(t_file *file, t_map *map, int fd)
 	return (content);
 }
 
+/*
+** Checks if there is a empty blank in map part
+** of the file.
+** param1 = char array of file content
+**
+** It passes chars until it passes floor-color ceiling line,
+** searches consecutive \n's after first row of the map,
+*/
 bool empty_line_in_map(char *content, int i)
 {
 	while (content[i] != '\0')
