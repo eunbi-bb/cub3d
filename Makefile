@@ -9,7 +9,7 @@ endif
 LIBMLX		= ./lib/MLX42
 LIBFT		= ./lib/libft
 
-GLFL		= "/opt/homebrew/Cellar/glfw/3.3.9"
+GLFW		= /opt/homebrew/Cellar/glfw/3.3.9/
 
 ifdef LINUX
 LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -ldl -lglfw -pthread
