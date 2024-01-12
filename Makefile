@@ -9,10 +9,12 @@ endif
 LIBMLX		= ./lib/MLX42
 LIBFT		= ./lib/libft
 
+GLFL		= "/opt/homebrew/Cellar/glfw/3.3.9"
+
 ifdef LINUX
 LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -ldl -lglfw -pthread
 else
-LIBS	= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+LIBS	= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/"
 endif
 
 MATH		= -lm
@@ -23,7 +25,13 @@ HEADER_DIR	= include/
 HEADER_SRC	= cub3d.h
 HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 
+#INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
+
+ifdef LINUX
 INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
+else
+INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/ -I $(GLFW)/include/
+endif
 
 SRC_DIR		= src/
 SRC_FILE	= main.c \
