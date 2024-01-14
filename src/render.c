@@ -11,7 +11,6 @@
 #include <stdbool.h>
 #include "cub3d.h"
 #include "MLX42/MLX42_Int.h"
-#include "img.h"
 
 int wall_colors[4] = {COLOR_N, COLOR_E, COLOR_W, COLOR_S};
 
@@ -25,14 +24,13 @@ int map_get_cell(t_data *data, int x, int y)
 {
 	int	result;
 
-    printf("char = %d\n", data->file.map.map_int_arr[y][x]);
+    // printf("char = %d\n", data->file.map.map_int_arr[y][x]);
 	//if (x >= 0 && data->file.map.map_int_arr[y] != NULL && data->file.map.map_int_arr[y][x] != '\0'  && y >= 0)
 		//result = data->file.map.map_int_arr[y][x];
     if (x >= 0 && y < data->file.map.row && x < (int)ft_strlen(data->file.map.map_arr[y]) && y >= 0)
         result = data->file.map.map_int_arr[y][x];
 	else
 		result = -1;
-    printf("result : %d\n", result);
 	return (result);
 }
 
@@ -148,14 +146,14 @@ double cast_single_ray(int x, t_data *data, t_dir *wdir)
     double wdist = get_distance(data->player->x, data->player->y, wx, wy);
     wdist *= cos(data->player->th -ray);
 
-    printf("cast single ray\n");
+    // printf("cast single ray\n");
     return (wdist);
 }
 
 int get_wall_height( double dist )
 {
     double fov_h = 2.0 * dist * tan(FOV_V/2.0);
-    printf("get_wall_height\n");
+    // printf("get_wall_height\n");
     return (int)(SY * (WALL_H / fov_h)); /* in pixels */
 }
 /*
@@ -168,8 +166,8 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
     int	y;
 
     y = 0;
-    printf("y : %d\n", y);
-    printf("y_start : %d\n", y_start);
+    // printf("y : %d\n", y);
+    // printf("y_start : %d\n", y_start);
     while (y <= y_start)
 	{
 		mlx_put_pixel(data->image, x, y, COLOR_BACK);
@@ -185,7 +183,7 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
         mlx_put_pixel(data->image, x, y, COLOR_BACK);
 		y++;
     }
-    printf("draw ver line\n");
+    // printf("draw ver line\n");
 }
 
 void    draw_wall(t_data *data, double wdist, int x, long long color)
@@ -197,7 +195,7 @@ void    draw_wall(t_data *data, double wdist, int x, long long color)
     int ystart = max(0, y0);
     int yend = min(SY - 1, y1);
     draw_ver_line(data, x, ystart, yend, color);
-    printf("draw_wall\n");
+    // printf("draw_wall\n");
 }
 
 void	render(t_data *data)
@@ -209,7 +207,7 @@ void	render(t_data *data)
 		wdist = cast_single_ray(x, data, &wdir);
         draw_wall(data, wdist, x, wall_colors[wdir]);
     }
-    printf("render\n");
+    // printf("render\n");
 }
 
 //angle range is from 0 - 360

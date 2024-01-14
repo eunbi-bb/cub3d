@@ -20,7 +20,7 @@ MATH		= -lm
 OBJ_DIR		= obj/
 
 HEADER_DIR	= include/
-HEADER_SRC	= cub3d.h img.h
+HEADER_SRC	= cub3d.h
 HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 
 ifdef LINUX
