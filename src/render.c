@@ -24,9 +24,6 @@ int map_get_cell(t_data *data, int x, int y)
 {
 	int	result;
 
-    // printf("char = %d\n", data->file.map.map_int_arr[y][x]);
-	//if (x >= 0 && data->file.map.map_int_arr[y] != NULL && data->file.map.map_int_arr[y][x] != '\0'  && y >= 0)
-		//result = data->file.map.map_int_arr[y][x];
     if (x >= 0 && y < data->file.map.row && x < (int)ft_strlen(data->file.map.map_arr[y]) && y >= 0)
         result = data->file.map.map_int_arr[y][x];
 	else
@@ -278,6 +275,21 @@ int	player_move(t_data *data, int key, double amt)
 	return (0);
 }
 
+// void draw_square(t_data *data, int x, int y_end, long long color)
+// {
+//     int y = 0;
+// 	while (x <= 64)
+// 	{
+// 		while (y <= y_end && y > 0)
+// 		{
+// 			mlx_put_pixel(data->image, x, y, color);  // Vertical line
+// 			y++;
+// 		}
+// 		x++;
+// 	}
+// }
+
+
 void key_press(struct mlx_key_data keydata, void *game_data)
 {
     keys_t key = keydata.key;
@@ -299,6 +311,7 @@ void key_press(struct mlx_key_data keydata, void *game_data)
         }
     //}
 }
+
 
 // int main(int ac, char **av)
 // {

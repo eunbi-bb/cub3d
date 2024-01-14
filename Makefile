@@ -48,8 +48,6 @@ SRC_FILE	= main.c \
 				check_walls.c \
 				test.c \
 				render.c
-			#	draw_map.c
-
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))
 
 OBJF		=	.cache_exists

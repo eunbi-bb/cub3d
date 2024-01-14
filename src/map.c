@@ -45,6 +45,8 @@ void find_player_pos(t_file *file)
 				file->map.player_pos_x = c;
 				file->map.player_pos_y = r;
 				file->map.p_direction = file->map.map_arr[r][c];
+				//set player position as '0'
+				file->map.map_arr[r][c] = '0';
 				player_count++;
 			}
 			c++;

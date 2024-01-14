@@ -26,6 +26,26 @@ void	init_player(t_data *data)
 			printf("**-----------------------------**\n");
 }
 
+void	print_2d_map(t_data *data)
+{
+	/* print map */
+    for(int y = 0; y < data->file.map.row; y++ ) 
+	{
+        for(int x = 0; x < (int)ft_strlen(data->file.map.map_arr[y]); x++ )
+		{
+			if (map_get_cell(data, x, y) > 0)
+				printf("1");
+				// draw_square(data, x, y, COLOR_N);
+			else
+				printf("0");
+				// draw_square(data, x, y, COLOR_BACK);
+
+            // printf("%c ", (map_get_cell(x, y)==1 ? '#':'.'));
+        }
+        putchar('\n');
+    }
+}
+
 int main(int argc, char **argv)
 {
 	t_data		data;
@@ -55,7 +75,8 @@ int main(int argc, char **argv)
 		//err_msg("Parser has failded");
 	init_player(&data);
 	//mlx_key_hook(mlx, display, &data);
-     mlx_key_hook(data.mlx, key_press, &data);
+	print_2d_map(&data);
+    mlx_key_hook(data.mlx, key_press, &data);
     mlx_loop(data.mlx);
 	free(data.player);
     mlx_terminate(data.mlx);

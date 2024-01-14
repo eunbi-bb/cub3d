@@ -12,7 +12,7 @@
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "MLX42/MLX42_Int.h"
 
-#define  SX         800     /* screen width */
+#define  SX        	1200     /* screen width */
 #define  SY         500    /* screen height */
 #define  FOV        60      /* field of view (in degree) */
 #define  FOV_H      deg2rad(FOV)
@@ -33,13 +33,13 @@
 static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
 static const double FOVH_2 = FOV_H / 2.0;
 
-#define  MAPX   9
-#define  MAPY   9
+// #define  MAPX   9
+// #define  MAPY   9
 
-#define COLOR_N     0x00ffafff
-#define COLOR_S     0xffffafff
-#define COLOR_E     0xA585F5ff
-#define COLOR_W     0x00d7d7ff
+#define COLOR_N     0x00ffafff // GREEN
+#define COLOR_S     0xffffafff // YELLOW
+#define COLOR_E     0xA585F5ff // VIOLET
+#define COLOR_W     0x00d7d7ff // BLUE
 #define COLOR_BACK  0x000000ff
 
 // typedef enum
@@ -238,10 +238,11 @@ void	free_arr(char **arr);
 
 /*** render.c ***/
 void key_press(struct mlx_key_data keydata, void *user_data);
+int map_get_cell(t_data *data, int x, int y);
 
 // void enclosed_wall(int r, int c, t_file *file);
 // void check_walls(t_file *file);
 
-/*** draw_map.c ***/
-void display(struct mlx_key_data keydata, void *game_data);
+// /*** draw_map.c ***/
+// void display(struct mlx_key_data keydata, void *game_data);
 #endif
