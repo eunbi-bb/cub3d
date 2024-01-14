@@ -111,7 +111,6 @@ typedef struct s_player{
 //     {1,1,1,1,1,1,1,1,1}
 // };
 
-
 typedef struct s_identifier
 {
 	char	*path_no_texture;
@@ -131,6 +130,11 @@ typedef struct s_identifier
 	int		c_r;
 	int		c_g;
 	int		c_b;
+	mlx_t		*mlx;
+	mlx_texture_t *texture_no;
+	mlx_texture_t *texture_so;
+	mlx_texture_t *texture_we;
+	mlx_texture_t *texture_ea;
 }	t_identifier;
 
 typedef struct s_map
@@ -154,14 +158,13 @@ typedef struct s_file
 	t_map map;
 }	t_file;
 
-
 typedef struct s_data
 {
 	t_file file;
 	t_player *player;
+	t_identifier identifier;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	//t_color color;
 }	t_data;
 
 
@@ -179,10 +182,13 @@ void	perror_exit(char *str);
 
 /*** main.c ***/
 
-/*** parser.c ***/
+/*** init.c ***/
 void init_identifiers(t_file *file);
 void init_map(t_file *file);
 void init_file_struct(t_file *file);
+void	init_textures(t_data *data);
+
+/*** parser.c ***/
 int parser(int argc, char **argv, t_file *file);
 
 /*** handle_file.c ***/
@@ -234,6 +240,7 @@ char	**array_dup(t_file *file, char **arr);
 
 /*** free.c ***/
 void	free_arr(char **arr);
+void	free_textures(t_data *data);
 
 
 /*** render.c ***/
