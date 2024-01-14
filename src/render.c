@@ -208,6 +208,8 @@ void    draw_wall(t_data *data, double wdist, int x, long long color)
 
 	int ystart = max(0, y0);
 	int yend = min(SY - 1, y1);
+
+	
 	draw_ver_line(data, x, ystart, yend, color);
 	// printf("draw_wall\n");
 }
