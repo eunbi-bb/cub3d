@@ -11,7 +11,6 @@
 #include <stdbool.h>
 #include "cub3d.h"
 #include "MLX42/MLX42_Int.h"
-#include "img.h"
 
 int wall_colors[4] = {COLOR_N, COLOR_E, COLOR_W, COLOR_S};
 

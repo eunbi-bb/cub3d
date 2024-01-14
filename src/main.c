@@ -1,5 +1,4 @@
 #include "cub3d.h"
-#include "img.h"
 
 
 double	position_to_degree(char p_direction)
