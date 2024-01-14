@@ -49,6 +49,7 @@ SRC_FILE	= main.c \
 				test.c \
 				render.c \
 				init.c \
+				textures.c
 			#	draw_map.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))

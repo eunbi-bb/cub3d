@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 		//err_msg("Parser has failded");
 	init_player(&data);
 	//mlx_key_hook(mlx, display, &data);
-	 mlx_key_hook(data.mlx, key_press, &data);
+	mlx_key_hook(data.mlx, key_press, &data);
 	mlx_loop(data.mlx);
 	free(data.player);
 	mlx_terminate(data.mlx);
