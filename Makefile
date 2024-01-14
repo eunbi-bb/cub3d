@@ -25,8 +25,6 @@ HEADER_DIR	= include/
 HEADER_SRC	= cub3d.h
 HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 
-#INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
-
 ifdef LINUX
 INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
 else
@@ -49,7 +47,8 @@ SRC_FILE	= main.c \
 				map_validation.c \
 				check_walls.c \
 				test.c \
-				draw_map.c
+				render.c
+			#	draw_map.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))
 

@@ -1,7 +1,6 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-
 # include "../lib/libft/libft.h"
 # include <stdio.h>
 # include <sys/stat.h>
@@ -43,6 +42,15 @@ static const double FOVH_2 = FOV_H / 2.0;
 #define COLOR_W     0x00d7d7ff
 #define COLOR_BACK  0x000000ff
 
+// typedef enum
+// { 
+// 	COLOR_N=0x00ffafff,
+// 	COLOR_E=0xA585F5ff,
+// 	COLOR_W=0x00d7d7ff,
+// 	COLOR_S=0xffffafff
+// } t_wall_colors;
+
+
 enum 
 { 
 	VERT, 
@@ -62,6 +70,22 @@ typedef struct s_player{
     double y;
     double th;
 } t_player;
+
+// typedef struct s_color{
+// 	int	r;
+// 	int	g;
+// 	int	b;
+// } t_color;
+
+// struct RGB colorConverter(int hexValue)
+// {
+//   struct RGB rgbColor;
+//   rgbColor.r = ((hexValue >> 16) & 0xFF) / 255.0;  // Extract the RR byte
+//   rgbColor.g = ((hexValue >> 8) & 0xFF) / 255.0;   // Extract the GG byte
+//   rgbColor.b = ((hexValue) & 0xFF) / 255.0;        // Extract the BB byte
+
+//   return rgbColor; 
+// }
 
 // typedef	struct s_img
 // {
@@ -135,6 +159,9 @@ typedef struct s_data
 {
 	t_file file;
 	t_player *player;
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+	//t_color color;
 }	t_data;
 
 

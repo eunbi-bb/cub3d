@@ -10,13 +10,9 @@
 #include <math.h>
 #include <stdbool.h>
 #include "cub3d.h"
-
 #include "MLX42/MLX42_Int.h"
 
-
-static mlx_image_t  *image;
-
-int wall_colors[4] = {COLOR_N, COLOR_S, COLOR_E, COLOR_W};
+int wall_colors[4] = {COLOR_N, COLOR_E, COLOR_W, COLOR_S};
 
 /*
 *	To retrieve the value of a cell in a map.
@@ -28,11 +24,13 @@ int map_get_cell(t_data *data, int x, int y)
 {
 	int	result;
 
-	if (x >= 0 && data->file.map.map_int_arr[y] != NULL && data->file.map.map_int_arr[y][x] != '\0'  && y >= 0)
-		result = data->file.map.map_int_arr[y][x];
+    // printf("char = %d\n", data->file.map.map_int_arr[y][x]);
+	//if (x >= 0 && data->file.map.map_int_arr[y] != NULL && data->file.map.map_int_arr[y][x] != '\0'  && y >= 0)
+		//result = data->file.map.map_int_arr[y][x];
+    if (x >= 0 && y < data->file.map.row && x < (int)ft_strlen(data->file.map.map_arr[y]) && y >= 0)
+        result = data->file.map.map_int_arr[y][x];
 	else
 		result = -1;
-    printf("result : %d\n", result);
 	return (result);
 }
 
@@ -148,14 +146,14 @@ double cast_single_ray(int x, t_data *data, t_dir *wdir)
     double wdist = get_distance(data->player->x, data->player->y, wx, wy);
     wdist *= cos(data->player->th -ray);
 
-    printf("cast single ray\n");
+    // printf("cast single ray\n");
     return (wdist);
 }
 
 int get_wall_height( double dist )
 {
     double fov_h = 2.0 * dist * tan(FOV_V/2.0);
-    printf("get_wall_height\n");
+    // printf("get_wall_height\n");
     return (int)(SY * (WALL_H / fov_h)); /* in pixels */
 }
 /*
@@ -163,31 +161,32 @@ int get_wall_height( double dist )
 *   Second while loop: Drawing vertical lines of the wall.
 *   Third while loop: Drawing vertical lines from the end of the wall to bottom.
 */
-void    draw_ver_line(int x, int y_start, int y_end, long long color)
+void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long color)
 {
     int	y;
 
     y = 0;
-    printf("y : %d\n", y);
+    // printf("y : %d\n", y);
+    // printf("y_start : %d\n", y_start);
     while (y <= y_start)
 	{
-		mlx_put_pixel(image, x, y, COLOR_BACK);
+		mlx_put_pixel(data->image, x, y, COLOR_BACK);
 		y++;
 	}
 	while (y <= y_end)
 	{
-		mlx_put_pixel(image, x, y, color);
+		mlx_put_pixel(data->image, x, y, color);
 		y++;
 	}
     while (y <= SY -1)
     {
-        mlx_put_pixel(image, x, y, COLOR_BACK);
+        mlx_put_pixel(data->image, x, y, COLOR_BACK);
 		y++;
     }
-    printf("draw ver line\n");
+    // printf("draw ver line\n");
 }
 
-void    draw_wall(double wdist, int x, long long color)
+void    draw_wall(t_data *data, double wdist, int x, long long color)
 {
     int wh = get_wall_height(wdist);
     int y0 = (int)((SY - wh)/ 2.0);
@@ -195,8 +194,8 @@ void    draw_wall(double wdist, int x, long long color)
 
     int ystart = max(0, y0);
     int yend = min(SY - 1, y1);
-    draw_ver_line(x, ystart, yend, color);
-    printf("draw_wall\n");
+    draw_ver_line(data, x, ystart, yend, color);
+    // printf("draw_wall\n");
 }
 
 void	render(t_data *data)
@@ -206,9 +205,9 @@ void	render(t_data *data)
         t_dir	wdir;
         double	wdist;
 		wdist = cast_single_ray(x, data, &wdir);
-        draw_wall(wdist, x, wall_colors[wdir]);
+        draw_wall(data, wdist, x, wall_colors[wdir]);
     }
-    printf("render\n");
+    // printf("render\n");
 }
 
 //angle range is from 0 - 360
@@ -265,7 +264,7 @@ int	player_move(t_data *data, int key, double amt)
 	// printf("nx %d\n", (int)nx);
 	// printf("ny %d\n", (int)ny);
 
-	if (map_get_cell(data, (int)nx, (int)ny != 0))
+	if (map_get_cell(data, (int)nx, (int)ny) != 0)
 	{
 		printf(" bump! \n");
 		return (-1);
@@ -284,18 +283,21 @@ void key_press(struct mlx_key_data keydata, void *game_data)
     keys_t key = keydata.key;
     t_data *data = (t_data *)game_data;
 
-    if (key == MLX_KEY_ESCAPE)
-        exit(EXIT_SUCCESS);
-    if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
-    {
-        if (player_move(data, key, MOVE_UNIT) == 0)
+    //if (keydata.action == MLX_PRESS)
+    //{
+        if (key == MLX_KEY_ESCAPE)
+            exit(EXIT_SUCCESS);
+        if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+        {
+            if (player_move(data, key, MOVE_UNIT) == 0)
+                render(data);
+        }
+        else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
+        {
+            player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
             render(data);
-    }
-    else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
-    {
-        player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
-        render(data);
-    }
+        }
+    //}
 }
 
 // int main(int ac, char **av)

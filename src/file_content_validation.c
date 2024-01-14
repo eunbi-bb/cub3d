@@ -1,5 +1,8 @@
 #include "cub3d.h"
 
+/*
+** Checks a char is a valid one for the map
+*/
 bool check_valid_chars(char c)
 {
 	return (c == '1' || c == ' ' || c == '\n'
@@ -7,6 +10,10 @@ bool check_valid_chars(char c)
 		|| c == 'E' || c == 'S' || c == '\0');
 }
 
+/*
+** Checks if chars in map are valid characters by traversing
+** in map char by char
+*/
 bool valid_map_content(t_file *file, char **map_arr)
 {
 	int	row;
@@ -34,6 +41,12 @@ bool valid_map_content(t_file *file, char **map_arr)
 	return (true);
 }
 
+/*
+** Checks first 6 rows of the file
+** if it contains correct information. There shouldnt be
+** any information other than path for texture files
+** and floor-ceiling color.(no map content in 6 rows)
+*/
 bool valid_content_order(t_file *file)
 {
 	int	c;
@@ -64,6 +77,9 @@ bool valid_content_order(t_file *file)
 	return (true);
 }
 
+/*
+** Combines all checks related to file
+*/
 void last_check_content(t_file *file)
 {
 	if (identifiers_complete(file) == true)
