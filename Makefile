@@ -9,10 +9,12 @@ endif
 LIBMLX		= ./lib/MLX42
 LIBFT		= ./lib/libft
 
+GLFW		= /opt/homebrew/Cellar/glfw/3.3.9/
+
 ifdef LINUX
 LIBS		= $(LIBMLX)/build/libmlx42.a -Iinclude -ldl -lglfw -pthread
 else
-LIBS	= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+LIBS	= $(LIBMLX)/build/libmlx42.a -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/"
 endif
 
 MATH		= -lm
@@ -23,12 +25,29 @@ HEADER_DIR	= include/
 HEADER_SRC	= cub3d.h
 HEADERS		= $(addprefix $(HEADER_DIR), $(HEADER_SRC))
 
+ifdef LINUX
 INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/
+else
+INCLUDES	= -I $(HEADER_DIR) -I $(LIBMLX)/include/ -I $(GLFW)/include/
+endif
 
 SRC_DIR		= src/
-# SRC_FILE	= main.c move.c ray_casting.c render.c
-SRC_FILE	= wall.c
-
+SRC_FILE	= main.c \
+				parser.c \
+				error.c \
+				free.c \
+				handle_file.c \
+				utils.c \
+				file_extension.c \
+				file_content_validation.c \
+				map.c \
+				seperate_file_content.c \
+				setting_texture_paths.c \
+				setting_colors.c \
+				map_validation.c \
+				check_walls.c \
+				test.c \
+				render.c
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))
 
 OBJF		=	.cache_exists
