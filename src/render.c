@@ -154,9 +154,9 @@ int get_wall_height( double dist )
     return (int)(SY * (WALL_H / fov_h)); /* in pixels */
 }
 /*
-*   First while loop: Drawing vertical lines from top to the first pixel of the wall.
+*   First while loop: Drawing vertical lines from top to the first pixel of the wall.(Ceiling)
 *   Second while loop: Drawing vertical lines of the wall.
-*   Third while loop: Drawing vertical lines from the end of the wall to bottom.
+*   Third while loop: Drawing vertical lines from the end of the wall to bottom.(Floor)
 */
 void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long color)
 {
@@ -167,7 +167,7 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
     // printf("y_start : %d\n", y_start);
     while (y <= y_start)
 	{
-		mlx_put_pixel(data->image, x, y, COLOR_BACK);
+		mlx_put_pixel(data->image, x, y, COLOR_CEIL);
 		y++;
 	}
 	while (y <= y_end)
@@ -177,7 +177,7 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
 	}
     while (y <= SY -1)
     {
-        mlx_put_pixel(data->image, x, y, COLOR_BACK);
+        mlx_put_pixel(data->image, x, y, COLOR_FLOOR);
 		y++;
     }
     // printf("draw ver line\n");

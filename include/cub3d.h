@@ -40,7 +40,8 @@ static const double FOVH_2 = FOV_H / 2.0;
 #define COLOR_S     0xffffafff // YELLOW
 #define COLOR_E     0xA585F5ff // VIOLET
 #define COLOR_W     0x00d7d7ff // BLUE
-#define COLOR_BACK  0x000000ff
+#define COLOR_CEIL	0x008080ff
+#define COLOR_FLOOR	0x008000ff
 
 // typedef enum
 // { 
