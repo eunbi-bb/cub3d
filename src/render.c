@@ -89,14 +89,14 @@ bool get_wall_intersection(t_data *data, double ray, t_dir* wdir, double* wx, do
 		double dist_h = get_distance(data->player->x, data->player->y, g, ny);
 
 		if( dist_v < dist_h ) { /* VERT is nearer; go along x-axis */
-			mapx = (xstep == 1) ? (int)(nx) : (int)(nx)-1 ;
-			mapy = (int) f;
+			mapy = (xstep == 1) ? (int)(nx) : (int)(nx)-1 ;
+			mapx = (int) f;
 			hit_side = VERT;
 			// printf(" V(%d, %.2f) ->", mapx, f);
 		}
 		else {  /* HORIZ is nearer; go along y-axis */
-			mapx = (int) g;
-			mapy = (ystep == 1) ? (int)(ny) : (int)(ny)-1 ;
+			mapy = (int) g;
+			mapx = (ystep == 1) ? (int)(ny) : (int)(ny)-1 ;
 			hit_side = HORIZ;
 			// printf(" H(%.2f, %d) ->", g, mapy);
 		}
@@ -105,12 +105,12 @@ bool get_wall_intersection(t_data *data, double ray, t_dir* wdir, double* wx, do
 
 		if( cell == 1 ) {   /* hit wall? */
 			if( hit_side == VERT ) {
-				*wdir = (xstep > 0) ? DIR_W : DIR_E;
+				*wdir = (xstep > 0) ? DIR_E : DIR_W;
 				*wx = nx;
 				*wy = f;
 			}
 			else { /* HORIZ */
-				*wdir = (ystep > 0) ? DIR_S : DIR_N;
+				*wdir = (ystep > 0) ? DIR_N : DIR_S;
 				*wx = g;
 				*wy = ny;
 			}

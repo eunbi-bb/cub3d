@@ -33,24 +33,12 @@
 static const double ANGLE_PER_PIXEL = FOV_H / (SX-1.);
 static const double FOVH_2 = FOV_H / 2.0;
 
-// #define  MAPX   9
-// #define  MAPY   9
-
 #define COLOR_N     0x00ffafff // GREEN
 #define COLOR_S     0xffffafff // YELLOW
 #define COLOR_E     0xA585F5ff // VIOLET
 #define COLOR_W     0x00d7d7ff // BLUE
 #define COLOR_CEIL	0x008080ff
 #define COLOR_FLOOR	0x008000ff
-
-// typedef enum
-// { 
-// 	COLOR_N=0x00ffafff,
-// 	COLOR_E=0xA585F5ff,
-// 	COLOR_W=0x00d7d7ff,
-// 	COLOR_S=0xffffafff
-// } t_wall_colors;
-
 
 enum 
 { 
@@ -223,7 +211,5 @@ int		get_rgba(int r, int g, int b, int a);
 
 // void enclosed_wall(int r, int c, t_file *file);
 // void check_walls(t_file *file);
-
-// /*** draw_map.c ***/
-// void display(struct mlx_key_data keydata, void *game_data);
+void	render(t_data *data);
 #endif

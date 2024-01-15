@@ -63,6 +63,7 @@ int main(int argc, char **argv)
 	init_player(&data);
 	//mlx_key_hook(mlx, display, &data);
 	print_2d_map(&data);
+	render(&data);
     mlx_key_hook(data.mlx, key_press, &data);
     mlx_loop(data.mlx);
 	free(data.player);
