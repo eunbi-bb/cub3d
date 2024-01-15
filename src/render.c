@@ -168,6 +168,8 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
 	y = 0;
 	// printf("y : %d\n", y);
 	// printf("y_start : %d\n", y_start);
+	// draw_ceiling(data);
+	// draw_floor(data);
 	while (y <= y_start)
 	{
 		mlx_put_pixel(data->image, x, y, COLOR_BACK);
@@ -209,7 +211,6 @@ void    draw_wall(t_data *data, double wdist, int x, long long color)
 	int ystart = max(0, y0);
 	int yend = min(SY - 1, y1);
 
-	
 	draw_ver_line(data, x, ystart, yend, color);
 	// printf("draw_wall\n");
 }
@@ -220,6 +221,8 @@ void	render(t_data *data)
 	{
 		t_dir	wdir;
 		double	wdist;
+	// 		draw_ceiling(data);
+	// draw_floor(data);
 		wdist = cast_single_ray(x, data, &wdir);
 		draw_wall(data, wdist, x, wall_colors[wdir]);
 	}

@@ -32,7 +32,7 @@ void	draw_floor(t_data *data)
 {
 	int	y;
 	int	x;
-	int		colors[3];
+	int	colors[3];
 
 	colors[0] = data->identifier.f_r;
 	colors[1] = data->identifier.f_g;
