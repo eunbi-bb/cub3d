@@ -84,14 +84,14 @@ bool get_wall_intersection(t_data *data, double ray, t_dir* wdir, double* wx, do
 		double dist_h = get_distance(data->player->x, data->player->y, g, ny);
 
 		if( dist_v < dist_h ) { /* VERT is nearer; go along x-axis */
-			mapy = (xstep == 1) ? (int)(nx) : (int)(nx)-1 ;
-			mapx = (int) f;
+			mapx = (xstep == 1) ? (int)(nx) : (int)(nx)-1 ;
+			mapy = (int) f;
 			hit_side = VERT;
 			// printf(" V(%d, %.2f) ->", mapx, f);
 		}
 		else {  /* HORIZ is nearer; go along y-axis */
-			mapy = (int) g;
-			mapx = (ystep == 1) ? (int)(ny) : (int)(ny)-1 ;
+			mapx = (int) g;
+			mapy = (ystep == 1) ? (int)(ny) : (int)(ny)-1 ;
 			hit_side = HORIZ;
 			// printf(" H(%.2f, %d) ->", g, mapy);
 		}

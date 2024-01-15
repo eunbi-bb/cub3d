@@ -43,7 +43,7 @@ void find_player_pos(t_file *file)
 			if (valid_player(file->map.map_arr[r][c]))
 			{
 				file->map.player_pos_x = c;
-				file->map.player_pos_y = r;
+				file->map.player_pos_y = file->map.row - r;
 				file->map.p_direction = file->map.map_arr[r][c];
 				//set player position as '0'
 				file->map.map_arr[r][c] = '0';
@@ -59,27 +59,33 @@ void find_player_pos(t_file *file)
 		err_msg("Wrong number of player");
 }
 
+/*
+*	Modified to solve a mirrored map. It's copying into map_in_arr from bottom. 
+*/
 void make_int_arr(t_file *file, int r, int c)
 {
 	file->map.map_int_arr = ft_calloc(file->map.row, sizeof(int*));
 	if (file->map.map_int_arr == NULL)
 		err_msg("Memory");
-	while (r < file->map.row && file->map.map_arr[r] != NULL)
+	int i; 
+	i = 0;
+	while (r >= 0 && file->map.map_arr[r] != NULL)
 	{
 		c = 0;
-		file->map.map_int_arr[r] = ft_calloc((int)ft_strlen(file->map.map_arr[r]) + 1, sizeof(int));
+		file->map.map_int_arr[i] = ft_calloc((int)ft_strlen(file->map.map_arr[r]) + 1, sizeof(int));
 		while(c < (int)ft_strlen(file->map.map_arr[r]))
 		{
 			if (file->map.map_arr[r][c] == '0')
-				file->map.map_int_arr[r][c] = 0;
+				file->map.map_int_arr[i][c] = 0;
 			else if (file->map.map_arr[r][c] != '1'
 				&& file->map.map_arr[r][c] != '0')
-				file->map.map_int_arr[r][c] = file->map.map_arr[r][c];
+				file->map.map_int_arr[i][c] = file->map.map_arr[r][c];
 			else
-				file->map.map_int_arr[r][c] = file->map.map_arr[r][c] - '0';
+				file->map.map_int_arr[i][c] = file->map.map_arr[r][c] - '0';
 			//file->map.map_int_arr[r][c] = ft_atoi(&file->map.map_arr[r][c]);
 			c++;
 		}
-		r++;
+		i++;
+		r--;
 	}
 }
