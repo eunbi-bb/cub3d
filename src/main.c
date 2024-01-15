@@ -52,18 +52,18 @@ int main(int argc, char **argv)
 	//mlx_t		*mlx;
 	// mlx_image_t	*image;
 
-    if (!(data.mlx = mlx_init(SX, SY, "cub3d", true)))
+	if (!(data.mlx = mlx_init(SX, SY, "cub3d", true)))
 	{
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-    if (!(data.image = mlx_new_image(data.mlx, SX, SY)))
+	if (!(data.image = mlx_new_image(data.mlx, SX, SY)))
 	{
 		mlx_close_window(data.mlx);
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-    if (mlx_image_to_window(data.mlx, data.image, 0, 0) == -1)
+	if (mlx_image_to_window(data.mlx, data.image, 0, 0) == -1)
 	{
 		mlx_close_window(data.mlx);
 		puts(mlx_strerror(mlx_errno));
@@ -79,5 +79,5 @@ int main(int argc, char **argv)
     mlx_key_hook(data.mlx, key_press, &data);
     mlx_loop(data.mlx);
 	free(data.player);
-    mlx_terminate(data.mlx);
+	mlx_terminate(data.mlx);
 }
