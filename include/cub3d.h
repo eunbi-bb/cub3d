@@ -181,12 +181,13 @@ int		err_msg(char *str);
 void	perror_exit(char *str);
 
 /*** main.c ***/
+double	position_to_degree(char p_direction);
 
 /*** init.c ***/
+void	init_player(t_data *data);
 void init_identifiers(t_file *file);
 void init_map(t_file *file);
 void init_file_struct(t_file *file);
-void	init_textures(t_data *data);
 
 /*** parser.c ***/
 int parser(int argc, char **argv, t_file *file);
@@ -246,9 +247,19 @@ void	free_textures(t_data *data);
 /*** render.c ***/
 void key_press(struct mlx_key_data keydata, void *user_data);
 
+/*** textures.c ***/
+void	load_textures(t_data *data);
+int		get_rgba(int r, int g, int b, int a);
+
+
 // void enclosed_wall(int r, int c, t_file *file);
 // void check_walls(t_file *file);
 
 /*** draw_map.c ***/
 void display(struct mlx_key_data keydata, void *game_data);
+
+/*** draw_utils.c ***/
+void	draw_ceiling(t_data *data);
+void	draw_floor(t_data *data);
+
 #endif

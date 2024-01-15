@@ -53,17 +53,3 @@ void init_file_struct(t_file *file)
 	init_identifiers(file);
 	init_map(file);
 }
-
-void	init_textures(t_data *data)
-{
-	data->identifier->texture_no = mlx_load_png(data->identifier->path_no_texture;);
-	data->identifier->texture_so = mlx_load_png(data->identifier->path_so_texture;);
-	data->identifier->texture_we = mlx_load_png(data->identifier->path_we_texture;);
-	data->identifier->texture_ea = mlx_load_png(data->identifier->path_ea_texture;);
-	if (data->identifier->texture_no == NULL || data->identifier->texture_so == NULL
-		|| data->identifier->texture_we == NULL || data->identifier->texture_ea == NULL)
-	{
-		free_textures(data);
-		//free_image(data, NULL);
-	}
-}

@@ -299,6 +299,8 @@ void key_press(struct mlx_key_data keydata, void *game_data)
 	keys_t key = keydata.key;
 	t_data *data = (t_data *)game_data;
 
+	// draw_ceiling(data);
+	// draw_floor(data);
 	//if (keydata.action == MLX_PRESS)
 	//{
 		if (key == MLX_KEY_ESCAPE)

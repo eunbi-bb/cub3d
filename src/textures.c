@@ -5,20 +5,39 @@
 #include "cub3d.h"
 #include "MLX42/MLX42_Int.h"
 
-   get_texture_side(t_dir *step, int *hit_side)
+int	get_rgba(int r, int g, int b, int a)
 {
-	if (*hit_side == VERT && step->DIR_S < 0)
-		return (TXT_NORTH);
-	if (*hit_side == VERT && step->DIR_N > 0)
-		return (TXT_SOUTH);
-	if (*hit_side == HORIZ && step->DIR_W < 0)
-		return (TXT_EAST);
-	if (*hit_side == HORIZ && step->DIR_E > 0)
-		return (TXT_WEST);
-	return (0);
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-	DIR_N=0,
-	DIR_E, 
-	DIR_W, 
-	DIR_S 
+void	load_textures(t_data *data)
+{
+	data->identifier.texture_no = mlx_load_png(data->identifier.path_no_texture);
+	data->identifier.texture_so = mlx_load_png(data->identifier.path_so_texture);
+	data->identifier.texture_we = mlx_load_png(data->identifier.path_we_texture);
+	data->identifier.texture_ea = mlx_load_png(data->identifier.path_ea_texture);
+	if (data->identifier.texture_no == NULL || data->identifier.texture_so == NULL
+		|| data->identifier.texture_we == NULL || data->identifier.texture_ea == NULL)
+	{
+		free_textures(data);
+		//free_image(data, NULL);
+	}
+}
+
+//??? get_texture_side(t_dir *step, int *hit_side)
+// {
+// 	if (*hit_side == VERT && step->DIR_S < 0)
+// 		return (); ??
+// 	if (*hit_side == VERT && step->DIR_N > 0)
+// 		return (); ??
+// 	if (*hit_side == HORIZ && step->DIR_W < 0)
+// 		return ();
+// 	if (*hit_side == HORIZ && step->DIR_E > 0)
+// 		return ();
+// 	return (0);
+// }
+
+// 	DIR_N=0,
+// 	DIR_E, 
+// 	DIR_W, 
+// 	DIR_S 
