@@ -153,6 +153,26 @@ int get_wall_height( double dist )
 	// printf("get_wall_height\n");
 	return (int)(SY * (WALL_H / fov_h)); /* in pixels */
 }
+
+long long    color_ceiling_floor(t_data *data, char del)
+{
+    int		colors[3];
+
+    if (del == 'c')
+    {
+        colors[0] = data->file.identifier.c_r;
+        colors[1] = data->file.identifier.c_g;
+        colors[2] = data->file.identifier.c_b;
+    }
+    else
+    {
+        colors[0] = data->file.identifier.f_r;
+        colors[1] = data->file.identifier.f_g;
+        colors[2] = data->file.identifier.f_b;
+    }
+    return (get_rgba(colors[0], colors[1], colors[2], 255));
+}
+
 /*
 *   First while loop: Drawing vertical lines from top to the first pixel of the wall.(Ceiling)
 *   Second while loop: Drawing vertical lines of the wall.
@@ -163,13 +183,9 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
 	int	y;
 
 	y = 0;
-	// printf("y : %d\n", y);
-	// printf("y_start : %d\n", y_start);
-	// draw_ceiling(data);
-	// draw_floor(data);
 	while (y <= y_start)
 	{
-		mlx_put_pixel(data->image, x, y, COLOR_CEIL);
+		mlx_put_pixel(data->image, x, y, color_ceiling_floor(data, 'c'));
 		y++;
 	}
 	while (y <= y_end)
@@ -179,7 +195,7 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
 	}
     while (y <= SY -1)
     {
-        mlx_put_pixel(data->image, x, y, COLOR_FLOOR);
+        mlx_put_pixel(data->image, x, y, color_ceiling_floor(data, 'f'));
 		y++;
 	}
 	// printf("draw ver line\n");

@@ -13,19 +13,6 @@ double	position_to_degree(char p_direction)
 		return (deg2rad(270));
 }
 
-void	init_player(t_data *data)
-{
-	data->player = (t_player *)malloc(sizeof(t_player));
-    data->player->x = data->file.map.player_pos_x;
-    data->player->y = data->file.map.player_pos_y;
-    data->player->th = position_to_degree(data->file.map.p_direction);
-			printf("**-----------------------------**\n");
-			printf("*	data.px	: %f	*\n", data->player->x);
-			printf("*	data.py	: %f	*\n", data->player->y);
-			printf("*	data.pth: %f	*\n", data->player->th);
-			printf("**-----------------------------**\n");
-}
-
 void	print_2d_map(t_data *data)
 {
 	/* print map */

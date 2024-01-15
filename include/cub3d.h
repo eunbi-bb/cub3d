@@ -72,21 +72,6 @@ typedef struct s_player{
     double th;
 } t_player;
 
-// typedef struct s_color{
-// 	int	r;
-// 	int	g;
-// 	int	b;
-// } t_color;
-
-// struct RGB colorConverter(int hexValue)
-// {
-//   struct RGB rgbColor;
-//   rgbColor.r = ((hexValue >> 16) & 0xFF) / 255.0;  // Extract the RR byte
-//   rgbColor.g = ((hexValue >> 8) & 0xFF) / 255.0;   // Extract the GG byte
-//   rgbColor.b = ((hexValue) & 0xFF) / 255.0;        // Extract the BB byte
-
-//   return rgbColor; 
-// }
 
 // typedef	struct s_img
 // {
@@ -146,7 +131,6 @@ typedef struct s_data
 {
 	t_file file;
 	t_player *player;
-	t_identifier identifier;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 }	t_data;

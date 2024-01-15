@@ -16,3 +16,15 @@ void	free_arr(char **arr)
 	free(arr);
 	arr = NULL;
 }
+
+void	free_textures(t_data *data)
+{
+	free(data->file.identifier.path_no_texture);
+	free(data->file.identifier.path_so_texture);
+	free(data->file.identifier.path_we_texture);
+	free(data->file.identifier.path_ea_texture);
+	mlx_delete_texture(data->file.identifier.texture_no);
+	mlx_delete_texture(data->file.identifier.texture_so);
+	mlx_delete_texture(data->file.identifier.texture_we);
+	mlx_delete_texture(data->file.identifier.texture_ea);
+}
