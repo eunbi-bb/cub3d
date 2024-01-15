@@ -31,11 +31,6 @@ int map_get_cell(t_data *data, int x, int y)
 	return (result);
 }
 
-// int map_get_cell( int x, int y )
-// {
-//     return (x >= 0 && x < MAPX && y >= 0 && y <= MAPY-1) ? map[x][y] : -1;
-// }
-
 /*
 *	Recieving float number and convert it into the sign (+1 or 0 or -1)
 */
@@ -201,20 +196,6 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
 	// printf("draw ver line\n");
 }
 
-// EUNBI's
-
-// void    draw_wall(t_data *data, double wdist, int x, long long color)
-// {
-// 	int wh = get_wall_height(wdist);
-// 	int y0 = (int)((SY - wh)/ 2.0);
-// 	int y1 = y0 + wh - 1;
-
-// 	int ystart = max(0, y0);
-// 	int yend = min(SY - 1, y1);
-// 	draw_ver_line(data, x, ystart, yend, color);
-// 	// printf("draw_wall\n");
-// }
-
 void    draw_wall(t_data *data, double wdist, int x, long long color)
 {
 	int wh = get_wall_height(wdist);
@@ -310,21 +291,6 @@ int	player_move(t_data *data, int key, double amt)
 	return (0);
 }
 
-// void draw_square(t_data *data, int x, int y_end, long long color)
-// {
-//     int y = 0;
-// 	while (x <= 64)
-// 	{
-// 		while (y <= y_end && y > 0)
-// 		{
-// 			mlx_put_pixel(data->image, x, y, color);  // Vertical line
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// }
-
-
 void key_press(struct mlx_key_data keydata, void *game_data)
 {
 	keys_t key = keydata.key;
@@ -350,39 +316,16 @@ void key_press(struct mlx_key_data keydata, void *game_data)
 }
 
 
-// int main(int ac, char **av)
+// void draw_square(t_data *data, int x, int y_end, long long color)
 // {
-//     mlx_t   *mlx;
-
-//     if (!(mlx = mlx_init(SX, SY, "cub3d", true)))
+//     int y = 0;
+// 	while (x <= 64)
 // 	{
-// 		puts(mlx_strerror(mlx_errno));
-// 		return(EXIT_FAILURE);
+// 		while (y <= y_end && y > 0)
+// 		{
+// 			mlx_put_pixel(data->image, x, y, color);  // Vertical line
+// 			y++;
+// 		}
+// 		x++;
 // 	}
-//     if (!(image = mlx_new_image(mlx, SX, SY)))
-// 	{
-// 		mlx_close_window(mlx);
-// 		puts(mlx_strerror(mlx_errno));
-// 		return(EXIT_FAILURE);
-// 	}
-//     if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-// 	{
-// 		mlx_close_window(mlx);
-// 		puts(mlx_strerror(mlx_errno));
-// 		return(EXIT_FAILURE);
-// 	}
-//     if( ac != 4 ) {
-//         fprintf(stderr,"usage: %s x y th(deg)\n", av[0]);
-//         exit(1);
-//     }
-// 	t_player	pl;
-//     pl.x = atof(av[1]);
-//     pl.y = atof(av[2]);
-//     pl.th = deg2rad(atof(av[3]));
-
-//     mlx_key_hook(mlx, key_press, &pl);
-//     mlx_loop(mlx);
-//     mlx_terminate(mlx);
-
-//     return 0;
 // }
