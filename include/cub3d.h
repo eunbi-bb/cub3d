@@ -206,11 +206,12 @@ int map_get_cell(t_data *data, int x, int y);
 
 /*** textures.c ***/
 void			load_textures(t_data *data);
-mlx_texture_t	*texure_dir(t_data *data, t_dir wdir);
+mlx_texture_t	*texture_dir(t_data *data, t_dir wdir);
 int				get_rgba(int r, int g, int b, int a);
 
 
 // void enclosed_wall(int r, int c, t_file *file);
 // void check_walls(t_file *file);
 void	render(t_data *data);
+int		get_png_rgb(int x, int y, mlx_texture_t *image);
 #endif
