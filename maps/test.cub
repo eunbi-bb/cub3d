@@ -1,10 +1,10 @@
-NO ./textures/wall_32.png
-SO ./textures/wall_32.png
-WE ./textures/wall_32.png
-EA ./textures/wall_32.png
+NO ./textures/wall.png
+SO ./textures/wall.png
+WE ./textures/wall.png
+EA ./textures/wall.png
 
-F 220,120,25
-C 225,30,30
+F 22,28,102
+C 255,255,228
 
 1111111111111111111111111
 1000000000000000000001001
