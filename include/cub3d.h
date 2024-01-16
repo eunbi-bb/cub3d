@@ -21,7 +21,7 @@
 
 #define _2PI		6.28318530717958647692  /* 360 degrees */
 #define	ROT_UNIT	0.03 /* rad */
-#define	MOVE_UNIT	0.1
+#define	MOVE_UNIT	0.15
 
 #define  EPS            (1e-06)
 #define  is_zero(d)     (fabs(d) < EPS)
