@@ -1,20 +1,5 @@
 #include "cub3d.h"
 
-// int	check_empty_new_line(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '\n')
-// 			if (str[i + 1] == '\n')
-// 				return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 /*
 void	*ft_calloc(size_t count, size_t size)
 **	Appends a string to a existed string
