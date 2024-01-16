@@ -16,6 +16,7 @@
 // }
 
 /*
+void	*ft_calloc(size_t count, size_t size)
 **	Appends a string to a existed string
 **	Works like ft_strjoin
 */
@@ -28,8 +29,8 @@ static char	*append_line_to_map(char *content, char *line)
 	if (content == NULL)
 		content = protect_mem(ft_calloc((ft_strlen_protect(line) + 1),
 					sizeof(char)));
-	appended = protect_mem(ft_calloc(sizeof(char), ft_strlen_protect(content)
-				+ ft_strlen_protect(line) + 1));
+	appended = protect_mem(ft_calloc(ft_strlen_protect(content)
+				+ ft_strlen_protect(line) + 1, sizeof(char)));
 	map_i = 0;
 	while (content[map_i] != '\0')
 	{
@@ -87,7 +88,7 @@ char	*file_content_arr(t_file *file, t_map *map, int fd)
 */
 bool empty_line_in_map(char *content, int i)
 {
-	while (content[i] != '\0')
+	while (i < (int)ft_strlen(content))
 	{
 		if (content[i] == 'C' || content[i] == 'F')
 		{

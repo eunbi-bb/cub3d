@@ -53,6 +53,7 @@ bool valid_content_order(t_file *file)
 	int	r;
 
 	r = 0;
+	c = 0;
 	//print_map(file);
 	while (r < 6 && file->content_arr[r] != NULL)
 	{

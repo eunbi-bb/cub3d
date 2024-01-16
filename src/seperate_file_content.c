@@ -54,12 +54,16 @@ int handle_content(t_file *file)
 			free_arr(temp_arr);
 		}
 		else
+		{
 			create_map(file, file->content_arr[r], &row);
+			free_arr(temp_arr);
+		}
 		// printf("temp_arr = %s\n", temp_arr[0]);
 		// if (temp_arr[0] != NULL)
 	//	free_arr(temp_arr);
 		r++;
 	}
 	last_check_content(file);
+	//free_arr(temp_arr);
 	return (EXIT_SUCCESS);
 }

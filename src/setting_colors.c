@@ -15,6 +15,8 @@ static int set_floor(t_file *file, char *content, char **texture_arr)
 		file->identifier.f_g = ft_atoi(color_arr[1]);
 		file->identifier.f_b = ft_atoi(color_arr[2]);
 		file->identifier.floor_set = true;
+		free_arr(color_arr);
+		free(temp_arr);
 		return (0);
 	}
 	return (EXIT_FAILURE);
@@ -60,7 +62,13 @@ static int set_ceiling(t_file *file, char *content, char **texture_arr)
 		if (file->identifier.c_r == file->identifier.f_r
 		&& file->identifier.c_g == file->identifier.f_g
 		&& file->identifier.c_b == file->identifier.f_b)
+		{
+			free(temp_arr);
+			free_arr(color_arr);
 			err_msg("Set different colors for ceiling and floor");
+		}
+		free_arr(color_arr);
+		free(temp_arr);
 		return (0);
 	}
 	return (EXIT_FAILURE);
