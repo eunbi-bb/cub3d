@@ -214,4 +214,7 @@ int				get_rgba(int r, int g, int b, int a);
 // void check_walls(t_file *file);
 void	render(t_data *data);
 int		get_png_rgb(int x, int y, mlx_texture_t *image);
+
+double get_luminosity(t_data *data, double dist);
+int fade_color( int color, double lum );
 #endif

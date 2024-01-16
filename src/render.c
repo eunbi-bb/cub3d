@@ -241,7 +241,7 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end)
 	// printf("draw ver line\n");
 }
 
-void	print_texture(t_data *data, int x, int y0, int wh, int y_start, int y_end, t_dir wdir)
+void	print_texture(t_data *data, int x, int y0, int wh, int y_start, int y_end, t_dir wdir, double light)
 {
 	mlx_texture_t *tex;
 	double	tex_ratio;
@@ -257,7 +257,7 @@ void	print_texture(t_data *data, int x, int y0, int wh, int y_start, int y_end, 
 	while (y <= y_end)
 	{
 		ty = (int)(((double)(y - y0) * tex->height / wh)); /* texture row */
-		color = get_png_rgb(tx, ty, tex);
+		color = fade_color(get_png_rgb(tx, ty, tex), light);
 		mlx_put_pixel(data->image, x, y, color);
 		y++;
 	}
@@ -271,13 +271,17 @@ void    draw_wall(t_data *data, double wdist, int x, t_dir wdir)
 	int y1;
 	int y_start;
 	int y_end;
+
+	double light;
+
+	light = get_luminosity(data, wdist);
 	
 	wh = get_wall_height(wdist);
 	y0 = (int)((SY - wh)/ 2.0);
 	y1 = y0 + wh - 1;
 	y_start = max(0, y0);
 	y_end = min(SY - 1, y1);
-	print_texture(data, x, y0, wh, y_start, y_end, wdir);
+	print_texture(data, x, y0, wh, y_start, y_end, wdir, light);
 	draw_ver_line(data, x, y_start, y_end);
 	// printf("draw_wall\n");
 }
