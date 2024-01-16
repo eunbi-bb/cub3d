@@ -1,7 +1,7 @@
-NO ./textures/wall.png
-SO ./textures/wall.png
-WE ./textures/wall.png
-EA ./textures/wall.png
+NO ./textures/wall_32.png
+SO ./textures/wall_32.png
+WE ./textures/wall_32.png
+EA ./textures/wall_32.png
 
 F 220,120,25
 C 225,30,30
