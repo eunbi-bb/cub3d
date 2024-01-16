@@ -1,3 +1,5 @@
 *.o
 obj
 .cache_exists
+libft.a
+cub3d
