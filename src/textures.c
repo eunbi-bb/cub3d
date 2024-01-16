@@ -24,20 +24,35 @@ void	load_textures(t_data *data)
 	}
 }
 
-//??? get_texture_side(t_dir *step, int *hit_side)
-// {
-// 	if (*hit_side == VERT && step->DIR_S < 0)
-// 		return (); ??
-// 	if (*hit_side == VERT && step->DIR_N > 0)
-// 		return (); ??
-// 	if (*hit_side == HORIZ && step->DIR_W < 0)
-// 		return ();
-// 	if (*hit_side == HORIZ && step->DIR_E > 0)
-// 		return ();
-// 	return (0);
-// }
+mlx_texture_t *texure_dir(t_data *data, t_dir wdir)
+{
+	if (wdir == DIR_N)
+		return (data->file.identifier.texture_no);
+	else if (wdir == DIR_E)
+		return (data->file.identifier.texture_ea);
+	else if (wdir == DIR_W)
+		return (data->file.identifier.texture_we);
+	else
+		return (data->file.identifier.texture_so);
+}
 
-// 	DIR_N=0,
-// 	DIR_E, 
-// 	DIR_W, 
-// 	DIR_S 
+int	get_png_rgb(int x, int y, mlx_texture_t *image)
+{
+	int	index;
+	int	max;
+
+	max = image->height * image->width * image->bytes_per_pixel;
+	index = ((y * image->width) + x) * (image->bytes_per_pixel);
+	if (index >= max)
+		return (0);
+	return (get_rgba(
+		image->pixels[index + 0],
+		image->pixels[index + 1],
+		image->pixels[index + 2],
+		image->pixels[index + 3]));
+}
+
+// void	get_texture(t_data *data)
+// {
+
+// }

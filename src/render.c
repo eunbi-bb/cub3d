@@ -130,12 +130,12 @@ double cast_single_ray(int x, t_data *data, t_dir *wdir)
 {
 	double ray = (data->player->th + FOVH_2) - (x * ANGLE_PER_PIXEL);
 
-	double wx, wy;  /* coord. of wall intersection point */
+	// double wx, wy;  /* coord. of wall intersection point */
 
-	if( get_wall_intersection(data, ray, wdir, &wx, &wy) == false )
+	if( get_wall_intersection(data, ray, wdir, &data->wall.wx, &data->wall.wy) == false )
 		return INFINITY; /* no intersection - maybe bad map? */
 
-	double wdist = get_distance(data->player->x, data->player->y, wx, wy);
+	double wdist = get_distance(data->player->x, data->player->y, data->wall.wx, data->wall.wy);
 	wdist *= cos(data->player->th -ray);
 
 	// printf("cast single ray\n");
@@ -202,11 +202,11 @@ void    draw_wall(t_data *data, double wdist, int x, long long color)
 	int y0 = (int)((SY - wh)/ 2.0);
 	int y1 = y0 + wh - 1;
 
+	
 	int ystart = max(0, y0);
 	int yend = min(SY - 1, y1);
 
 	draw_ver_line(data, x, ystart, yend, color);
-	// printf("draw_wall\n");
 }
 
 void	render(t_data *data)
@@ -215,12 +215,9 @@ void	render(t_data *data)
 	{
 		t_dir	wdir;
 		double	wdist;
-	// 		draw_ceiling(data);
-	// draw_floor(data);
 		wdist = cast_single_ray(x, data, &wdir);
 		draw_wall(data, wdist, x, wall_colors[wdir]);
 	}
-	// printf("render\n");
 }
 
 //angle range is from 0 - 360
@@ -274,9 +271,6 @@ int	player_move(t_data *data, int key, double amt)
 	nx = data->player->x + dx;
 	ny = data->player->y + dy;
 
-	// printf("nx %d\n", (int)nx);
-	// printf("ny %d\n", (int)ny);
-
 	if (map_get_cell(data, (int)nx, (int)ny) != 0)
 	{
 		printf(" bump! \n");
@@ -284,10 +278,6 @@ int	player_move(t_data *data, int key, double amt)
 	}
 	data->player->x = nx;
 	data->player->y = ny;
-			// printf("nx : %f\n", nx);
-			// printf("ny : %f\n", ny);
-			// printf("player->x : %f\n", data->player->x);
-			// printf("player->y : %f\n", data->player->y);
 	return (0);
 }
 
@@ -295,24 +285,18 @@ void key_press(struct mlx_key_data keydata, void *game_data)
 {
 	keys_t key = keydata.key;
 	t_data *data = (t_data *)game_data;
-
-	// draw_ceiling(data);
-	// draw_floor(data);
-	//if (keydata.action == MLX_PRESS)
-	//{
-		if (key == MLX_KEY_ESCAPE)
-			exit(EXIT_SUCCESS);
-		if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
-		{
-			if (player_move(data, key, MOVE_UNIT) == 0)
-				render(data);
-		}
-		else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
-		{
-			player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
+	if (key == MLX_KEY_ESCAPE)
+		exit(EXIT_SUCCESS);
+	if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+	{
+		if (player_move(data, key, MOVE_UNIT) == 0)
 			render(data);
-		}
-	//}
+	}
+	else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
+	{
+		player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
+		render(data);
+	}
 }
 
 
