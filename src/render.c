@@ -277,7 +277,6 @@ void    draw_wall(t_data *data, double wdist, int x, t_dir wdir)
 	y1 = y0 + wh - 1;
 	y_start = max(0, y0);
 	y_end = min(SY - 1, y1);
-	load_textures(data);
 	print_texture(data, x, y0, wh, y_start, y_end, wdir);
 	draw_ver_line(data, x, y_start, y_end);
 	// printf("draw_wall\n");
