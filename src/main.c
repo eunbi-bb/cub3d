@@ -15,10 +15,9 @@ double	position_to_degree(char p_direction)
 
 void	print_2d_map(t_data *data)
 {
-	/* print map */
-    for(int y = 0; y < data->file.map.row; y++ ) 
+	for(int y = 0; y < data->file.map.row; y++ ) 
 	{
-        for(int x = 0; x < (int)ft_strlen(data->file.map.map_arr[y]); x++ )
+		for(int x = 0; x < (int)ft_strlen(data->file.map.map_arr[y]); x++ )
 		{
 			if (map_get_cell(data, x, y) > 0)
 				printf("1");
@@ -27,17 +26,15 @@ void	print_2d_map(t_data *data)
 				printf("0");
 				// draw_square(data, x, y, COLOR_BACK);
 
-            // printf("%c ", (map_get_cell(x, y)==1 ? '#':'.'));
-        }
-        putchar('\n');
-    }
+			// printf("%c ", (map_get_cell(x, y)==1 ? '#':'.'));
+		}
+		putchar('\n');
+	}
 }
 
 int main(int argc, char **argv)
 {
 	t_data		data;
-	//mlx_t		*mlx;
-	// mlx_image_t	*image;
 
 	if (!(data.mlx = mlx_init(SX, SY, "cub3d", true)))
 	{
@@ -64,8 +61,8 @@ int main(int argc, char **argv)
 	//mlx_key_hook(mlx, display, &data);
 	print_2d_map(&data);
 	render(&data);
-    mlx_key_hook(data.mlx, key_press, &data);
-    mlx_loop(data.mlx);
+	mlx_key_hook(data.mlx, key_press, &data);
+	mlx_loop(data.mlx);
 	free(data.player);
 	mlx_terminate(data.mlx);
 }

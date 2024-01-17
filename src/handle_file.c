@@ -1,20 +1,5 @@
 #include "cub3d.h"
 
-// int	check_empty_new_line(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '\n')
-// 			if (str[i + 1] == '\n')
-// 				return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 /*
 **	Appends a string to a existed string
 **	Works like ft_strjoin
@@ -69,11 +54,9 @@ char	*file_content_arr(t_file *file, t_map *map, int fd)
 		if (content == NULL)
 			err_msg("Line can not be appended");
 	}
-	//printf("raw content = %s", content);
 	file->content_arr = ft_split(content, '\n');
 	if (file->content_arr == NULL)
 		err_msg("Map array can not be created");
-	//free(content);
 	return (content);
 }
 
