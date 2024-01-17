@@ -130,12 +130,12 @@ double cast_single_ray(int x, t_data *data, t_dir *wdir)
 {
 	double ray = (data->player->th + FOVH_2) - (x * ANGLE_PER_PIXEL);
 
-	double wx, wy;  /* coord. of wall intersection point */
+	// double wx, wy;  /* coord. of wall intersection point */
 
-	if( get_wall_intersection(data, ray, wdir, &wx, &wy) == false )
+	if( get_wall_intersection(data, ray, wdir, &data->wall.wx, &data->wall.wy) == false )
 		return INFINITY; /* no intersection - maybe bad map? */
 
-	double wdist = get_distance(data->player->x, data->player->y, wx, wy);
+	double wdist = get_distance(data->player->x, data->player->y, data->wall.wx, data->wall.wy);
 	wdist *= cos(data->player->th -ray);
 
 	// printf("cast single ray\n");
@@ -173,22 +173,67 @@ long long    color_ceiling_floor(t_data *data, char del)
 *   Second while loop: Drawing vertical lines of the wall.
 *   Third while loop: Drawing vertical lines from the end of the wall to bottom.(Floor)
 */
-void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long color)
+// void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long color)
+// {
+// 	int	y;
+
+// 	y = 0;
+// 	while (y <= y_start)
+// 	{
+// 		mlx_put_pixel(data->image, x, y, color_ceiling_floor(data, 'c'));
+// 		y++;
+// 	}
+// 	while (y <= y_end)
+// 	{
+// 		mlx_put_pixel(data->image, x, y, color);
+// 		y++;
+// 	}
+//     while (y <= SY -1)
+//     {
+//         mlx_put_pixel(data->image, x, y, color_ceiling_floor(data, 'f'));
+// 		y++;
+// 	}
+// 	// printf("draw ver line\n");
+// }
+
+// void    draw_wall(t_data *data, double wdist, int x, long long color)
+// {
+// 	int wh = get_wall_height(wdist);
+// 	int y0 = (int)((SY - wh)/ 2.0);
+// 	int y1 = y0 + wh - 1;
+
+// 	int ystart = max(0, y0);
+// 	int yend = min(SY - 1, y1);
+
+// 	draw_ver_line(data, x, ystart, yend, color);
+// }
+
+// void	render(t_data *data)
+// {
+// 	load_textures(data);
+// 	get_png_rgb(0, 0, data->file.identifier.texture_no);
+// 	for( int x=0; x < SX; x++ ) 
+// 	{
+// 		t_dir	wdir;
+// 		double	wdist;
+// 		wdist = cast_single_ray(x, data, &wdir);
+// 		draw_wall(data, wdist, x, wall_colors[wdir]);
+// 	}
+// }
+
+/*********************** TEXTURES *********************/
+void    draw_ver_line(t_data *data, int x, int y_start, int y_end)
 {
 	int	y;
-
+	
 	y = 0;
 	while (y <= y_start)
 	{
 		mlx_put_pixel(data->image, x, y, color_ceiling_floor(data, 'c'));
 		y++;
 	}
-	while (y <= y_end)
-	{
-		mlx_put_pixel(data->image, x, y, color);
-		y++;
-	}
-    while (y <= SY -1)
+	y = y_end;
+    while (y <= SY - 1)
     {
         mlx_put_pixel(data->image, x, y, color_ceiling_floor(data, 'f'));
 		y++;
@@ -196,16 +241,48 @@ void    draw_ver_line(t_data *data, int x, int y_start, int y_end, long long col
 	// printf("draw ver line\n");
 }
 
-void    draw_wall(t_data *data, double wdist, int x, long long color)
+void	print_texture(t_data *data, int x, int y0, int wh, int y_start, int y_end, t_dir wdir, double light)
 {
-	int wh = get_wall_height(wdist);
-	int y0 = (int)((SY - wh)/ 2.0);
-	int y1 = y0 + wh - 1;
+	mlx_texture_t *tex;
+	double	tex_ratio;
+	int tx;
+	int ty;
+	int	y;
+	int	color;
 
-	int ystart = max(0, y0);
-	int yend = min(SY - 1, y1);
+	tex = texture_dir(data, wdir);
+	tex_ratio = (wdir == DIR_W || wdir == DIR_E) ? (data->wall.wy-floor(data->wall.wy)) : (data->wall.wx-floor(data->wall.wx));
+	tx = (int)(tex_ratio * tex->width); /* texture column*/
+	y = y_start;
+	while (y <= y_end)
+	{
+		ty = (int)(((double)(y - y0) * tex->height / wh)); /* texture row */
+		color = fade_color(get_png_rgb(tx, ty, tex), light);
+		mlx_put_pixel(data->image, x, y, color);
+		y++;
+	}
+	// printf("print_texture\n");
+}
 
-	draw_ver_line(data, x, ystart, yend, color);
+void    draw_wall(t_data *data, double wdist, int x, t_dir wdir)
+{
+	int wh; 
+	int y0; 
+	int y1;
+	int y_start;
+	int y_end;
+
+	double light;
+
+	light = get_luminosity(data, wdist);
+	
+	wh = get_wall_height(wdist);
+	y0 = (int)((SY - wh)/ 2.0);
+	y1 = y0 + wh - 1;
+	y_start = max(0, y0);
+	y_end = min(SY - 1, y1);
+	print_texture(data, x, y0, wh, y_start, y_end, wdir, light);
+	draw_ver_line(data, x, y_start, y_end);
 	// printf("draw_wall\n");
 }
 
@@ -215,13 +292,13 @@ void	render(t_data *data)
 	{
 		t_dir	wdir;
 		double	wdist;
-	// 		draw_ceiling(data);
-	// draw_floor(data);
 		wdist = cast_single_ray(x, data, &wdir);
-		draw_wall(data, wdist, x, wall_colors[wdir]);
+		draw_wall(data, wdist, x, wdir);
 	}
 	// printf("render\n");
 }
+
+/***********************************************************************/
 
 //angle range is from 0 - 360
 void	player_rotate(t_data *data, double th)
@@ -274,9 +351,6 @@ int	player_move(t_data *data, int key, double amt)
 	nx = data->player->x + dx;
 	ny = data->player->y + dy;
 
-	// printf("nx %d\n", (int)nx);
-	// printf("ny %d\n", (int)ny);
-
 	if (map_get_cell(data, (int)nx, (int)ny) != 0)
 	{
 		printf(" bump! \n");
@@ -284,10 +358,6 @@ int	player_move(t_data *data, int key, double amt)
 	}
 	data->player->x = nx;
 	data->player->y = ny;
-			// printf("nx : %f\n", nx);
-			// printf("ny : %f\n", ny);
-			// printf("player->x : %f\n", data->player->x);
-			// printf("player->y : %f\n", data->player->y);
 	return (0);
 }
 
@@ -295,24 +365,18 @@ void key_press(struct mlx_key_data keydata, void *game_data)
 {
 	keys_t key = keydata.key;
 	t_data *data = (t_data *)game_data;
-
-	// draw_ceiling(data);
-	// draw_floor(data);
-	//if (keydata.action == MLX_PRESS)
-	//{
-		if (key == MLX_KEY_ESCAPE)
-			exit(EXIT_SUCCESS);
-		if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
-		{
-			if (player_move(data, key, MOVE_UNIT) == 0)
-				render(data);
-		}
-		else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
-		{
-			player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
+	if (key == MLX_KEY_ESCAPE)
+		exit(EXIT_SUCCESS);
+	if (key == MLX_KEY_W || key == MLX_KEY_A || key == MLX_KEY_S || key == MLX_KEY_D)
+	{
+		if (player_move(data, key, MOVE_UNIT) == 0)
 			render(data);
-		}
-	//}
+	}
+	else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
+	{
+		player_rotate(data, ROT_UNIT * (key == MLX_KEY_LEFT ? 1 : -1));
+		render(data);
+	}
 }
 
 

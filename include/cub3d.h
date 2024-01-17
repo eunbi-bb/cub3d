@@ -21,7 +21,7 @@
 
 #define _2PI		6.28318530717958647692  /* 360 degrees */
 #define	ROT_UNIT	0.03 /* rad */
-#define	MOVE_UNIT	0.1
+#define	MOVE_UNIT	0.15
 
 #define  EPS            (1e-06)
 #define  is_zero(d)     (fabs(d) < EPS)
@@ -60,13 +60,12 @@ typedef struct s_player{
     double th;
 } t_player;
 
-
-// typedef	struct s_img
-// {
-// 	int		w;
-// 	int		h;
-// 	char	*name;
-// }	t_img;
+/* coord. of wall intersection point */
+typedef	struct s_wall_xy
+{
+	double	wx;
+	double	wy;
+}	t_wall_xy;
 
 typedef struct s_identifier
 {
@@ -119,6 +118,7 @@ typedef struct s_data
 {
 	t_file file;
 	t_player *player;
+	t_wall_xy wall;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 }	t_data;
@@ -205,11 +205,16 @@ void key_press(struct mlx_key_data keydata, void *user_data);
 int map_get_cell(t_data *data, int x, int y);
 
 /*** textures.c ***/
-void	load_textures(t_data *data);
-int		get_rgba(int r, int g, int b, int a);
+void			load_textures(t_data *data);
+mlx_texture_t	*texture_dir(t_data *data, t_dir wdir);
+int				get_rgba(int r, int g, int b, int a);
 
 
 // void enclosed_wall(int r, int c, t_file *file);
 // void check_walls(t_file *file);
 void	render(t_data *data);
+int		get_png_rgb(int x, int y, mlx_texture_t *image);
+
+double get_luminosity(t_data *data, double dist);
+int fade_color( int color, double lum );
 #endif

@@ -12,6 +12,7 @@ static int set_no_texture(t_file *file, char **texture_arr)
 		file->identifier.no_set = true;
 		return (0);
 	}
+	// printf("\npath_north : %s\n", file->identifier.path_no_texture);
 	return (EXIT_FAILURE);
 }
 
