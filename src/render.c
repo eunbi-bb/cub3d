@@ -23,8 +23,11 @@ int wall_colors[4] = {COLOR_N, COLOR_E, COLOR_W, COLOR_S};
 int map_get_cell(t_data *data, int x, int y)
 {
 	int	result;
+	int	i;
 
-    if (x >= 0 && y < data->file.map.row && x < (int)ft_strlen(data->file.map.map_arr[y]) && y >= 0)
+	i = data->file.map.row - 1 - y;
+
+    if (x >= 0 && y < data->file.map.row && x < (int)ft_strlen(data->file.map.map_arr[i]) && y >= 0)
         result = data->file.map.map_int_arr[y][x];
 	else
 		result = -1;
