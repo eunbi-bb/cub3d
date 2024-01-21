@@ -10,17 +10,8 @@ int	get_rgba(int r, int g, int b, int a)
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void	init_textures(t_data *data)
-{
-	data->file.identifier.texture_no = ft_calloc(1, sizeof(mlx_texture_t));
-	data->file.identifier.texture_so = ft_calloc(1, sizeof(mlx_texture_t));
-	data->file.identifier.texture_we = ft_calloc(1, sizeof(mlx_texture_t));
-	data->file.identifier.texture_ea = ft_calloc(1, sizeof(mlx_texture_t));
-}
-
 void	load_textures(t_data *data) 
 {
-	init_textures(data);
 	data->file.identifier.texture_no = mlx_load_png(data->file.identifier.path_no_texture);
 	data->file.identifier.texture_so = mlx_load_png(data->file.identifier.path_so_texture);
 	data->file.identifier.texture_we = mlx_load_png(data->file.identifier.path_we_texture);
@@ -44,7 +35,6 @@ mlx_texture_t *texture_dir(t_data *data, t_dir wdir)
 		return (data->file.identifier.texture_we);
 	else
 		return (data->file.identifier.texture_so);
-	// printf("texture-dir\n");
 }
 
 int	get_png_rgb(int x, int y, mlx_texture_t *image)
@@ -62,8 +52,3 @@ int	get_png_rgb(int x, int y, mlx_texture_t *image)
 		image->pixels[index + 2],
 		image->pixels[index + 3]));
 }
-
-// void	get_texture(t_data *data)
-// {
-
-// }

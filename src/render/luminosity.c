@@ -1,26 +1,39 @@
 #include "cub3d.h"
 
 /* Light effect */
-
-void decode_color(int color, int *r, int *g, int *b) {
+/*
+*	Extracts individual RGB components.
+*/
+void decode_rgb(int color, int *r, int *g, int *b)
+{
     *r = (color >> 16) & 0xFF;
     *g = (color >> 8) & 0xFF;
     *b = color & 0xFF;
 }
 
-int encode_color(int r, int g, int b) {
+/*
+*	Combines RGB components into a single integer color representation.
+*/
+int encode_rgb(int r, int g, int b) 
+{
     return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
 }
 
-int fade_color( int color, double lum )
+int fade_color(int color, double light)
 {
-    if ( lum < 0 ) 
-        lum = 0;
-    else if( lum > 1 )
-        lum = 1;
-    int r, g, b;
-    decode_color(color, &r, &g, &b);
-    return encode_color( (int)(r*lum), (int)(g*lum), (int)(b*lum) );
+	int	r;
+	int	g;
+	int	b;
+
+    if (light < 0) 
+		light = 0;
+    else if( light > 1 )
+        light = 1;
+    decode_rgb(color, &r, &g, &b);
+	r = (int)(r * light);
+    g = (int)(g * light);
+    b = (int)(b * light);
+    return (encode_rgb(r, g, b));
 }
 
 /*

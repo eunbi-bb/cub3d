@@ -13,27 +13,28 @@ double	position_to_degree(char p_direction)
 		return (deg2rad(270));
 }
 
-void	print_2d_map(t_data *data)
-{
-	int	i;
+// void	print_2d_map(t_data *data)
+// {
+// 	int	i;
 
 
-	for(int y = 0; y < data->file.map.row; y++) 
-	{
-		i = data->file.map.row - 1 - y;
-		for(int x = 0; x < (int)ft_strlen(data->file.map.map_arr[i]); x++ )
-		{
-			int	result = map_get_cell(data, x, y);
-			if (result == 1)
-				printf("1");
-			else if (result >= 1)
-				printf(" ");
-			else
-				printf("0");
-		}
-		putchar('\n');
-	}
-}
+// 	for(int y = 0; y < data->file.map.row; y++) 
+// 	{
+// 		i = data->file.map.row - 1 - y;
+// 		for(int x = 0; x < (int)ft_strlen(data->file.map.map_arr[i]); x++ )
+// 		{
+// 			int	result = get_cell_value(data, x, y);
+// 			if (result == 1)
+// 				printf("1");
+// 			else if (result >= 1)
+// 				printf(" ");
+// 			else
+// 				printf("0");
+// 		}
+// 		putchar('\n');
+// 	}
+// }
+
 int main(int argc, char **argv)
 {
 	t_data		data;
@@ -64,7 +65,7 @@ int main(int argc, char **argv)
 	load_textures(&data);
 	init_player(&data);
 	//mlx_key_hook(mlx, display, &data);
-	print_2d_map(&data);
+	// print_2d_map(&data);
 	render(&data);
     mlx_key_hook(data.mlx, key_press, &data);
     mlx_loop(data.mlx);
