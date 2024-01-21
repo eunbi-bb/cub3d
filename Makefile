@@ -48,9 +48,13 @@ SRC_FILE	= main.c \
 				check_walls.c \
 				test.c \
 				init.c \
-				render/textures.c \
-				render/render.c \
+				render/draw.c \
 				render/luminosity.c \
+				render/move.c \
+				render/ray_casting.c \
+				render/render_utils.c \
+				render/render.c \
+				render/textures.c \
 
 #	draw_map.c
 

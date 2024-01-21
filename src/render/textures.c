@@ -52,3 +52,25 @@ int	get_png_rgb(int x, int y, mlx_texture_t *image)
 		image->pixels[index + 2],
 		image->pixels[index + 3]));
 }
+
+void	print_texture(t_data *data, int x, int y0, t_dir wall_dir, double light)
+{
+	mlx_texture_t	*tex;
+	int				y;
+	int				color;
+
+	tex = texture_dir(data, wall_dir);
+	if (wall_dir == DIR_W || wall_dir == DIR_E)
+		data->tex.ratio = data->wall.wall_y-floor(data->wall.wall_y);
+	else
+		data->tex.ratio = data->wall.wall_x-floor(data->wall.wall_x);
+	data->tex.x = (int)(data->tex.ratio * tex->width); /* texture column*/
+	y = data->wall.y_start;
+	while (y <= data->wall.y_end)
+	{
+		data->tex.y = (int)(((double)(y - y0) * tex->height / data->wall.wall_h)); /* texture row */
+		color = fade_color(get_png_rgb(data->tex.x, data->tex.y, tex), light);
+		mlx_put_pixel(data->image, x, y, color);
+		y++;
+	}
+}
