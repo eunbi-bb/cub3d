@@ -47,10 +47,15 @@ SRC_FILE	= main.c \
 				map_validation.c \
 				check_walls.c \
 				test.c \
-				render.c \
 				init.c \
-				textures.c \
-				luminosity.c
+				render/draw.c \
+				render/luminosity.c \
+				render/move.c \
+				render/ray_casting.c \
+				render/render_utils.c \
+				render/render.c \
+				render/textures.c \
+
 #	draw_map.c
 
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC_FILE:.c=.o))

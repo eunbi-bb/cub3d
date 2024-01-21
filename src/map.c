@@ -45,7 +45,6 @@ void find_player_pos(t_file *file)
 				file->map.player_pos_x = c;
 				file->map.player_pos_y = file->map.row - r;
 				file->map.p_direction = file->map.map_arr[r][c];
-				//set player position as '0'
 				file->map.map_arr[r][c] = '0';
 				player_count++;
 			}
@@ -69,11 +68,11 @@ void make_int_arr(t_file *file, int r, int c)
 		err_msg("Memory");
 	int i; 
 	i = 0;
-	while (r >= 0 && file->map.map_arr[r] != NULL)
+	while (r >= 0)
 	{
 		c = 0;
-		file->map.map_int_arr[i] = ft_calloc((int)ft_strlen(file->map.map_arr[r]) + 1, sizeof(int));
-		while(c < (int)ft_strlen(file->map.map_arr[r]))
+		file->map.map_int_arr[i] = ft_calloc((int)ft_strlen(file->map.map_arr[r]), sizeof(int));
+		while (c < (int)ft_strlen(file->map.map_arr[r]))
 		{
 			if (file->map.map_arr[r][c] == '0')
 				file->map.map_int_arr[i][c] = 0;
@@ -82,7 +81,6 @@ void make_int_arr(t_file *file, int r, int c)
 				file->map.map_int_arr[i][c] = file->map.map_arr[r][c];
 			else
 				file->map.map_int_arr[i][c] = file->map.map_arr[r][c] - '0';
-			//file->map.map_int_arr[r][c] = ft_atoi(&file->map.map_arr[r][c]);
 			c++;
 		}
 		i++;

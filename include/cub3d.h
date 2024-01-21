@@ -47,8 +47,8 @@ enum
 };
 
 typedef enum
-{ 
-	DIR_N=0,
+{
+	DIR_N = 0,
 	DIR_E, 
 	DIR_W, 
 	DIR_S 
@@ -61,11 +61,29 @@ typedef struct s_player{
 } t_player;
 
 /* coord. of wall intersection point */
-typedef	struct s_wall_xy
+typedef	struct s_wall
 {
-	double	wx;
-	double	wy;
-}	t_wall_xy;
+	double	wall_x;
+	double	wall_y;
+	int		wall_h;
+	int		y_start;
+	int		y_end;
+	int		xstep;  /* +1 (right), 0 (no change), -1 (left) */
+	int		ystep;  /* +1 (up),    0 (no change), -1 (down) */
+	double	xslope;
+	double	yslope;
+	double	nx; 	// nx and ny are the next intersection coordinates of a ray from (px,py)
+	double	ny;
+	double	f;
+	double	g;
+}	t_wall;
+
+typedef struct s_texture
+{
+	double	ratio;
+	int x;
+	int y;
+}	t_texture;
 
 typedef struct s_identifier
 {
@@ -116,9 +134,10 @@ typedef struct s_file
 
 typedef struct s_data
 {
-	t_file file;
-	t_player *player;
-	t_wall_xy wall;
+	t_file		file;
+	t_player	*player;
+	t_wall		wall;
+	t_texture	tex;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 }	t_data;
@@ -191,30 +210,48 @@ void check_walls(t_file *file);
 
 /*** utils.c ***/
 char	*protect_mem(char *str);
-int	ft_strlen_protect(char *str);
-int ft_strsame(const char *s1, const char *s2);
+int		ft_strlen_protect(char *str);
+int 	ft_strsame(const char *s1, const char *s2);
 char	**array_dup(t_file *file, char **arr);
 
 /*** free.c ***/
 void	free_arr(char **arr);
 void	free_textures(t_data *data);
 
+/*** draw.c ***/
+void    draw_wall(t_data *data, double wdist, int x, t_dir wall_dir);
 
 /*** render.c ***/
-void key_press(struct mlx_key_data keydata, void *user_data);
-int map_get_cell(t_data *data, int x, int y);
+void 	key_press(struct mlx_key_data keydata, void *user_data);
+int 	get_cell_value(t_data *data, int x, int y);
+
+/*** luminosity.c ***/
+double	get_luminosity(t_data *data, double dist);
+int		fade_color( int color, double lum );
+
+/*** move.c ***/
+int		player_move(t_data *data, int key, double amt);
+void	player_rotate(t_data *data, double th);
 
 /*** textures.c ***/
 void			load_textures(t_data *data);
 mlx_texture_t	*texture_dir(t_data *data, t_dir wdir);
 int				get_rgba(int r, int g, int b, int a);
 
+/*** ray_casting.c ***/
+bool 	get_wall_intersection(t_data *data, double ray, t_dir *wall_dir);
+double 	get_distance(double x0, double y0, double x1, double y1);
 
-// void enclosed_wall(int r, int c, t_file *file);
-// void check_walls(t_file *file);
+/*** render_utils.c ***/
+void	init_values(t_data *data, double ray);
+int		get_cell_value(t_data *data, int x, int y);
+int		get_wall_height(double dist);
+
+/*** render.c ***/
 void	render(t_data *data);
-int		get_png_rgb(int x, int y, mlx_texture_t *image);
 
-double get_luminosity(t_data *data, double dist);
-int fade_color( int color, double lum );
+/*** texture.c ***/
+int		get_png_rgb(int x, int y, mlx_texture_t *image);
+void	print_texture(t_data *data, int x, int y0, t_dir wall_dir, double light);
+
 #endif

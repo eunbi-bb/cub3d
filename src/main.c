@@ -38,6 +38,8 @@ double	position_to_degree(char p_direction)
 int main(int argc, char **argv)
 {
 	t_data		data;
+	//mlx_t		*mlx;
+	// mlx_image_t	*image;
 
 	if (!(data.mlx = mlx_init(SX, SY, "cub3d", true)))
 	{
@@ -65,8 +67,8 @@ int main(int argc, char **argv)
 	//mlx_key_hook(mlx, display, &data);
 	// print_2d_map(&data);
 	render(&data);
-	mlx_key_hook(data.mlx, key_press, &data);
-	mlx_loop(data.mlx);
+    mlx_key_hook(data.mlx, key_press, &data);
+    mlx_loop(data.mlx);
 	free(data.player);
 	mlx_terminate(data.mlx);
 }
