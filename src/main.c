@@ -13,24 +13,27 @@ double	position_to_degree(char p_direction)
 		return (deg2rad(270));
 }
 
-void	print_2d_map(t_data *data)
-{
-	for(int y = 0; y < data->file.map.row; y++ ) 
-	{
-		for(int x = 0; x < (int)ft_strlen(data->file.map.map_arr[y]); x++ )
-		{
-			if (map_get_cell(data, x, y) > 0)
-				printf("1");
-				// draw_square(data, x, y, COLOR_N);
-			else
-				printf("0");
-				// draw_square(data, x, y, COLOR_BACK);
+// void	print_2d_map(t_data *data)
+// {
+// 	int	i;
 
-			// printf("%c ", (map_get_cell(x, y)==1 ? '#':'.'));
-		}
-		putchar('\n');
-	}
-}
+
+// 	for(int y = 0; y < data->file.map.row; y++) 
+// 	{
+// 		i = data->file.map.row - 1 - y;
+// 		for(int x = 0; x < (int)ft_strlen(data->file.map.map_arr[i]); x++ )
+// 		{
+// 			int	result = get_cell_value(data, x, y);
+// 			if (result == 1)
+// 				printf("1");
+// 			else if (result >= 1)
+// 				printf(" ");
+// 			else
+// 				printf("0");
+// 		}
+// 		putchar('\n');
+// 	}
+// }
 
 int main(int argc, char **argv)
 {
