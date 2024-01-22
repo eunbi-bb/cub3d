@@ -211,7 +211,7 @@ double			get_luminosity(t_data *data, double dist);
 int				fade_color( int color, double lum );
 
 /*** move.c ***/
-int				player_move(t_data *data, int key, double amt);
+int				player_move(t_data *data, int key);
 void			player_rotate(t_data *data, double th);
 
 /*** textures.c ***/

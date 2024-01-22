@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 13:47:09 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/22 15:06:49 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/22 21:18:10 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void key_press(struct mlx_key_data keydata, void *game_data)
 	if (key == MLX_KEY_W || key == MLX_KEY_A \
 		|| key == MLX_KEY_S || key == MLX_KEY_D)
 	{
-		if (player_move(data, key, MOVE_UNIT) == 0)
+		if (player_move(data, key) == 0)
 			render(data);
 	}
 	else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)

@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:25:37 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/22 15:25:39 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/22 21:18:05 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ void	player_rotate(t_data *data, double th)
 *	M_PI	= pi = (rad)180
 *	M_PI_2	= pi/2 = (rad)90
 */
-static int get_move_offset(double th, int key, double amt, double *pdx, double *pdy)
+static int get_move_offset(double th, int key, double *pdx, double *pdy)
 {
-	double angle_offset;
+	double	angle_offset;
+	double	amt;
 
+	amt = MOVE_UNIT;
 	angle_offset = 0.0;
     if (key == MLX_KEY_W)
         angle_offset = 0.0;
@@ -64,7 +66,7 @@ static int get_move_offset(double th, int key, double amt, double *pdx, double *
 *	If nx and ny are not in the wall, update player position
 *	into nx and ny.
 */
-int	player_move(t_data *data, int key, double amt)
+int	player_move(t_data *data, int key)
 {
 	double	dx;
 	double	dy;
@@ -73,7 +75,7 @@ int	player_move(t_data *data, int key, double amt)
 
 	dx = 0;
 	dy = 0;
-	if (get_move_offset(data->player->th, key, amt, &dx, &dy) < 0)
+	if (get_move_offset(data->player->th, key, &dx, &dy) < 0)
 	{
 		return (-1);
 	}
