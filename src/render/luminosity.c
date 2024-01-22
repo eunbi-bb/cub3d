@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:25:24 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/22 15:25:27 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/22 21:25:17 by eunbi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@
 /*
 *	Extracting individual RGB components.
 */
-void decode_rgb(int color, int *r, int *g, int *b)
+void decode_rgb(int color, int *r, int *g, int *b, int *a)
 {
-    *r = (color >> 16) & 0xFF;
-    *g = (color >> 8) & 0xFF;
-    *b = color & 0xFF;
+    *r = (color >> 24) & 0xFF;
+    *g = (color >> 16) & 0xFF;
+	*b = (color >> 8) & 0xFF;
+    *a = color & 0xFF;
 }
 
 /*
 *	Combining RGB components into a single integer color representation.
 */
-int encode_rgb(int r, int g, int b) 
+int encode_rgb(int r, int g, int b, int a) 
 {
-    return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+    return (((r & 0xFF) << 24) | ((g & 0xFF) << 16) | ((b & 0xFF) << 8) | (a & 0xFF));
 }
 
 /*
@@ -40,16 +41,18 @@ int fade_color(int color, double light)
 	int	r;
 	int	g;
 	int	b;
+	int	a;
 
     if (light < 0) 
 		light = 0;
     else if( light > 1 )
         light = 1;
-    decode_rgb(color, &r, &g, &b);
+    decode_rgb(color, &r, &g, &b, &a);
 	r = (int)(r * light);
     g = (int)(g * light);
     b = (int)(b * light);
-    return (encode_rgb(r, g, b));
+	a = (int)(a * light);
+    return (encode_rgb(r, g, b, a));
 }
 
 /*
