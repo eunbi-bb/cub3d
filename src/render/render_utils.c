@@ -1,6 +1,27 @@
 #include "cub3d.h"
 
 /*
+*	Converting degree to radian.
+*/
+double	deg2rad(double deg)
+{
+	return((deg) * M_PI / 180.0);
+}
+
+/*
+*	Checking if 'd' is effectively zero or not.
+*	Returning 1 if the absolute value of 'd' is less then '1e-06',
+*	indicating 'd' is close to zero.
+*	fabs() : "floating-point absolute value"
+*			to calculate the absolute value of floating-point number.
+*	'1e-06' is equal to 0.000001.
+*/
+int	is_zero(double d)
+{
+	return (fabs(d) < (1e-06));
+}
+
+/*
 *	Recieving float number and convert it into the sign (+1 or 0 or -1)
 */
 int	sign(double d)
@@ -36,38 +57,12 @@ int get_cell_value(t_data *data, int x, int y)
 	return (result);
 }
 
-void	init_values(t_data *data, double ray)
-{
-	data->wall.xstep = sign(cos(ray));  /* +1 (right), 0 (no change), -1 (left) */
-	data->wall.ystep = sign(sin(ray));  /* +1 (up),    0 (no change), -1 (down) */
-	if (data->wall.xstep == 0)
-		data->wall.xslope = INFINITY;
-	else
-		data->wall.xslope = tan(ray);
-	if (data->wall.ystep == 0)
-		data->wall.yslope = INFINITY;
-	else
-		data->wall.yslope = 1./tan(ray);
-	if (data->wall.xstep > 0)
-    	data->wall.nx = floor(data->player->x) + 1;
-	else if (data->wall.xstep < 0)
-    	data->wall.nx = ceil(data->player->x) - 1;
-	else 
-    	data->wall.nx = data->player->x;
-	if (data->wall.ystep > 0)
-    	data->wall.ny = floor(data->player->y) + 1;
-	else if (data->wall.ystep < 0)
-		data->wall.ny = ceil(data->player->y) - 1;
-	else
-    	data->wall.ny = data->player->y;
-	data->wall.f = INFINITY;
-	data->wall.g = INFINITY;
-}
-
 int get_wall_height(double dist)
 {
-	double fov_h;
+	double	fov_h;
+	double	fov_v;
 
-	fov_h = 2.0 * dist * tan(FOV_V/2.0);
+	fov_v = (deg2rad(FOV) * (double)SY/(double)SX);
+	fov_h = 2.0 * dist * tan(fov_v/2.0);
 	return ((int)(SY * (WALL_H / fov_h))); /* in pixels */
 }

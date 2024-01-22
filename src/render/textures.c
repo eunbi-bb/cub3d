@@ -53,7 +53,7 @@ int	get_png_rgb(int x, int y, mlx_texture_t *image)
 		image->pixels[index + 3]));
 }
 
-void	print_texture(t_data *data, int x, int y0, t_dir wall_dir, double light)
+void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 {
 	mlx_texture_t	*tex;
 	int				y;
@@ -69,7 +69,7 @@ void	print_texture(t_data *data, int x, int y0, t_dir wall_dir, double light)
 	while (y <= data->wall.y_end)
 	{
 		data->tex.y = (int)(((double)(y - y0) * tex->height / data->wall.wall_h)); /* texture row */
-		color = fade_color(get_png_rgb(data->tex.x, data->tex.y, tex), light);
+		color = fade_color(get_png_rgb(data->tex.x, data->tex.y, tex), data->tex.light);
 		mlx_put_pixel(data->image, x, y, color);
 		y++;
 	}

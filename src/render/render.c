@@ -1,16 +1,46 @@
 #include "cub3d.h"
 
+void	init_values(t_data *data, double ray)
+{
+	data->wall.xstep = sign(cos(ray));  /* +1 (right), 0 (no change), -1 (left) */
+	data->wall.ystep = sign(sin(ray));  /* +1 (up),    0 (no change), -1 (down) */
+	if (data->wall.xstep == 0)
+		data->wall.xslope = INFINITY;
+	else
+		data->wall.xslope = tan(ray);
+	if (data->wall.ystep == 0)
+		data->wall.yslope = INFINITY;
+	else
+		data->wall.yslope = 1./tan(ray);
+	if (data->wall.xstep > 0)
+    	data->wall.nx = floor(data->player->x) + 1;
+	else if (data->wall.xstep < 0)
+    	data->wall.nx = ceil(data->player->x) - 1;
+	else 
+    	data->wall.nx = data->player->x;
+	if (data->wall.ystep > 0)
+    	data->wall.ny = floor(data->player->y) + 1;
+	else if (data->wall.ystep < 0)
+		data->wall.ny = ceil(data->player->y) - 1;
+	else
+    	data->wall.ny = data->player->y;
+	data->wall.f = INFINITY;
+	data->wall.g = INFINITY;
+}
+
 /*
 *	Casting a single ray. 
 *	ANGLE_PER_PIXEL = FOV_H / (SX - 1)
 */
 double cast_single_ray(int x, t_data *data, t_dir *wall_dir)
 {
-	double ray;
-	double wall_dist;
+	double	ray;
+	double	wall_dist;
+	int		fov_h;
 
-	ray = (data->player->th + FOVH_2) - (x * ANGLE_PER_PIXEL);
-	if (get_wall_intersection(data, ray, wall_dir) == false)
+	fov_h = deg2rad(FOV);
+	ray = (data->player->th + (fov_h / 2.0)) - (x * (fov_h / (SX - 1.)));
+	if (get_intersection(data, ray, wall_dir) == false)
 		return (INFINITY); /* no intersection - maybe bad map? */
 	wall_dist = get_distance(data->player->x, data->player->y, data->wall.wall_x, data->wall.wall_y);
 	wall_dist *= cos(data->player->th -ray);

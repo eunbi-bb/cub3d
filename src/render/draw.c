@@ -1,5 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   draw.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: eucho <eucho@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/22 08:56:45 by eucho         #+#    #+#                 */
+/*   Updated: 2024/01/22 10:20:18 by eucho         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
+/*
+*	Returning a hex code of rgb colors of ceiling or floor depending on 'del'.
+*/
 long long    color_ceiling_floor(t_data *data, char del)
 {
     int		colors[3];
@@ -19,6 +34,11 @@ long long    color_ceiling_floor(t_data *data, char del)
     return (get_rgba(colors[0], colors[1], colors[2], 255));
 }
 
+/*
+*	Drawing vertical lines on a screen.
+*	First while loop is drawing a ceiling.
+*	Second while loppe is drawing a floor.
+*/
 void    draw_ver_line(t_data *data, int x)
 {
 	int	y;
@@ -37,18 +57,30 @@ void    draw_ver_line(t_data *data, int x)
 	}
 }
 
-void    draw_wall(t_data *data, double wdist, int x, t_dir wall_dir)
+/*
+*	Drawing walls with texture and a light effect from get_luminosity().
+*	y0 : Starting y postion of the wall slice.
+*	y1 : Ending y position of the wall slice.
+*	To prevent y_start and y_end are escaping a screen size, comparing to
+*	0 and SY befor set values. 
+*/
+void    draw_wall(t_data *data, double wall_dist, int x, t_dir wall_dir)
 {
 	int		y0; 
 	int		y1;
-	double light;
 
-	light = get_luminosity(data, wdist);
-	data->wall.wall_h = get_wall_height(wdist);
+	data->tex.light = get_luminosity(data, wall_dist);
+	data->wall.wall_h = get_wall_height(wall_dist);
 	y0 = (int)((SY - data->wall.wall_h)/ 2.0);
 	y1 = y0 + data->wall.wall_h - 1;
-	data->wall.y_start = max(0, y0);
-	data->wall.y_end = min(SY - 1, y1);
-	print_texture(data, x, y0, wall_dir, light);
+	if (0 > y0)
+		data->wall.y_start = 0;
+	else
+		data->wall.y_start = y0;
+	if (SY - 1 < y1)
+		data->wall.y_end = SY - 1;
+	else
+		data->wall.y_end = y1;
+	print_tex(data, x, y0, wall_dir);
 	draw_ver_line(data, x);
 }

@@ -76,7 +76,7 @@ void	calculate_intersection(t_data *data)
 /*
 *	DDA algorithm. Calculating intersections.
 */
-bool get_wall_intersection(t_data *data, double ray, t_dir *wall_dir)
+bool get_intersection(t_data *data, double ray, t_dir *wall_dir)
 {
 	bool	hit;
 	int		cell;

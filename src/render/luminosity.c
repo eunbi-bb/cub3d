@@ -2,7 +2,7 @@
 
 /* Light effect */
 /*
-*	Extracts individual RGB components.
+*	Extracting individual RGB components.
 */
 void decode_rgb(int color, int *r, int *g, int *b)
 {
@@ -12,13 +12,17 @@ void decode_rgb(int color, int *r, int *g, int *b)
 }
 
 /*
-*	Combines RGB components into a single integer color representation.
+*	Combining RGB components into a single integer color representation.
 */
 int encode_rgb(int r, int g, int b) 
 {
     return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
 }
 
+/*
+*   Adjusting the intensity of the color based on the light
+*   and returning the modified rgb color. 
+*/
 int fade_color(int color, double light)
 {
 	int	r;
@@ -44,7 +48,12 @@ int fade_color(int color, double light)
 */
 double get_luminosity(t_data *data, double dist)
 {
-    static double D = -1;
-    if( D < 0 ) D = (data->file.map.row + data->file.map.column)/2.0;
-    return (dist > D) ? 0 : (1. - dist/D);
+    static double D;
+    D = -1;
+    if (D < 0)
+        D = (data->file.map.row + data->file.map.column)/2.0;
+    if (dist > D)
+        return (0);
+    else
+        return (1. - dist/D);
 }
