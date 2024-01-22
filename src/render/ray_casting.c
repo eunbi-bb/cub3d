@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 12:37:03 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/22 13:38:05 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/22 15:27:38 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	determine_hitside(t_data *data, double f, double g, int	*hit_side)
 *	After deciding a wall direction, update 'wall_x' and 'wall_y' values to
 *	the next coordination.
 */
-void	determine_wall_dir(t_data *data, int hit_side, t_dir *wall_dir, double f, double g)
+void	determine_wall_dir(t_data *data, int hit_side, t_dir *wall_dir)
 {
 	if (hit_side == VERT)
 	{
@@ -85,7 +85,7 @@ void	determine_wall_dir(t_data *data, int hit_side, t_dir *wall_dir, double f, d
 		else
 			*wall_dir = DIR_W;
 		data->wall.wall_x = data->wall.nx;
-		data->wall.wall_y = f;
+		data->wall.wall_y = data->wall.f;
 	}
 	else
 	{
@@ -93,7 +93,7 @@ void	determine_wall_dir(t_data *data, int hit_side, t_dir *wall_dir, double f, d
 			*wall_dir = DIR_N;
 		else
 			*wall_dir = DIR_S;
-		data->wall.wall_x = g;
+		data->wall.wall_x = data->wall.g;
 		data->wall.wall_y = data->wall.ny;
 	}
 }
@@ -134,7 +134,7 @@ bool get_intersection(t_data *data, double ray, t_dir *wall_dir)
 			break ;
 		if (cell == 1)
 		{
-			determine_wall_dir(data, hit_side, wall_dir, data->wall.f, data->wall.g);
+			determine_wall_dir(data, hit_side, wall_dir);
 			hit = true;
 			break;
 		}
