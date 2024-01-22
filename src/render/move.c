@@ -1,6 +1,11 @@
 #include "cub3d.h"
 
-//The angle range is from 0 - 360
+/*
+*	Updating the orientation anlge('th') of a player.
+*	if the angle becomes negative or over 360(_2PI),
+*	it adjusts it by adding or substracting 2PI and 
+*	ensuring it stays within the range(360).
+*/
 void	player_rotate(t_data *data, double th)
 {
 	data->player->th += th;
@@ -10,11 +15,14 @@ void	player_rotate(t_data *data, double th)
 		data->player->th -= _2PI;
 }
 
-/*	offset per direction
+/*	
+*	Offset per direction when a player moves.
 *	W : (+m cos th, +m sin th)
 *	S : (-m cos th, -m sin th)
 *	A : (m cos(th + 90), m sin(th + 90))
-*	D : (m cos()th - 90),m sin(th - 90))
+*	D : (m cos()th - 90), m sin(th - 90))
+*	M_PI	= pi = (rad)180
+*	M_PI_2	= pi/2 = (rad)90
 */
 static int get_move_offset(double th, int key, double amt, double *pdx, double *pdy)
 {
@@ -36,6 +44,14 @@ static int get_move_offset(double th, int key, double amt, double *pdx, double *
     return (0);
 }
 
+/*
+*	Moving a player position when a key is pressed.
+*	nx and ny are storing the next position of player and
+*	the values will be checked by 'get_cell_value()'
+*	to prevent the player goes inside of a wall.
+*	If nx and ny are not in the wall, update player position
+*	into nx and ny.
+*/
 int	player_move(t_data *data, int key, double amt)
 {
 	double	dx;

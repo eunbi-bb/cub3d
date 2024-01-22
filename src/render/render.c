@@ -1,9 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   render.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: eucho <eucho@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/22 13:47:09 by eucho         #+#    #+#                 */
+/*   Updated: 2024/01/22 15:06:49 by eucho         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
+/*
+*	Initializing variables that are needed for DDA.
+*	step	: one step size in a map.
+*	slope	: an inclination from x or y coord.
+*			if x or y step is 0, it means the slope is
+*			verticality or horizontality. Otherwise using tan()
+*			to set a inclination.
+*	nx & ny	: the next intersection coord. of x and y of a ray from (px,py).
+*			'floor()'	= rounds down a floating-point number 
+*						to the nearest integer.
+*			'ceil()'	= rounds up a floating-point number 
+*						to the nearest integer.
+*	f & g	: intialize as infinity value to ensure that the first comparsion
+*			will always be true. Especially with verticality and horizontality.
+*/
 void	init_values(t_data *data, double ray)
 {
-	data->wall.xstep = sign(cos(ray));  /* +1 (right), 0 (no change), -1 (left) */
-	data->wall.ystep = sign(sin(ray));  /* +1 (up),    0 (no change), -1 (down) */
+	data->wall.xstep = sign(cos(ray));
+	data->wall.ystep = sign(sin(ray));
 	if (data->wall.xstep == 0)
 		data->wall.xslope = INFINITY;
 	else
@@ -30,7 +57,8 @@ void	init_values(t_data *data, double ray)
 
 /*
 *	Casting a single ray. 
-*	ANGLE_PER_PIXEL = FOV_H / (SX - 1)
+*	fov_h / (SX - 1.)	: represents angle per pixel.
+*	ANGLE_PER_PIXEL = fov_ / (SX - 1)
 */
 double cast_single_ray(int x, t_data *data, t_dir *wall_dir)
 {
@@ -42,11 +70,15 @@ double cast_single_ray(int x, t_data *data, t_dir *wall_dir)
 	ray = (data->player->th + (fov_h / 2.0)) - (x * (fov_h / (SX - 1.)));
 	if (get_intersection(data, ray, wall_dir) == false)
 		return (INFINITY); /* no intersection - maybe bad map? */
-	wall_dist = get_distance(data->player->x, data->player->y, data->wall.wall_x, data->wall.wall_y);
+	wall_dist = get_e_distance(data->player->x, data->player->y, data->wall.wall_x, data->wall.wall_y);
 	wall_dist *= cos(data->player->th -ray);
 	return (wall_dist);
 }
 
+/*
+*	Getting wall distance from ray-casting and draw walls depending on
+*	the distance.
+*/
 void	render(t_data *data)
 {
 	int		x;
@@ -62,6 +94,9 @@ void	render(t_data *data)
 	}
 }
 
+/*
+*	Rendering images whenever a player is rotating or moving.
+*/
 void key_press(struct mlx_key_data keydata, void *game_data)
 {
 	keys_t key;

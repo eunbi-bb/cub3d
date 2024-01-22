@@ -39,7 +39,7 @@ typedef struct s_player
 {
 	double	x;
 	double	y;
-	double	th;
+	double	th; /* angle */
 }	t_player;
 
 /* coord. of wall intersection point */
@@ -48,23 +48,23 @@ typedef struct s_wall
 	double	wall_x;
 	double	wall_y;
 	int		wall_h;
-	int		y_start;
-	int		y_end;
-	int		xstep; /* +1 (right), 0 (no change), -1 (left) */
-	int		ystep; /* +1 (up),    0 (no change), -1 (down) */
+	int		y_start; /* start position of a wall */
+	int		y_end; /* end position of a wall */
+	int		xstep; /* -1 (left),	0 (no change), +1 (right) */
+	int		ystep; /* -1 (down),    0 (no change), +1 (up) */
 	double	xslope;
 	double	yslope;
-	double	nx; //the next intersection coord of a ray from (px,py)
-	double	ny;
-	double	f;
-	double	g;
+	double	nx; /* the next intersection x coord. of a ray from (px,py) */
+	double	ny; /* the next intersection y coord. */
+	double	f;	/* function */
+	double	g;	/* inverse function */
 }	t_wall;
 
 typedef struct s_texture
 {
-	double	ratio;
 	int		x;
 	int		y;
+	double	ratio;
 	double	light;
 }	t_texture;
 
@@ -221,7 +221,7 @@ int				get_rgba(int r, int g, int b, int a);
 
 /*** ray_casting.c ***/
 bool			get_intersection(t_data *data, double ray, t_dir *wall_dir);
-double			get_distance(double x0, double y0, double x1, double y1);
+double			get_e_distance(double x0, double y0, double x1, double y1);
 
 /*** render_utils.c ***/
 double			deg2rad(double deg);

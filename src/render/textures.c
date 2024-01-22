@@ -1,10 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <stdbool.h>
-#include "cub3d.h"
-#include "MLX42/MLX42_Int.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   textures.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: eucho <eucho@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/22 15:22:24 by eucho         #+#    #+#                 */
+/*   Updated: 2024/01/22 15:22:58 by eucho         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "cub3d.h"
+
+/*
+*	Combining rgba individual integer values into
+*	a single 32 bit integer.
+*/
 int	get_rgba(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
@@ -37,6 +48,10 @@ mlx_texture_t *texture_dir(t_data *data, t_dir wdir)
 		return (data->file.identifier.texture_so);
 }
 
+/*
+*	Extracting rgba values from png image and returns 
+*	a single integer.
+*/
 int	get_png_rgb(int x, int y, mlx_texture_t *image)
 {
 	int	index;
@@ -53,6 +68,11 @@ int	get_png_rgb(int x, int y, mlx_texture_t *image)
 		image->pixels[index + 3]));
 }
 
+/*
+*	Printing textures on walls depending on wall direction.
+*	Expressing perspective effect by fade_color().
+*	tex.x is a column of a texture and tex.y is a row of a texture.
+*/
 void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 {
 	mlx_texture_t	*tex;
@@ -61,14 +81,14 @@ void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 
 	tex = texture_dir(data, wall_dir);
 	if (wall_dir == DIR_W || wall_dir == DIR_E)
-		data->tex.ratio = data->wall.wall_y-floor(data->wall.wall_y);
+		data->tex.ratio = data->wall.wall_y - floor(data->wall.wall_y);
 	else
-		data->tex.ratio = data->wall.wall_x-floor(data->wall.wall_x);
-	data->tex.x = (int)(data->tex.ratio * tex->width); /* texture column*/
+		data->tex.ratio = data->wall.wall_x - floor(data->wall.wall_x);
+	data->tex.x = (int)(data->tex.ratio * tex->width);
 	y = data->wall.y_start;
 	while (y <= data->wall.y_end)
 	{
-		data->tex.y = (int)(((double)(y - y0) * tex->height / data->wall.wall_h)); /* texture row */
+		data->tex.y = (int)(((double)(y - y0) * tex->height / data->wall.wall_h));
 		color = fade_color(get_png_rgb(data->tex.x, data->tex.y, tex), data->tex.light);
 		mlx_put_pixel(data->image, x, y, color);
 		y++;
