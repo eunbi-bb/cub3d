@@ -65,6 +65,7 @@ OBJF		=	.cache_exists
 CYAN_B		=	\033[1;96m
 CYAN		=	\033[0;96m
 GREEN_B		=	\033[1;32m
+DEFAULT		=	\033[0m
 
 all: libmlx $(NAME)
 
@@ -74,7 +75,7 @@ libmlx:
 $(NAME): $(OBJ) $(OBJF)
 		@make -C $(LIBFT)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT)/libft.a -o $(NAME) $(MATH)
-		@echo "$(CYAN_B) - cub3d is compiled -"
+		@echo "$(CYAN_B) - cub3d is compiled - $(DEFAULT)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)| $(OBJF)
 			@mkdir -p $(@D)
@@ -89,12 +90,12 @@ clean:
 		@rm -rf $(LIBMLX)/build
 		@make clean -C $(LIBFT)
 		@rm -f $(OBJF)
-		@echo "$(CYAN)- Object files are cleaned -"
+		@echo "$(CYAN)- Object files are cleaned - $(DEFAULT)"
 
 fclean: clean
 		@rm -f $(NAME)
 		@make fclean -C $(LIBFT)
-		@echo "$(CYAN)- Executable files are cleaned -"
+		@echo "$(CYAN)- Executable files are cleaned - $(DEFAULT)"
 
 re:	fclean all
 
