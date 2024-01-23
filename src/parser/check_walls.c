@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-static bool valid_map_rows(int r, int c, t_file *file)
+static bool	valid_map_rows(int r, int c, t_file *file)
 {
 	t_map	*map;
 
@@ -14,10 +14,12 @@ static bool valid_map_rows(int r, int c, t_file *file)
 		if (map->map_arr[r][c] == ' ')
 		{
 			if (r != 0
-				&& (map->map_arr[r - 1][c] != ' ' && map->map_arr[r - 1][c] != '1'))
+				&& (map->map_arr[r - 1][c] != ' '
+				&& map->map_arr[r - 1][c] != '1'))
 				return (false);
 			if (r != file->map.row - 1
-				&& (map->map_arr[r + 1][c] != ' ' && map->map_arr[r + 1][c] != '1'))
+				&& (map->map_arr[r + 1][c] != ' '
+				&& map->map_arr[r + 1][c] != '1'))
 				return (false);
 		}
 		c++;
@@ -27,10 +29,10 @@ static bool valid_map_rows(int r, int c, t_file *file)
 	return (true);
 }
 
-static bool valid_left_side_map(t_file *file)
+static bool	valid_left_side_map(t_file *file)
 {
-	int r;
-	int c;
+	int	r;
+	int	c;
 
 	r = 0;
 	while (r < file->map.row && file->map.map_arr[r] != NULL)
@@ -48,8 +50,6 @@ static bool valid_left_side_map(t_file *file)
 				break ;
 			else
 				return (false);
-			// if (file->map.map_arr[r][c] != '1')
-			//  return (false);
 			c++;
 		}
 		r++;
@@ -57,9 +57,9 @@ static bool valid_left_side_map(t_file *file)
 	return (true);
 }
 
-static bool valid_first_last_row(t_file *file)
+static bool	valid_first_last_row(t_file *file)
 {
-	int c;
+	int	c;
 
 	c = 0;
 	while (file->map.map_arr[0][c] != '\0')
@@ -78,11 +78,11 @@ static bool valid_first_last_row(t_file *file)
 	return (true);
 }
 
-static void check_different_shapes(int r, t_file *file)
+static void	check_different_shapes(int r, t_file *file)
 {
-	int c;
-	int len_cur_line;
-	int len_next_line;
+	int	c;
+	int	len_cur_line;
+	int	len_next_line;
 
 	c = 0;
 	if (r == file->map.row - 1)
@@ -98,16 +98,15 @@ static void check_different_shapes(int r, t_file *file)
 				&& file->map.map_arr[r + 1][c] !=
 				file->map.p_direction))
 		{
-			// printf("%d %d\n", r, c);
-			err_msg("SICTIK");
+			err_msg("Map is not enclosed");
 		}
 		c++;
 	}
 }
 
-void check_walls(t_file *file)
+void	check_walls(t_file *file)
 {
-	int r;
+	int	r;
 
 	r = 0;
 	valid_first_last_row(file);
@@ -116,7 +115,6 @@ void check_walls(t_file *file)
 		if (!valid_map_rows(r, 0, file))
 			err_msg("Map is not enclosed");
 		check_different_shapes(r, file);
-			// err_msg("Invalid first last map");
 		r++;
 	}
 	if (!valid_left_side_map(file))

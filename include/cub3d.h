@@ -159,7 +159,7 @@ bool			empty_line_in_map(char *content, int i);
 bool			valid_player(char c);
 void			create_map(t_file *file, char *line, int *row);
 int				handle_map(t_file *file);
-void			find_player_pos(t_file *file);
+void			find_player_pos(t_file *file, int r);
 void			make_int_arr(t_file *file, int r, int c);
 
 /*** map_validation.c ***/
@@ -169,7 +169,7 @@ char			**copy_map(t_file *file);
 bool			is_texture_type(char *texture);
 bool			is_color_type(char *color);
 bool			identifiers_complete(t_file *file);
-int				handle_content(t_file *file);
+int				handle_content(t_file *file, int r, int row);
 
 /*** setting_texture_paths.c ***/
 void			set_textures(t_file *file, char **texture_arr);

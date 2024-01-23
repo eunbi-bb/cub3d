@@ -1,9 +1,9 @@
 #include "cub3d.h"
 
-static int set_floor(t_file *file, char *content, char **texture_arr)
+static int	set_floor(t_file *file, char *content, char **texture_arr)
 {
-	char **color_arr;
-	char *temp_arr;
+	char	**color_arr;
+	char	*temp_arr;
 
 	if (ft_strsame("F", texture_arr[0]) == 1)
 	{
@@ -20,7 +20,7 @@ static int set_floor(t_file *file, char *content, char **texture_arr)
 	return (EXIT_FAILURE);
 }
 
-static bool valid_floor_color(t_file *file)
+static bool	valid_floor_color(t_file *file)
 {
 	if (file->identifier.f_r > 255 || file->identifier.f_r < 0)
 		return (false);
@@ -31,7 +31,7 @@ static bool valid_floor_color(t_file *file)
 	return (true);
 }
 
-static bool valid_ceiling_color(t_file *file)
+static bool	valid_ceiling_color(t_file *file)
 {
 	if (file->identifier.c_r > 255 || file->identifier.c_r < 0)
 		return (false);
@@ -42,10 +42,10 @@ static bool valid_ceiling_color(t_file *file)
 	return (true);
 }
 
-static int set_ceiling(t_file *file, char *content, char **texture_arr)
+static int	set_ceiling(t_file *file, char *content, char **texture_arr)
 {
-	char **color_arr;
-	char *temp_arr;
+	char	**color_arr;
+	char	*temp_arr;
 
 	if (ft_strsame("C", texture_arr[0]) == 1)
 	{
@@ -58,15 +58,15 @@ static int set_ceiling(t_file *file, char *content, char **texture_arr)
 		file->identifier.c_b = ft_atoi(color_arr[2]);
 		file->identifier.ceiling_set = true;
 		if (file->identifier.c_r == file->identifier.f_r
-		&& file->identifier.c_g == file->identifier.f_g
-		&& file->identifier.c_b == file->identifier.f_b)
+			&& file->identifier.c_g == file->identifier.f_g
+			&& file->identifier.c_b == file->identifier.f_b)
 			err_msg("Set different colors for ceiling and floor");
 		return (0);
 	}
 	return (EXIT_FAILURE);
 }
 
-void set_colors(t_file *file, char *content, char **texture_arr)
+void	set_colors(t_file *file, char *content, char **texture_arr)
 {
 	if (set_floor(file, content, texture_arr) == 0)
 	{

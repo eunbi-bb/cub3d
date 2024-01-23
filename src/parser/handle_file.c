@@ -1,20 +1,5 @@
 #include "cub3d.h"
 
-// int	check_empty_new_line(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '\n')
-// 			if (str[i + 1] == '\n')
-// 				return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 /*
 **	Appends a string to a existed string
 **	Works like ft_strjoin
@@ -55,8 +40,8 @@ char	*file_content_arr(t_file *file, t_map *map, int fd)
 {
 	char	*content;
 	char	*line;
-	(void)map;
 
+	(void)map;
 	content = NULL;
 	line = NULL;
 	while (1)
@@ -69,11 +54,9 @@ char	*file_content_arr(t_file *file, t_map *map, int fd)
 		if (content == NULL)
 			err_msg("Line can not be appended");
 	}
-	//printf("raw content = %s", content);
 	file->content_arr = ft_split(content, '\n');
 	if (file->content_arr == NULL)
 		err_msg("Map array can not be created");
-	//free(content);
 	return (content);
 }
 
@@ -85,7 +68,7 @@ char	*file_content_arr(t_file *file, t_map *map, int fd)
 ** It passes chars until it passes floor-color ceiling line,
 ** searches consecutive \n's after first row of the map,
 */
-bool empty_line_in_map(char *content, int i)
+bool	empty_line_in_map(char *content, int i)
 {
 	while (content[i] != '\0')
 	{
@@ -101,9 +84,9 @@ bool empty_line_in_map(char *content, int i)
 			}
 			while (content[i] != '1' && content[i] != '\0')
 				i++;
-			while ((content[i] == '1') || (content[i] == ' ')
-					|| (content[i] == '0') || content[i] == '\n'
-					|| valid_player(content[i]))
+			while ((content[i] == '1') || (content[i] == ' '
+					|| (content[i] == '0')) || content[i] == '\n'
+				|| valid_player(content[i]))
 			{
 				if (content[i] == '\n' && content[i + 1] == '\n')
 					err_msg("Empty line in the map");
@@ -115,31 +98,23 @@ bool empty_line_in_map(char *content, int i)
 	return (free(content), false);
 }
 
-int get_content_from_file(t_file *file, char *file_name)
+int	get_content_from_file(t_file *file, char *file_name)
 {
-	int	fd;
-	int	map_lines;
-	char *content;
+	int		fd;
+	int		map_lines;
+	char	*content;
 
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		err_msg("File can not be opened");
 	content = file_content_arr(file, &file->map, fd);
-	//file_content_arr(file, &file->map, fd);
 	valid_content_order(file);
-	//print_map(file);
 	map_lines = file->total_lines - 5;
-	file->map.map_arr = (char**)malloc(sizeof(char*) * map_lines);
-	if (handle_content(file) == 1)
+	file->map.map_arr = (char **)malloc(sizeof(char *) * map_lines);
+	if (handle_content(file, 0, 0) == 1)
 		err_msg("Identifiers can not be set");
 	empty_line_in_map(content, 0);
 	make_int_arr(file, file->map.row - 1, 0);
-	//copy_map(file);
-	//print_file_content(file);
-	//print_texture_paths(file);
-	//print_colors(file);
-	//print_number_map_lines(file);
-	//printf("map row = %d\n", file->map.row);
 	print_int_map(file);
 	return (0);
 }
