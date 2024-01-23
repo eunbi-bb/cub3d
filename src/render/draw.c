@@ -6,14 +6,15 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 08:56:45 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 08:42:34 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 10:25:53 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /*
-*	Returning a hex code of rgb colors of ceiling or floor depending on 'del'.
+*	Returning a hex code for RGB colors of the ceiling 
+*	or floor depending on 'del'.
 */
 long long	color_ceiling_floor(t_data *data, char del)
 {
@@ -36,8 +37,8 @@ long long	color_ceiling_floor(t_data *data, char del)
 
 /*
 *	Drawing vertical lines on a screen.
-*	First while loop is drawing a ceiling.
-*	Second while loppe is drawing a floor.
+*	The first while loop is drawing a ceiling.
+*	The second while loop is drawing a floor.
 */
 void	draw_ver_line(t_data *data, int x)
 {
@@ -58,11 +59,11 @@ void	draw_ver_line(t_data *data, int x)
 }
 
 /*
-*	Drawing walls with texture and a light effect from get_luminosity().
+*	Drawing walls with texture and a light effect from 'get_luminosity()'.
 *	y0 : Starting y postion of the wall slice.
 *	y1 : Ending y position of the wall slice.
-*	To prevent y_start and y_end are escaping a screen size, comparing to
-*	0 and SY befor set values. 
+*	To prevent 'y_start' and 'y_end' from exceeding screen size,
+*	compare them to '0' and 'SY' before setting values.
 */
 void	draw_wall(t_data *data, double wall_dist, int x, t_dir wall_dir)
 {

@@ -6,14 +6,14 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 12:37:03 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 09:10:45 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 10:45:55 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 /*
-*	Calculating a Euclidean distance between the two points.
-*	sqrt()	: calculate the square root of a given number.
+*	Calculating the Euclidean distance between two points.
+*	sqrt()	: used to calculate the square root of a given number.
 */
 double	get_e_dist(double x0, double y0, double x1, double y1)
 {
@@ -26,15 +26,16 @@ double	get_e_dist(double x0, double y0, double x1, double y1)
 }
 
 /*
-*	Deciding a hit_side depending on distance of horizontal or vertical lines.
+*	Deciding a 'hit_side' depending on 
+*	distance of horizontal or vertical lines.
 * 	To find a wall, a shorter distance between dist_v and dist_h 
-*	is needed to be chosen and set the map index (mapx and mapy) 
-*	from the intersection. 
-*	'xstep' and 'ystep' are representing step size in x or y direction.
-*	In order to set a correct 'mapx' and 'mapy' index,
-*	checking values of 'xstep' and 'ystep'.
-*	As the last, check if 'mapx' and 'mapy' index is wall or not
-*	by 'get_cell_value()'.
+*	needs to be chosen, and the map index (mapx and mapy) 
+*	from the intersection is set. 
+*	'xstep' and 'ystep' represent the step size in the x or y direction.
+*	To set the correct 'mapx' and 'mapy' indices, 
+*	check the values of 'xstep' and 'ystep'.
+*	Lastly, check if the 'mapx' and 'mapy' indices correspond to a wall
+*	or not using 'get_cell_value()'.
 */
 int	determine_hitside(t_data *data, double f, double g, int	*hit_side)
 {
@@ -71,8 +72,8 @@ int	determine_hitside(t_data *data, double f, double g, int	*hit_side)
 *					S
 *				(ystep <= 0)
 *	Deciding a wall direction depending on hit_side.
-*	After deciding a wall direction, update 'wall_x' and 'wall_y' values to
-*	the next coordination.
+*	After deciding the wall direction,
+*	update the 'wall_x' and 'wall_y' values to the next coordinates.
 */
 void	determine_wall_dir(t_data *data, int hit_side, t_dir *wall_dir)
 {
@@ -97,9 +98,8 @@ void	determine_wall_dir(t_data *data, int hit_side, t_dir *wall_dir)
 }
 
 /*
-*	A linear function and inverse function calculation in order to find
-*	a intersection.
-*	When it's not verticality(xstep != 0) or horizontality(ystep != 0).
+*	Calculating a linear function and its inverse to find an intersection.
+*	Applicable when it's neither vertical(xstep != 0) nor horizontal(ystep != 0).
 *	f : y = mx + c (slope * (nx - x) + y)
 *	g : x = my + c (slope * (ny - y) + x)
 */
@@ -114,10 +114,10 @@ void	calculate_intersection(t_data *data)
 }
 
 /*
-*	DDA algorithm. Calculating intersections.
-*	Depending on which intersection is got hit, adding step to nx or ny.
-*	Basically, moving the nx or ny toward vertically or horixontally 1 step
-*	to the nearest side.
+*	DDA algorithm for calculating intersections.
+*	Depending on which intersection is hit, adding a step to 'nx' or 'ny'.
+*	Essentially, moving 'nx' or 'ny' toward the nearest side, 
+*	either vertically or horizontally, by 1 step.
 */
 bool	get_intersection(t_data *data, double ray, t_dir *wall_dir)
 {

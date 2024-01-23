@@ -6,14 +6,14 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:25:47 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 09:13:49 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 10:49:29 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /*
-*	Converting degree to radian.
+*	Converting degrees to radians.
 */
 double	deg2rad(double deg)
 {
@@ -22,7 +22,7 @@ double	deg2rad(double deg)
 
 /*
 *	Checking if 'd' is effectively zero or not.
-*	Returning 1 if the absolute value of 'd' is less then '1e-06',
+*	Returning 1 if the absolute value of 'd' is less than '1e-06',
 *	indicating 'd' is close to zero.
 *	fabs() : "floating-point absolute value"
 *			to calculate the absolute value of floating-point number.
@@ -34,7 +34,8 @@ int	is_zero(double d)
 }
 
 /*
-*	Recieving float number and convert it into the sign (+1 or 0 or -1)
+*	Receiving a floating-point number 
+*	and converting it into the sign (+1, 0 or -1).
 */
 int	sign(double d)
 {
@@ -51,9 +52,9 @@ int	sign(double d)
 
 /*
 *	To retrieve the value of a cell in a map.
-*	It checks if the prvided coords (x, y) are within 
-*	the valind range for the map.
-*	It returns the value stored in the correspongin cell of the map[y][x].
+*	It checks if the prvided coordinates (x, y) are within 
+*	the valid range for the map.
+*	It returns the value stored in the corresponding cell at the map[y][x].
 *	If the coords are out of bounds, it returns -1.
 */
 int	get_cell_value(t_data *data, int x, int y)

@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:25:24 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 08:57:04 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 10:28:47 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,9 @@ int	fade_color(int color, double light)
 }
 
 /*
-*	Returning a value between 0 - 1 depending on dist.
-*	map_xamax() and map_ymax() are getting the value of MAPX and MAPY.
-*	static var is in order to reduce duplicated calculation
-*	and avoid using of const.
+*	Returning a value between 0 and 1 depending on 'dist'.
+*	The static variable is used to reduce duplicated calculations
+*	and avoid the use of const.
 */
 double	get_luminosity(t_data *data, double dist)
 {

@@ -6,25 +6,26 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 13:47:09 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 09:26:43 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 10:52:19 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /*
-*	Initializing variables that are needed for DDA.
-*	step	: one step size in a map.
-*	slope	: an inclination from x or y coord.
-*			 if x or y step is 0, it means the slope is
-*			 verticality or horizontality. Otherwise using tan()
-*			 to set a inclination.
-*	nx & ny	: the next intersection coord. of x and y of a ray from (px,py).
+*	Initializing variables needed for DDA :
+*	step	: one step size in the map.
+*	slope	: an inclination from x or y coordinates
+*			 if x or y step is 0, it implies the slope is
+*			 verticality or horizontality. Otherwise using 'tan()'
+*			 to set an inclination.
+*	nx & ny	: the next intersection coordinates of x and y 
+				of a ray from (px,py).
 *			'floor()'	= rounds down a floating-point number 
 *						to the nearest integer.
 *			'ceil()'	= rounds up a floating-point number 
 *						to the nearest integer.
-*	f & g	: intialize as infinity value to ensure that the first comparsion
+*	f & g	: intialized as infinity values to ensure that the first comparsion
 *			 will always be true. Especially with verticality and horizontality.
 */
 void	init_values(t_data *data, double ray)

@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:25:37 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 09:10:09 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 10:32:03 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 /*
 *	Updating the orientation anlge('th') of a player.
-*	if the angle becomes negative or over 360(_2PI),
-*	it adjusts it by adding or substracting 2PI and 
-*	ensuring it stays within the range(360).
+*	If the angle becomes negative or exceeds 360 (_2PI),
+*	it is adjusted by adding or subtracting 2PI
+*	to ensure it stays within the range(0 - 360).
 */
 void	player_rotate(t_data *data, double th)
 {
@@ -59,12 +59,12 @@ static int	get_move_offset(double th, int key, double *pdx, double *pdy)
 }
 
 /*
-*	Moving a player position when a key is pressed.
-*	nx and ny are storing the next position of player and
-*	the values will be checked by 'get_cell_value()'
-*	to prevent the player goes inside of a wall.
-*	If nx and ny are not in the wall, update player position
-*	into nx and ny.
+*	Moving a player's position when a key is pressed.
+*	'nx' and 'ny' store the next position of the player, 
+*	and their values will be checked by 'get_cell_value()'
+*	to prevent the player from moving inside a wall.
+*	If nx and ny are not within a wall, update player's position
+*	to 'nx' and 'ny'.
 */
 int	player_move(t_data *data, int key)
 {

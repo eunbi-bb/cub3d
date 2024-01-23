@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:22:24 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 09:37:24 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 10:54:37 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ int	get_png_rgb(int x, int y, mlx_texture_t *image)
 }
 
 /*
-*	Printing textures on walls depending on wall direction.
-*	Expressing perspective effect by fade_color().
-*	tex.x is a column of a texture and tex.y is a row of a texture.
+*	Printing textures on walls depending on the wall direction.
+*	Expressing perspective effect with 'fade_color()'.
+*	'tex.x' represents a column of a texture
+*	and 'tex.y' represents a row of a texture.
 */
 void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 {
