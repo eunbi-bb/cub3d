@@ -33,21 +33,21 @@ endif
 
 SRC_DIR		= src/
 SRC_FILE	= main.c \
-				parser.c \
-				error.c \
-				free.c \
-				handle_file.c \
-				utils.c \
-				file_extension.c \
-				file_content_validation.c \
-				map.c \
-				seperate_file_content.c \
-				setting_texture_paths.c \
-				setting_colors.c \
-				map_validation.c \
-				check_walls.c \
-				test.c \
-				init.c \
+				parser/parser.c \
+				utils/error.c \
+				utils/free.c \
+				parser/handle_file.c \
+				utils/utils.c \
+				parser/file_extension.c \
+				parser/file_content_validation.c \
+				parser/map.c \
+				parser/seperate_file_content.c \
+				parser/setting_texture_paths.c \
+				parser/setting_colors.c \
+				parser/map_validation.c \
+				parser/check_walls.c \
+				utils/test.c \
+				utils/init.c \
 				render/draw.c \
 				render/luminosity.c \
 				render/move.c \

@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-char **copy_map(t_file *file)
+char	**copy_map(t_file *file)
 {
 	int	i;
 

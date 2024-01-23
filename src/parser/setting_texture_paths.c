@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-static int set_no_texture(t_file *file, char **texture_arr)
+static int	set_no_texture(t_file *file, char **texture_arr)
 {
 	if (ft_strsame(texture_arr[0], "NO") == 1)
 	{
@@ -12,11 +12,10 @@ static int set_no_texture(t_file *file, char **texture_arr)
 		file->identifier.no_set = true;
 		return (0);
 	}
-	// printf("\npath_north : %s\n", file->identifier.path_no);
 	return (EXIT_FAILURE);
 }
 
-static int set_so_texture(t_file *file, char **texture_arr)
+static int	set_so_texture(t_file *file, char **texture_arr)
 {
 	if (ft_strsame(texture_arr[0], "SO") == 1)
 	{
@@ -31,7 +30,7 @@ static int set_so_texture(t_file *file, char **texture_arr)
 	return (EXIT_FAILURE);
 }
 
-static int set_we_texture(t_file *file, char **texture_arr)
+static int	set_we_texture(t_file *file, char **texture_arr)
 {
 	if (ft_strsame(texture_arr[0], "WE") == 1)
 	{
@@ -46,7 +45,7 @@ static int set_we_texture(t_file *file, char **texture_arr)
 	return (EXIT_FAILURE);
 }
 
-static int set_ea_texture(t_file *file, char **texture_arr)
+static int	set_ea_texture(t_file *file, char **texture_arr)
 {
 	if (ft_strsame(texture_arr[0], "EA") == 1)
 	{
@@ -61,7 +60,7 @@ static int set_ea_texture(t_file *file, char **texture_arr)
 	return (EXIT_FAILURE);
 }
 
-void set_textures(t_file *file, char **texture_arr)
+void	set_textures(t_file *file, char **texture_arr)
 {
 	if (valid_file_extension(".png", texture_arr[1]) == 0)
 		err_msg("Bad file extensiton in a texture path");
