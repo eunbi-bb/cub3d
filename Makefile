@@ -64,6 +64,7 @@ OBJF		=	.cache_exists
 
 CYAN_B		=	\033[1;96m
 CYAN		=	\033[0;96m
+GREEN_B		=	\033[1;32m
 
 all: libmlx $(NAME)
 
@@ -73,7 +74,7 @@ libmlx:
 $(NAME): $(OBJ) $(OBJF)
 		@make -C $(LIBFT)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT)/libft.a -o $(NAME) $(MATH)
-		@echo "- cub3d is compiled -"
+		@echo "$(CYAN_B) - cub3d is compiled -"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)| $(OBJF)
 			@mkdir -p $(@D)

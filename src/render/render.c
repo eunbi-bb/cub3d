@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 13:47:09 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 10:52:19 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 11:04:48 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void	key_press(struct mlx_key_data keydata, void *game_data)
 		player_rotate(data, ROT_UNIT * rotate);
 		render(data);
 	}
+	else
+		printf("\033[1;32m Invalid key\n Move : WASD / Rotate : ← or →\n");
 }
 
 /******** Rendering without textures ********/
