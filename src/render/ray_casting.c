@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 12:37:03 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/22 15:27:38 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 09:10:45 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 *	Calculating a Euclidean distance between the two points.
 *	sqrt()	: calculate the square root of a given number.
 */
-double get_e_distance(double x0, double y0, double x1, double y1)
+double	get_e_dist(double x0, double y0, double x1, double y1)
 {
-	double dx;
-	double dy;
+	double	dx;
+	double	dy;
 
 	dx = x0 - x1;
 	dy = y0 - y1;
@@ -38,14 +38,12 @@ double get_e_distance(double x0, double y0, double x1, double y1)
 */
 int	determine_hitside(t_data *data, double f, double g, int	*hit_side)
 {
-	int		mapx; 
+	int		mapx;
 	int		mapy;
-	double	dist_v;
-	double	dist_h;
 
-	dist_v = get_e_distance(data->player->x, data->player->y, data->wall.nx, f);
-	dist_h = get_e_distance(data->player->x, data->player->y, g, data->wall.ny);
-	if (dist_v < dist_h)
+	data->wall.dist_v = get_e_dist(data->pl->x, data->pl->y, data->wall.nx, f);
+	data->wall.dist_h = get_e_dist(data->pl->x, data->pl->y, g, data->wall.ny);
+	if (data->wall.dist_v < data->wall.dist_h)
 	{
 		*hit_side = VERT;
 		mapy = (int)f;
@@ -54,7 +52,7 @@ int	determine_hitside(t_data *data, double f, double g, int	*hit_side)
 		else
 			mapx = (int)(data->wall.nx) - 1;
 	}
-	else 
+	else
 	{
 		*hit_side = HORIZ;
 		mapx = (int)g;
@@ -63,7 +61,7 @@ int	determine_hitside(t_data *data, double f, double g, int	*hit_side)
 		else
 			mapy = (int)(data->wall.ny) - 1;
 	}
-	return (get_cell_value(data, mapx, mapy));	
+	return (get_cell_value(data, mapx, mapy));
 }
 
 /*
@@ -100,16 +98,19 @@ void	determine_wall_dir(t_data *data, int hit_side, t_dir *wall_dir)
 
 /*
 *	A linear function and inverse function calculation in order to find
-*	a intersection. When it's not verticality(xstep != 0) or horizontality(ystep != 0).
+*	a intersection.
+*	When it's not verticality(xstep != 0) or horizontality(ystep != 0).
 *	f : y = mx + c (slope * (nx - x) + y)
 *	g : x = my + c (slope * (ny - y) + x)
 */
 void	calculate_intersection(t_data *data)
 {
 	if (data->wall.xstep != 0)
-		data->wall.f = data->wall.xslope * (data->wall.nx - data->player->x) + data->player->y;
+		data->wall.f = data->wall.xslope * (data->wall.nx - data->pl->x) \
+		+ data->pl->y;
 	if (data->wall.ystep != 0)
-		data->wall.g = data->wall.yslope * (data->wall.ny - data->player->y) + data->player->x;
+		data->wall.g = data->wall.yslope * (data->wall.ny - data->pl->y) \
+		+ data->pl->x;
 }
 
 /*
@@ -118,7 +119,7 @@ void	calculate_intersection(t_data *data)
 *	Basically, moving the nx or ny toward vertically or horixontally 1 step
 *	to the nearest side.
 */
-bool get_intersection(t_data *data, double ray, t_dir *wall_dir)
+bool	get_intersection(t_data *data, double ray, t_dir *wall_dir)
 {
 	bool	hit;
 	int		cell;
@@ -126,7 +127,7 @@ bool get_intersection(t_data *data, double ray, t_dir *wall_dir)
 
 	hit = false;
 	init_values(data, ray);
-	while(!hit)
+	while (!hit)
 	{
 		calculate_intersection(data);
 		cell = determine_hitside(data, data->wall.f, data->wall.g, &hit_side);
@@ -136,7 +137,7 @@ bool get_intersection(t_data *data, double ray, t_dir *wall_dir)
 		{
 			determine_wall_dir(data, hit_side, wall_dir);
 			hit = true;
-			break;
+			break ;
 		}
 		if (hit_side == VERT)
 			data->wall.nx += data->wall.xstep;

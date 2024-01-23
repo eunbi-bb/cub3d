@@ -2,26 +2,26 @@
 
 void	init_player(t_data *data)
 {
-	data->player = (t_player *)malloc(sizeof(t_player));
-	data->player->x = data->file.map.player_pos_x;
-	data->player->y = data->file.map.player_pos_y;
-	data->player->th = position_to_degree(data->file.map.p_direction);
+	data->pl = (t_player *)malloc(sizeof(t_player));
+	data->pl->x = data->file.map.player_pos_x;
+	data->pl->y = data->file.map.player_pos_y;
+	data->pl->th = position_to_degree(data->file.map.p_direction);
 			// printf("**-----------------------------**\n");
-			// printf("*   data.px : %f    *\n", data->player->x);
-			// printf("*   data.py : %f    *\n", data->player->y);
-			// printf("*   data.pth: %f    *\n", data->player->th);
+			// printf("*   data.px : %f    *\n", data->pl->x);
+			// printf("*   data.py : %f    *\n", data->pl->y);
+			// printf("*   data.pth: %f    *\n", data->pl->th);
 			// printf("**-----------------------------**\n");
 }
 
 void init_identifiers(t_file *file)
 {
-	file->identifier.path_no_texture = NULL;
+	file->identifier.path_no = NULL;
 	file->identifier.no_set = false;
-	file->identifier.path_so_texture = NULL;
+	file->identifier.path_so = NULL;
 	file->identifier.so_set = false;
-	file->identifier.path_we_texture = NULL;
+	file->identifier.path_we = NULL;
 	file->identifier.we_set = false;
-	file->identifier.path_ea_texture = NULL;
+	file->identifier.path_ea = NULL;
 	file->identifier.ea_set = false;
 	file->identifier.ceiling_set = false;
 	file->identifier.floor_set = false;

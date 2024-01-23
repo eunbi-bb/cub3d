@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:25:47 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/22 15:25:49 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 09:13:49 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 double	deg2rad(double deg)
 {
-	return((deg) * M_PI / 180.0);
+	return ((deg) * M_PI / 180.0);
 }
 
 /*
@@ -51,30 +51,31 @@ int	sign(double d)
 
 /*
 *	To retrieve the value of a cell in a map.
-*	It checks if the prvided coords (x, y) are within the valind range for the map.
+*	It checks if the prvided coords (x, y) are within 
+*	the valind range for the map.
 *	It returns the value stored in the correspongin cell of the map[y][x].
 *	If the coords are out of bounds, it returns -1.
 */
-int get_cell_value(t_data *data, int x, int y)
+int	get_cell_value(t_data *data, int x, int y)
 {
 	int	result;
 	int	i;
 
 	i = data->file.map.row - 1 - y;
-    if (x >= 0 && y >= 0 && y < data->file.map.row \
+	if (x >= 0 && y >= 0 && y < data->file.map.row \
 		&& x < (int)ft_strlen(data->file.map.map_arr[i]))
-        result = data->file.map.map_int_arr[y][x];
+		result = data->file.map.map_int_arr[y][x];
 	else
 		result = -1;
 	return (result);
 }
 
-int get_wall_height(double dist)
+int	get_wall_height(double dist)
 {
 	double	fov_h;
 	double	fov_v;
 
-	fov_v = (deg2rad(FOV) * (double)SY/(double)SX);
-	fov_h = 2.0 * dist * tan(fov_v/2.0);
-	return ((int)(SY * (WALL_H / fov_h))); /* in pixels */
+	fov_v = (deg2rad(FOV) * (double)SY / (double)SX);
+	fov_h = 2.0 * dist * tan(fov_v / 2.0);
+	return ((int)(SY * (WALL_H / fov_h)));
 }

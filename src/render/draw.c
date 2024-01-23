@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 08:56:45 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/22 10:20:18 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 08:42:34 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 /*
 *	Returning a hex code of rgb colors of ceiling or floor depending on 'del'.
 */
-long long    color_ceiling_floor(t_data *data, char del)
+long long	color_ceiling_floor(t_data *data, char del)
 {
-    int		colors[3];
+	int	colors[3];
 
-    if (del == 'c')
-    {
-        colors[0] = data->file.identifier.c_r;
-        colors[1] = data->file.identifier.c_g;
-        colors[2] = data->file.identifier.c_b;
-    }
-    else
-    {
-        colors[0] = data->file.identifier.f_r;
-        colors[1] = data->file.identifier.f_g;
-        colors[2] = data->file.identifier.f_b;
-    }
-    return (get_rgba(colors[0], colors[1], colors[2], 255));
+	if (del == 'c')
+	{
+		colors[0] = data->file.identifier.c_r;
+		colors[1] = data->file.identifier.c_g;
+		colors[2] = data->file.identifier.c_b;
+	}
+	else
+	{
+		colors[0] = data->file.identifier.f_r;
+		colors[1] = data->file.identifier.f_g;
+		colors[2] = data->file.identifier.f_b;
+	}
+	return (get_rgba(colors[0], colors[1], colors[2], 255));
 }
 
 /*
@@ -39,10 +39,10 @@ long long    color_ceiling_floor(t_data *data, char del)
 *	First while loop is drawing a ceiling.
 *	Second while loppe is drawing a floor.
 */
-void    draw_ver_line(t_data *data, int x)
+void	draw_ver_line(t_data *data, int x)
 {
 	int	y;
-	
+
 	y = 0;
 	while (y <= data->wall.y_start)
 	{
@@ -50,9 +50,9 @@ void    draw_ver_line(t_data *data, int x)
 		y++;
 	}
 	y = data->wall.y_end;
-    while (y <= SY - 1)
-    {
-        mlx_put_pixel(data->image, x, y, color_ceiling_floor(data, 'f'));
+	while (y <= SY - 1)
+	{
+		mlx_put_pixel(data->image, x, y, color_ceiling_floor(data, 'f'));
 		y++;
 	}
 }
@@ -64,14 +64,14 @@ void    draw_ver_line(t_data *data, int x)
 *	To prevent y_start and y_end are escaping a screen size, comparing to
 *	0 and SY befor set values. 
 */
-void    draw_wall(t_data *data, double wall_dist, int x, t_dir wall_dir)
+void	draw_wall(t_data *data, double wall_dist, int x, t_dir wall_dir)
 {
-	int		y0; 
-	int		y1;
+	int	y0;
+	int	y1;
 
 	data->tex.light = get_luminosity(data, wall_dist);
 	data->wall.wall_h = get_wall_height(wall_dist);
-	y0 = (int)((SY - data->wall.wall_h)/ 2.0);
+	y0 = (int)((SY - data->wall.wall_h) / 2.0);
 	y1 = y0 + data->wall.wall_h - 1;
 	if (0 > y0)
 		data->wall.y_start = 0;

@@ -19,10 +19,10 @@ void print_file_content(t_file *file)
 void print_texture_paths(t_file *file)
 {
 
-	printf("texture path NO = %s\n", file->identifier.path_no_texture);
-	printf("texture path SO = %s\n", file->identifier.path_so_texture);
-	printf("texture path WE = %s\n", file->identifier.path_we_texture);
-	printf("texture path EA = %s\n", file->identifier.path_ea_texture);
+	printf("texture path NO = %s\n", file->identifier.path_no);
+	printf("texture path SO = %s\n", file->identifier.path_so);
+	printf("texture path WE = %s\n", file->identifier.path_we);
+	printf("texture path EA = %s\n", file->identifier.path_ea);
 }
 
 void print_colors(t_file *file)
@@ -47,7 +47,7 @@ void print_map(t_file *file)
 		//printf("%s\n", file->content_arr[i]);
 		i++;
 	}
-	// printf("player r = %lf\nplayer c = %lf\nchar = %c\n"
+	// printf("pl r = %lf\nplayer c = %lf\nchar = %c\n"
 	// 	, file->map.player_pos_x, file->map.player_pos_y, file->map.p_direction);
 }
 

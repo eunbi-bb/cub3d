@@ -69,6 +69,6 @@ int main(int argc, char **argv)
 	render(&data);
     mlx_key_hook(data.mlx, key_press, &data);
     mlx_loop(data.mlx);
-	free(data.player);
+	free(data.pl);
 	mlx_terminate(data.mlx);
 }
