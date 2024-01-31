@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_file.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gozturk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/31 12:04:35 by gozturk           #+#    #+#             */
+/*   Updated: 2024/01/31 12:04:37 by gozturk          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 /*
@@ -114,6 +126,5 @@ int	get_content_from_file(t_file *file, char *file_name)
 		err_msg("Identifiers can not be set");
 	empty_line_in_map(content, -1);
 	make_int_arr(file, file->map.row - 1, 0);
-	print_int_map(file);
 	return (0);
 }

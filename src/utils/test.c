@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gozturk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/31 12:06:07 by gozturk           #+#    #+#             */
+/*   Updated: 2024/01/31 12:06:13 by gozturk          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 #include <assert.h>
 
@@ -12,6 +24,26 @@
 // 		printf("%s\n", file->content_arr[i]);
 // 	}
 // 	printf("file->total_lines = %d\n", file->total_lines);
+// }
+
+//void	print_2d_map(t_data *data)
+// {
+// 	int	i;
+// 	for(int y = 0; y < data->file.map.row; y++) 
+// 	{
+// 		i = data->file.map.row - 1 - y;
+// 		for(int x = 0; x < (int)ft_strlen(data->file.map.map_arr[i]); x++ )
+// 		{
+// 			int	result = get_cell_value(data, x, y);
+// 			if (result == 1)
+// 				printf("1");
+// 			else if (result >= 1)
+// 				printf(" ");
+// 			else
+// 				printf("0");
+// 		}
+// 		putchar('\n');
+// 	}
 // }
 
 void	print_texture_paths(t_file *file)
