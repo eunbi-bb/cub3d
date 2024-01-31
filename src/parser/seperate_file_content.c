@@ -14,6 +14,9 @@ bool	is_color_type(char *color)
 		|| ft_strsame(color, "C") == 1);
 }
 
+/*
+** Checks if all directions and color identifiers are set
+*/
 bool	identifiers_complete(t_file *file)
 {
 	return (file->identifier.no_set == false
@@ -24,6 +27,10 @@ bool	identifiers_complete(t_file *file)
 		|| file->identifier.ceiling_set == false);
 }
 
+/*
+** Traverse in file content array (char arr) and seperates
+** identifier information and creates map array
+*/
 int	handle_content(t_file *file, int r, int row)
 {
 	char	**temp_arr;

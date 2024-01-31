@@ -21,3 +21,24 @@ bool	valid_ceiling_color(t_file *file)
 		return (false);
 	return (true);
 }
+
+void	color_atoi(t_file *file, char **color_arr, char identifier_type)
+{
+	if (color_arr[0] == NULL || color_arr[1] == NULL
+		|| color_arr[2] == NULL)
+		err_msg("Color value is missing");
+	if (identifier_type == 'f')
+	{
+		file->identifier.f_r = ft_atoi(color_arr[0]);
+		file->identifier.f_g = ft_atoi(color_arr[1]);
+		file->identifier.f_b = ft_atoi(color_arr[2]);
+		file->identifier.floor_set = true;
+	}
+	else
+	{
+		file->identifier.c_r = ft_atoi(color_arr[0]);
+		file->identifier.c_g = ft_atoi(color_arr[1]);
+		file->identifier.c_b = ft_atoi(color_arr[2]);
+		file->identifier.ceiling_set = true;
+	}
+}
