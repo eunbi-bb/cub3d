@@ -6,8 +6,8 @@ static int	set_no_texture(t_file *file, char **texture_arr)
 	{
 		if (file->identifier.no_set == true)
 			err_msg("Path NO already set");
-		file->identifier.path_no_texture = ft_strdup(texture_arr[1]);
-		if (file->identifier.path_no_texture == NULL)
+		file->identifier.path_no = ft_strdup(texture_arr[1]);
+		if (file->identifier.path_no == NULL)
 			err_msg("set_NO_texture() has failed");
 		file->identifier.no_set = true;
 		return (0);
@@ -21,8 +21,8 @@ static int	set_so_texture(t_file *file, char **texture_arr)
 	{
 		if (file->identifier.so_set == true)
 			err_msg("Path SO already set");
-		file->identifier.path_so_texture = ft_strdup(texture_arr[1]);
-		if (file->identifier.path_so_texture == NULL)
+		file->identifier.path_so = ft_strdup(texture_arr[1]);
+		if (file->identifier.path_so == NULL)
 			err_msg("set_SO_texture() has failed");
 		file->identifier.so_set = true;
 		return (0);
@@ -36,8 +36,8 @@ static int	set_we_texture(t_file *file, char **texture_arr)
 	{
 		if (file->identifier.we_set == true)
 			err_msg("Path WE already set");
-		file->identifier.path_we_texture = ft_strdup(texture_arr[1]);
-		if (file->identifier.path_we_texture == NULL)
+		file->identifier.path_we = ft_strdup(texture_arr[1]);
+		if (file->identifier.path_we == NULL)
 			err_msg("set_WE_texture() has failed");
 		file->identifier.we_set = true;
 		return (0);
@@ -51,8 +51,8 @@ static int	set_ea_texture(t_file *file, char **texture_arr)
 	{
 		if (file->identifier.ea_set == true)
 			err_msg("Path EA already set");
-		file->identifier.path_ea_texture = ft_strdup(texture_arr[1]);
-		if (file->identifier.path_ea_texture == NULL)
+		file->identifier.path_ea = ft_strdup(texture_arr[1]);
+		if (file->identifier.path_ea == NULL)
 			err_msg("set_EA_texture() has failed");
 		file->identifier.ea_set = true;
 		return (0);

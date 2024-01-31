@@ -58,6 +58,8 @@ typedef struct s_wall
 	double	ny; /* the next intersection y coord. */
 	double	f;	/* function */
 	double	g;	/* inverse function */
+	double	dist_v;
+	double	dist_h;
 }	t_wall;
 
 typedef struct s_texture
@@ -70,13 +72,13 @@ typedef struct s_texture
 
 typedef struct s_identifier
 {
-	char			*path_no_texture;
+	char			*path_no;
 	bool			no_set;
-	char			*path_so_texture;
+	char			*path_so;
 	bool			so_set;
-	char			*path_we_texture;
+	char			*path_we;
 	bool			we_set;
-	char			*path_ea_texture;
+	char			*path_ea;
 	bool			ea_set;
 	bool			ceiling_set;
 	bool			floor_set;
@@ -88,10 +90,10 @@ typedef struct s_identifier
 	int				c_g;
 	int				c_b;
 	mlx_t			*mlx;
-	mlx_texture_t	*texture_no;
-	mlx_texture_t	*texture_so;
-	mlx_texture_t	*texture_we;
-	mlx_texture_t	*texture_ea;
+	mlx_texture_t	*tex_no;
+	mlx_texture_t	*tex_so;
+	mlx_texture_t	*tex_we;
+	mlx_texture_t	*tex_ea;
 }	t_identifier;
 
 typedef struct s_map
@@ -118,7 +120,7 @@ typedef struct s_file
 typedef struct s_data
 {
 	t_file		file;
-	t_player	*player;
+	t_player	*pl;
 	t_wall		wall;
 	t_texture	tex;
 	mlx_t		*mlx;
@@ -221,7 +223,7 @@ int				get_rgba(int r, int g, int b, int a);
 
 /*** ray_casting.c ***/
 bool			get_intersection(t_data *data, double ray, t_dir *wall_dir);
-double			get_e_distance(double x0, double y0, double x1, double y1);
+double			get_e_dist(double x0, double y0, double x1, double y1);
 
 /*** render_utils.c ***/
 double			deg2rad(double deg);

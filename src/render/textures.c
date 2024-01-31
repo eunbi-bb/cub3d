@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:22:24 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/22 15:22:58 by eucho         ########   odam.nl         */
+/*   Updated: 2024/01/23 11:10:01 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,32 @@ int	get_rgba(int r, int g, int b, int a)
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void	load_textures(t_data *data) 
+void	load_textures(t_data *data)
 {
-	data->file.identifier.texture_no = mlx_load_png(data->file.identifier.path_no_texture);
-	data->file.identifier.texture_so = mlx_load_png(data->file.identifier.path_so_texture);
-	data->file.identifier.texture_we = mlx_load_png(data->file.identifier.path_we_texture);
-	data->file.identifier.texture_ea = mlx_load_png(data->file.identifier.path_ea_texture);
-	if (data->file.identifier.texture_no == NULL || data->file.identifier.texture_so == NULL
-		|| data->file.identifier.texture_we == NULL || data->file.identifier.texture_ea == NULL)
+	data->file.identifier.tex_no = mlx_load_png(data->file.identifier.path_no);
+	data->file.identifier.tex_so = mlx_load_png(data->file.identifier.path_so);
+	data->file.identifier.tex_we = mlx_load_png(data->file.identifier.path_we);
+	data->file.identifier.tex_ea = mlx_load_png(data->file.identifier.path_ea);
+	if (data->file.identifier.tex_no == NULL
+		|| data->file.identifier.tex_so == NULL
+		|| data->file.identifier.tex_we == NULL
+		|| data->file.identifier.tex_ea == NULL)
 	{
 		printf("no image\n");
 		free_textures(data);
-		//free_image(data, NULL);
 	}
 }
 
-mlx_texture_t *texture_dir(t_data *data, t_dir wdir)
+mlx_texture_t	*texture_dir(t_data *data, t_dir wdir)
 {
 	if (wdir == DIR_N)
-		return (data->file.identifier.texture_no);
+		return (data->file.identifier.tex_no);
 	else if (wdir == DIR_E)
-		return (data->file.identifier.texture_ea);
+		return (data->file.identifier.tex_ea);
 	else if (wdir == DIR_W)
-		return (data->file.identifier.texture_we);
+		return (data->file.identifier.tex_we);
 	else
-		return (data->file.identifier.texture_so);
+		return (data->file.identifier.tex_so);
 }
 
 /*
@@ -62,16 +63,17 @@ int	get_png_rgb(int x, int y, mlx_texture_t *image)
 	if (index >= max)
 		return (0);
 	return (get_rgba(
-		image->pixels[index + 0],
-		image->pixels[index + 1],
-		image->pixels[index + 2],
-		image->pixels[index + 3]));
+			image->pixels[index + 0],
+			image->pixels[index + 1],
+			image->pixels[index + 2],
+			image->pixels[index + 3]));
 }
 
 /*
-*	Printing textures on walls depending on wall direction.
-*	Expressing perspective effect by fade_color().
-*	tex.x is a column of a texture and tex.y is a row of a texture.
+*	Printing textures on walls depending on the wall direction.
+*	Expressing perspective effect with 'fade_color()'.
+*	'tex.x' represents a column of a texture
+*	and 'tex.y' represents a row of a texture.
 */
 void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 {
@@ -88,8 +90,10 @@ void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 	y = data->wall.y_start;
 	while (y <= data->wall.y_end)
 	{
-		data->tex.y = (int)(((double)(y - y0) * tex->height / data->wall.wall_h));
-		color = fade_color(get_png_rgb(data->tex.x, data->tex.y, tex), data->tex.light);
+		data->tex.y = (int)(((double)(y - y0) *\
+					tex->height / data->wall.wall_h));
+		color = fade_color(get_png_rgb(data->tex.x, data->tex.y, tex),
+				data->tex.light);
 		mlx_put_pixel(data->image, x, y, color);
 		y++;
 	}
