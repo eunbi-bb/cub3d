@@ -2,7 +2,7 @@
 
 void	free_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arr[i])

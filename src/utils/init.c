@@ -6,14 +6,9 @@ void	init_player(t_data *data)
 	data->pl->x = data->file.map.player_pos_x;
 	data->pl->y = data->file.map.player_pos_y;
 	data->pl->th = position_to_degree(data->file.map.p_direction);
-			// printf("**-----------------------------**\n");
-			// printf("*   data.px : %f    *\n", data->pl->x);
-			// printf("*   data.py : %f    *\n", data->pl->y);
-			// printf("*   data.pth: %f    *\n", data->pl->th);
-			// printf("**-----------------------------**\n");
 }
 
-void init_identifiers(t_file *file)
+void	init_identifiers(t_file *file)
 {
 	file->identifier.path_no = NULL;
 	file->identifier.no_set = false;
@@ -34,7 +29,7 @@ void init_identifiers(t_file *file)
 	file->identifier.c_b = 0;
 }
 
-void init_map(t_file *file)
+void	init_map(t_file *file)
 {
 	file->map.row = 0;
 	file->map.column = 0;
@@ -46,7 +41,7 @@ void init_map(t_file *file)
 	file->map.map_int_arr = NULL;
 }
 
-void init_file_struct(t_file *file)
+void	init_file_struct(t_file *file)
 {
 	file->total_lines = 0;
 	file->content_arr = NULL;

@@ -5,56 +5,50 @@
 **  PRINT STATEMENTS FOR TESTING PURPOSE
 */
 
-void print_file_content(t_file *file)
-{
-	for(int i = 0; i < 20; i++)
-	{
-		printf("%s\n", file->content_arr[i]);
-	}
-	printf("file->total_lines = %d\n", file->total_lines);
-	//printf("file content valid = %d\n", valid_file_content(file->map.map_arr));
-	//assert(valid_file_content(file->map.map_arr) == 1);
-}
+// void print_file_content(t_file *file)
+// {
+// 	for(int i = 0; i < 20; i++)
+// 	{
+// 		printf("%s\n", file->content_arr[i]);
+// 	}
+// 	printf("file->total_lines = %d\n", file->total_lines);
+// }
 
-void print_texture_paths(t_file *file)
+void	print_texture_paths(t_file *file)
 {
-
 	printf("texture path NO = %s\n", file->identifier.path_no);
 	printf("texture path SO = %s\n", file->identifier.path_so);
 	printf("texture path WE = %s\n", file->identifier.path_we);
 	printf("texture path EA = %s\n", file->identifier.path_ea);
 }
 
-void print_colors(t_file *file)
+void	print_colors(t_file *file)
 {
-	printf("colors floor = %d, %d, %d\n"
-		, file->identifier.f_r, file->identifier.f_g, file->identifier.f_b);
-	printf("colors ceiling = %d, %d, %d\n"
-		, file->identifier.c_r, file->identifier.c_g, file->identifier.c_b);
+	printf("colors floor = %d, %d, %d\n",
+		file->identifier.f_r, file->identifier.f_g, file->identifier.f_b);
+	printf("colors ceiling = %d, %d, %d\n",
+		file->identifier.c_r, file->identifier.c_g, file->identifier.c_b);
 }
 
-void print_map(t_file *file)
+void	print_map(t_file *file)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	//printf("file->map.row = %d\n", file->map.row);
-	//while (i < file->map.row)
 	while (i < file->total_lines)
 	{
-		//printf("%s\n", file->map.copy_arr[i]);
-		//printf("%s\n", file->map.map_arr[i]);
-		//printf("%s\n", file->content_arr[i]);
+		printf("%s\n", file->map.map_arr[i]);
 		i++;
 	}
-	// printf("pl r = %lf\nplayer c = %lf\nchar = %c\n"
-	// 	, file->map.player_pos_x, file->map.player_pos_y, file->map.p_direction);
+	printf("pl r = %lf\nplayer c = %lf\nchar = %c\n",
+		file->map.player_pos_x, file->map.player_pos_y,
+		file->map.p_direction);
 }
 
-void print_int_map(t_file *file)
+void	print_int_map(t_file *file)
 {
-	int r;
-	int c;
+	int	r;
+	int	c;
 
 	r = 0;
 	c = 0;
@@ -63,7 +57,7 @@ void print_int_map(t_file *file)
 		c = 0;
 		while (c < (int)ft_strlen(file->map.map_arr[r]))
 		{
-			// printf("%d\n", file->map.map_int_arr[r][c]);
+			printf("%d\n", file->map.map_int_arr[r][c]);
 			c++;
 		}
 		r++;

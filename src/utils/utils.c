@@ -21,9 +21,9 @@ int	ft_strlen_protect(char *str)
 	return (i);
 }
 
-int ft_strsame(const char *s1, const char *s2)
+int	ft_strsame(const char *s1, const char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (s1 == NULL || s2 == NULL)

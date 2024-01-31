@@ -70,7 +70,7 @@ char	*file_content_arr(t_file *file, t_map *map, int fd)
 */
 bool	empty_line_in_map(char *content, int i)
 {
-	while (content[i] != '\0')
+	while (content[++i] != '\0')
 	{
 		if (content[i] == 'C' || content[i] == 'F')
 		{
@@ -93,7 +93,6 @@ bool	empty_line_in_map(char *content, int i)
 				i++;
 			}
 		}
-		i++;
 	}
 	return (free(content), false);
 }
@@ -113,7 +112,7 @@ int	get_content_from_file(t_file *file, char *file_name)
 	file->map.map_arr = (char **)malloc(sizeof(char *) * map_lines);
 	if (handle_content(file, 0, 0) == 1)
 		err_msg("Identifiers can not be set");
-	empty_line_in_map(content, 0);
+	empty_line_in_map(content, -1);
 	make_int_arr(file, file->map.row - 1, 0);
 	print_int_map(file);
 	return (0);
