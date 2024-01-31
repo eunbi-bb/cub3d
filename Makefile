@@ -41,6 +41,7 @@ SRC_FILE	= main.c \
 				parser/file_extension.c \
 				parser/file_content_validation.c \
 				parser/map.c \
+				parser/colors.c \
 				parser/seperate_file_content.c \
 				parser/setting_texture_paths.c \
 				parser/setting_colors.c \
