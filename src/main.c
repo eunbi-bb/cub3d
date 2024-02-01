@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gozturk <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 12:06:28 by gozturk           #+#    #+#             */
-/*   Updated: 2024/01/31 12:06:33 by gozturk          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gozturk <marvin@42.fr>                       +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/31 12:06:28 by gozturk       #+#    #+#                 */
+/*   Updated: 2024/02/01 11:27:51 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 double	position_to_degree(char p_direction)
 {
@@ -29,40 +28,29 @@ static int	close_window(t_data *data)
 {
 	mlx_close_window(data->mlx);
 	puts(mlx_strerror(mlx_errno));
-	return(EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data		data;
 
-	if (!(data.mlx = mlx_init(SX, SY, "cub3d", true)))
-	{
-		// puts(mlx_strerror(mlx_errno));
-		return(puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
-	}
-	if (!(data.image = mlx_new_image(data.mlx, SX, SY)))
-	{
-		// mlx_close_window(data.mlx);
-		// puts(mlx_strerror(mlx_errno));
-		// return(EXIT_FAILURE);
-		return (close_window(&data));
-	}
-	if (mlx_image_to_window(data.mlx, data.image, 0, 0) == -1)
-	{
-		// mlx_close_window(data.mlx);
-		// puts(mlx_strerror(mlx_errno));
-		// return(EXIT_FAILURE);
-		return (close_window(&data));
-	}
 	if (argc != 2)
 		err_msg("Wrong number of arguments");
+	data.mlx = mlx_init(SX, SY, "cub3d", true);
+	if (!data.mlx)
+		return (puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
+	data.image = mlx_new_image(data.mlx, SX, SY);
+	if (!data.image)
+		return (close_window(&data));
+	if (mlx_image_to_window(data.mlx, data.image, 0, 0) == -1)
+		return (close_window(&data));
 	parser(argc, argv, &data.file);
 	load_textures(&data);
 	init_player(&data);
 	render(&data);
-    mlx_key_hook(data.mlx, key_press, &data);
-    mlx_loop(data.mlx);
+	mlx_key_hook(data.mlx, key_press, &data);
+	mlx_loop(data.mlx);
 	free(data.pl);
 	mlx_terminate(data.mlx);
 }

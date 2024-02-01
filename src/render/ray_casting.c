@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 12:37:03 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/31 22:21:00 by eunbi         ########   odam.nl         */
+/*   Updated: 2024/02/01 11:22:02 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ void	calculate_intersection(t_data *data)
 
 /*
 *	DDA(Digital Differential Analyzer) algorithm, a line drawing algorithm used 
-*	in computer graphics to generate a line segment between two specified endpoints,
-*	for calculating intersections.
+*	in computer graphics to generate a line segment between 
+*	two specified endpoints, for calculating intersections.
 *	Depending on which intersection is hit, adding a step to 'nx' or 'ny'.
 *	Essentially, moving 'nx' or 'ny' toward the nearest side, 
 *	either vertically or horizontally, by 1 step.
