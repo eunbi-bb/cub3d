@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: eucho <eucho@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/02/01 12:55:38 by eucho         #+#    #+#                 */
+/*   Updated: 2024/02/01 13:17:42 by eucho         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -182,7 +194,8 @@ void			set_colors(t_file *file, char *content, char **texture_arr);
 /*** colors.c ***/
 bool			valid_floor_color(t_file *file);
 bool			valid_ceiling_color(t_file *file);
-void			color_atoi(t_file *file, char **color_arr, char identifier_type);
+void			color_atoi(t_file *file,
+					char **color_arr, char identifier_type);
 
 /*** file_extension.c ***/
 bool			valid_file_extension(char *extension, char *file_name);

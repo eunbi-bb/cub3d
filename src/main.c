@@ -6,7 +6,7 @@
 /*   By: gozturk <marvin@42.fr>                       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/31 12:06:28 by gozturk       #+#    #+#                 */
-/*   Updated: 2024/02/01 11:27:51 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/01 13:19:03 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	main(int argc, char **argv)
 		return (close_window(&data));
 	if (mlx_image_to_window(data.mlx, data.image, 0, 0) == -1)
 		return (close_window(&data));
+	mlx_set_window_limit(data.mlx, 1200, 1200, 500, 500);
 	parser(argc, argv, &data.file);
 	load_textures(&data);
 	init_player(&data);

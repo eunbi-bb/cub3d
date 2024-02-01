@@ -1,4 +1,4 @@
-NAME		= cub3d
+NAME		= cub3D
 CC			= cc
 ifdef DEBUG
 CFLAGS		= -Wall -Wextra -Werror -fsanitize=address -g
