@@ -49,10 +49,9 @@ int	main(int argc, char **argv)
 	load_textures(&data);
 	init_player(&data);
 	render(&data);
-	// mlx_loop_hook(mlx_t* mlx, void (*f)(void*), void* param)
 	mlx_loop_hook(data.mlx, key_press, &data);
-	// mlx_key_hook(data.mlx, key_press, &data);
 	mlx_loop(data.mlx);
 	free(data.pl);
+	clean_textures(&data);
 	mlx_terminate(data.mlx);
 }

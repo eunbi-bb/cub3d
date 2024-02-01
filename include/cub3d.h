@@ -218,6 +218,7 @@ char			**array_dup(t_file *file, char **arr);
 /*** free.c ***/
 void			free_arr(char **arr);
 void			free_textures(t_data *data);
+void			clean_textures(t_data *data);
 
 /*** draw.c ***/
 void			draw_wall(t_data *data, double wdist, int x, t_dir wall_dir);

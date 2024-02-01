@@ -128,7 +128,6 @@ bool	get_intersection(t_data *data, t_dir *wall_dir)
 	int		hit_side;
 
 	hit = false;
-	// init_values(data, ray);
 	while (!hit)
 	{
 		calculate_intersection(data);

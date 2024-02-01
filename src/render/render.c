@@ -112,12 +112,12 @@ void	key_press(void *game_data)
 		player_move_render(data, MLX_KEY_W);
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_A))
 		player_move_render(data, MLX_KEY_A);
- 	else if (mlx_is_key_down(data->mlx, MLX_KEY_S))
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_S))
 		player_move_render(data, MLX_KEY_S);
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_D))
 		player_move_render(data, MLX_KEY_D);
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT) 
-			|| mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT)
+		|| mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 	{
 		if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 			rotate = 1;

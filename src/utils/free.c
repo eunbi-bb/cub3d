@@ -31,10 +31,30 @@ void	free_arr(char **arr)
 
 void	free_textures(t_data *data)
 {
-	free(data->file.identifier.path_no);
-	free(data->file.identifier.path_so);
-	free(data->file.identifier.path_we);
-	free(data->file.identifier.path_ea);
+	if (data->file.identifier.path_no)
+	{
+		free(data->file.identifier.path_no);
+		err_msg("Texture path is wrong");
+	}
+	if (data->file.identifier.path_so)
+	{
+		free(data->file.identifier.path_so);
+		err_msg("Texture path is wrong");
+	}
+	if (data->file.identifier.path_we)
+	{
+		free(data->file.identifier.path_we);
+		err_msg("Texture path is wrong");
+	}
+	if (data->file.identifier.path_ea)
+	{
+		free(data->file.identifier.path_ea);
+		err_msg("Texture path is wrong");
+	}
+}
+
+void	clean_textures(t_data *data)
+{
 	mlx_delete_texture(data->file.identifier.tex_no);
 	mlx_delete_texture(data->file.identifier.tex_so);
 	mlx_delete_texture(data->file.identifier.tex_we);

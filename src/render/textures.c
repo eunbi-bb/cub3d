@@ -24,13 +24,25 @@ int	get_rgba(int r, int g, int b, int a)
 void	load_textures(t_data *data)
 {
 	data->file.identifier.tex_no = mlx_load_png(data->file.identifier.path_no);
+	if (data->file.identifier.tex_no == NULL)
+	{
+		printf("no image\n");
+		free_textures(data);
+	}
 	data->file.identifier.tex_so = mlx_load_png(data->file.identifier.path_so);
+	if (data->file.identifier.tex_so == NULL)
+	{
+		printf("no image\n");
+		free_textures(data);
+	}
 	data->file.identifier.tex_we = mlx_load_png(data->file.identifier.path_we);
+	if (data->file.identifier.tex_we == NULL)
+	{
+		printf("no image\n");
+		free_textures(data);
+	}
 	data->file.identifier.tex_ea = mlx_load_png(data->file.identifier.path_ea);
-	if (data->file.identifier.tex_no == NULL
-		|| data->file.identifier.tex_so == NULL
-		|| data->file.identifier.tex_we == NULL
-		|| data->file.identifier.tex_ea == NULL)
+	if (data->file.identifier.tex_ea == NULL)
 	{
 		printf("no image\n");
 		free_textures(data);
@@ -79,7 +91,7 @@ void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 {
 	mlx_texture_t	*tex;
 	int				y;
-	uint32_t				color;
+	uint32_t		color;
 
 	tex = texture_dir(data, wall_dir);
 	if (wall_dir == DIR_W || wall_dir == DIR_E)
