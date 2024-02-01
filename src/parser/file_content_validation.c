@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   file_content_validation.c                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gozturk <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 12:04:18 by gozturk           #+#    #+#             */
-/*   Updated: 2024/01/31 12:04:21 by gozturk          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   file_content_validation.c                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gozturk <marvin@42.fr>                       +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/31 12:04:18 by gozturk       #+#    #+#                 */
+/*   Updated: 2024/02/01 11:29:38 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ bool	valid_content_order(t_file *file)
 	int	r;
 
 	r = 0;
+	c = 0;
 	while (r < 6 && file->content_arr[r] != NULL)
 	{
 		if (file->content_arr[r][c] == '1')
 			err_msg("Wrong content order");
-		c = 0;
 		while (file->content_arr[r][c] != '\0'
 			&& file->content_arr[r][c] == ' ')
 		{
