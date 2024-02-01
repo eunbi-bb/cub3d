@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/01 12:55:38 by eucho         #+#    #+#                 */
-/*   Updated: 2024/02/01 13:17:42 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/01 17:36:47 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "MLX42/MLX42_Int.h"
 
-# define SX		1200	/* screen width */
-# define SY		500		/* screen height */
+# define SX		1920	/* screen width */
+# define SY		1080		/* screen height */
 # define FOV	60		/* field of view (in degree) */
 # define WALL_H	1.0
 
 # define _2PI		6.28318530717958647692  /* 360 degrees */
 # define ROT_UNIT	0.03	/* in radian */
-# define MOVE_UNIT	0.15
+# define MOVE_UNIT	0.2
 
 typedef enum t_line
 {
@@ -223,7 +223,7 @@ void			free_textures(t_data *data);
 void			draw_wall(t_data *data, double wdist, int x, t_dir wall_dir);
 
 /*** render.c ***/
-void			key_press(struct mlx_key_data keydata, void *user_data);
+void			key_press(void *game_data);
 int				get_cell_value(t_data *data, int x, int y);
 
 /*** luminosity.c ***/
@@ -231,7 +231,7 @@ double			get_luminosity(t_data *data, double dist);
 int				fade_color( int color, double lum );
 
 /*** move.c ***/
-int				player_move(t_data *data, int key);
+int				player_move_render(t_data *data, int key);
 void			player_rotate(t_data *data, double th);
 
 /*** textures.c ***/
@@ -240,7 +240,7 @@ mlx_texture_t	*texture_dir(t_data *data, t_dir wdir);
 int				get_rgba(int r, int g, int b, int a);
 
 /*** ray_casting.c ***/
-bool			get_intersection(t_data *data, double ray, t_dir *wall_dir);
+bool			get_intersection(t_data *data, t_dir *wall_dir);
 double			get_e_dist(double x0, double y0, double x1, double y1);
 
 /*** render_utils.c ***/

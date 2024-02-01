@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:25:37 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 10:32:03 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/01 17:33:58 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	get_move_offset(double th, int key, double *pdx, double *pdy)
 *	If nx and ny are not within a wall, update player's position
 *	to 'nx' and 'ny'.
 */
-int	player_move(t_data *data, int key)
+int	player_move_render(t_data *data, int key)
 {
 	double	dx;
 	double	dy;
@@ -88,5 +88,6 @@ int	player_move(t_data *data, int key)
 	}
 	data->pl->x = nx;
 	data->pl->y = ny;
+	render(data);
 	return (0);
 }

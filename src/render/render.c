@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 13:47:09 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 11:15:58 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/01 17:40:47 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ double	cast_single_ray(int x, t_data *data, t_dir *wall_dir)
 
 	fov_h = deg2rad(FOV);
 	ray = (data->pl->th + (fov_h / 2.0)) - (x * (fov_h / (SX - 1.)));
-	if (get_intersection(data, ray, wall_dir) == false)
+	init_values(data, ray);
+	if (get_intersection(data, wall_dir) == false)
 		return (INFINITY);
 	wall_dist = get_e_dist(data->pl->x, data->pl->y, \
 				data->wall.wall_x, data->wall.wall_y);
@@ -99,33 +100,32 @@ void	render(t_data *data)
 /*
 *	Rendering images whenever a player is rotating or moving.
 */
-void	key_press(struct mlx_key_data keydata, void *game_data)
+void	key_press(void *game_data)
 {
-	keys_t	key;
 	t_data	*data;
 	int		rotate;
 
-	key = keydata.key;
 	data = (t_data *)game_data;
-	if (key == MLX_KEY_ESCAPE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		exit(EXIT_SUCCESS);
-	if (key == MLX_KEY_W || key == MLX_KEY_A \
-		|| key == MLX_KEY_S || key == MLX_KEY_D)
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_W))
+		player_move_render(data, MLX_KEY_W);
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_A))
+		player_move_render(data, MLX_KEY_A);
+ 	else if (mlx_is_key_down(data->mlx, MLX_KEY_S))
+		player_move_render(data, MLX_KEY_S);
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_D))
+		player_move_render(data, MLX_KEY_D);
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT) 
+			|| mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 	{
-		if (player_move(data, key) == 0)
-			render(data);
-	}
-	else if (key == MLX_KEY_LEFT || key == MLX_KEY_RIGHT)
-	{
-		if (key == MLX_KEY_LEFT)
+		if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 			rotate = 1;
 		else
 			rotate = -1;
 		player_rotate(data, ROT_UNIT * rotate);
 		render(data);
 	}
-	else
-		printf("\033[1;32mInvalid key\nMove : WASD | Rotate : ← or →\n\033[0m");
 }
 
 /******** Rendering without textures ********/

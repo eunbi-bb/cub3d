@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 12:37:03 by eucho         #+#    #+#                 */
-/*   Updated: 2024/02/01 11:22:02 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/01 16:20:40 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,14 @@ void	calculate_intersection(t_data *data)
 *	Essentially, moving 'nx' or 'ny' toward the nearest side, 
 *	either vertically or horizontally, by 1 step.
 */
-bool	get_intersection(t_data *data, double ray, t_dir *wall_dir)
+bool	get_intersection(t_data *data, t_dir *wall_dir)
 {
 	bool	hit;
 	int		cell;
 	int		hit_side;
 
 	hit = false;
-	init_values(data, ray);
+	// init_values(data, ray);
 	while (!hit)
 	{
 		calculate_intersection(data);

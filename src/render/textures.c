@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:22:24 by eucho         #+#    #+#                 */
-/*   Updated: 2024/01/23 11:10:01 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/01 16:33:14 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 {
 	mlx_texture_t	*tex;
 	int				y;
-	int				color;
+	uint32_t				color;
 
 	tex = texture_dir(data, wall_dir);
 	if (wall_dir == DIR_W || wall_dir == DIR_E)
