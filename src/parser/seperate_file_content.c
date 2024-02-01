@@ -56,15 +56,14 @@ int	handle_content(t_file *file, int r, int row)
 		if (is_texture_type(temp_arr[0]) == 1)
 		{
 			set_textures(file, temp_arr);
-			free_arr(temp_arr);
 		}
 		else if (is_color_type(temp_arr[0]) == 1)
 		{
 			set_colors(file, file->content_arr[r], temp_arr);
-			free_arr(temp_arr);
 		}
 		else
 			create_map(file, file->content_arr[r], &row);
+		free_arr(temp_arr);
 		r++;
 	}
 	last_check_content(file);

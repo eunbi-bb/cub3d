@@ -25,8 +25,8 @@ static char	*append_line_to_map(char *content, char *line)
 	if (content == NULL)
 		content = protect_mem(ft_calloc((ft_strlen_protect(line) + 1),
 					sizeof(char)));
-	appended = protect_mem(ft_calloc(sizeof(char), ft_strlen_protect(content)
-				+ ft_strlen_protect(line) + 1));
+	appended = protect_mem(ft_calloc(ft_strlen_protect(content)
+				+ ft_strlen_protect(line) + 1, sizeof(char)));
 	map_i = 0;
 	while (content[map_i] != '\0')
 	{
@@ -82,7 +82,7 @@ char	*file_content_arr(t_file *file, t_map *map, int fd)
 */
 bool	empty_line_in_map(char *content, int i)
 {
-	while (content[++i] != '\0')
+	while (i < (int)ft_strlen(content) && content[++i] != '\0')
 	{
 		if (content[i] == 'C' || content[i] == 'F')
 		{
@@ -115,6 +115,7 @@ int	get_content_from_file(t_file *file, char *file_name)
 	int		map_lines;
 	char	*content;
 
+	content = NULL;
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		err_msg("File can not be opened");

@@ -23,7 +23,9 @@ static int	set_floor(t_file *file, char *content, char **texture_arr)
 			err_msg("Floor is already set");
 		temp_arr = ft_substr(content, 2, ft_strlen(content) - 2);
 		color_arr = ft_split(temp_arr, ',');
+		free(temp_arr);
 		color_atoi(file, color_arr, 'f');
+		free_arr(color_arr);
 		return (0);
 	}
 	return (EXIT_FAILURE);
@@ -40,11 +42,13 @@ static int	set_ceiling(t_file *file, char *content, char **texture_arr)
 			err_msg("Ceiling is already set");
 		temp_arr = ft_substr(content, 2, ft_strlen(content) - 2);
 		color_arr = ft_split(temp_arr, ',');
+		free(temp_arr);
 		color_atoi(file, color_arr, 'c');
 		if (file->identifier.c_r == file->identifier.f_r
 			&& file->identifier.c_g == file->identifier.f_g
 			&& file->identifier.c_b == file->identifier.f_b)
 			err_msg("Set different colors for ceiling and floor");
+		free_arr(color_arr);
 		return (0);
 	}
 	return (EXIT_FAILURE);
