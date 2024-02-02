@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 15:22:24 by eucho         #+#    #+#                 */
-/*   Updated: 2024/02/01 16:33:14 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/02 11:59:43 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,10 @@ mlx_texture_t	*texture_dir(t_data *data, t_dir wdir)
 *	Extracting rgba values from png image and returns 
 *	a single integer.
 */
-int	get_png_rgb(int x, int y, mlx_texture_t *image)
+int	get_png_rgb(int x, int y, mlx_texture_t *image, int max)
 {
 	int	index;
-	int	max;
 
-	max = image->height * image->width * image->bytes_per_pixel;
 	index = ((y * image->width) + x) * (image->bytes_per_pixel);
 	if (index >= max)
 		return (0);
@@ -90,10 +88,12 @@ int	get_png_rgb(int x, int y, mlx_texture_t *image)
 void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 {
 	mlx_texture_t	*tex;
+	int				max;
 	int				y;
 	uint32_t		color;
 
 	tex = texture_dir(data, wall_dir);
+	max = tex->height * tex->width * tex->bytes_per_pixel;
 	if (wall_dir == DIR_W || wall_dir == DIR_E)
 		data->tex.ratio = data->wall.wall_y - floor(data->wall.wall_y);
 	else
@@ -104,7 +104,7 @@ void	print_tex(t_data *data, int x, int y0, t_dir wall_dir)
 	{
 		data->tex.y = (int)(((double)(y - y0) *\
 					tex->height / data->wall.wall_h));
-		color = fade_color(get_png_rgb(data->tex.x, data->tex.y, tex),
+		color = fade_color(get_png_rgb(data->tex.x, data->tex.y, tex, max),
 				data->tex.light);
 		mlx_put_pixel(data->image, x, y, color);
 		y++;

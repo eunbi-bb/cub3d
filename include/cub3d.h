@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/01 12:55:38 by eucho         #+#    #+#                 */
-/*   Updated: 2024/02/01 17:36:47 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/02 11:59:16 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ void			init_values(t_data *data, double ray);
 void			render(t_data *data);
 
 /*** texture.c ***/
-int				get_png_rgb(int x, int y, mlx_texture_t *image);
+int				get_png_rgb(int x, int y, mlx_texture_t *image, int max);
 void			print_tex(t_data *data, int x, int y0, t_dir wall_dir);
 
 #endif
