@@ -73,6 +73,9 @@ all: libmlx $(NAME)
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && cmake --build $(LIBMLX)/build -j4
 
+$(LIBMLX)/.git:
+	@git submodule add https://github.com/codam-coding-college/MLX42.git $(LIBMLX)
+
 $(NAME): $(OBJ) $(OBJF)
 		@make -C $(LIBFT)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT)/libft.a -o $(NAME) $(MATH)
