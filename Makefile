@@ -75,7 +75,7 @@ check_submodule:
 		git submodule update --init; \
 	fi
 
-libmlx:
+libmlx: check_submodule
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && cmake --build $(LIBMLX)/build -j4
 
 $(NAME): $(OBJ) $(OBJF)
