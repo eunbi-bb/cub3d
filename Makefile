@@ -68,14 +68,10 @@ CYAN		=	\033[0;96m
 GREEN_B		=	\033[1;32m
 DEFAULT		=	\033[0m
 
-all: check_submodule libmlx $(NAME)
+all: libmlx $(NAME)
 
-check_submodule:
-	@if [ ! -f $(LIBMLX)/.git ]; then \
-		git submodule update --init; \
-	fi
-
-libmlx: check_submodule
+libmlx:
+	git submodule add --init
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && cmake --build $(LIBMLX)/build -j4
 
 $(NAME): $(OBJ) $(OBJF)
