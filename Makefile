@@ -71,8 +71,8 @@ DEFAULT		=	\033[0m
 all: libmlx $(NAME)
 
 libmlx:
-	@git submodule init
-	@git submodule update
+	@$(LIBMLX)/git submodule init
+	@$(LIBMLX)/git submodule update
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && cmake --build $(LIBMLX)/build -j4
 
 $(NAME): $(OBJ) $(OBJF)
