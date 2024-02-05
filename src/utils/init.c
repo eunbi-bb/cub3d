@@ -6,7 +6,7 @@
 /*   By: gozturk <marvin@42.fr>                       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/31 12:06:01 by gozturk       #+#    #+#                 */
-/*   Updated: 2024/02/01 17:29:11 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/05 15:58:01 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	init_player(t_data *data)
 	data->pl = (t_player *)malloc(sizeof(t_player));
 	data->pl->x = data->file.map.player_pos_x;
 	data->pl->y = data->file.map.player_pos_y - 1.0;
-	printf("pl->x = %lf\n pl->y = %lf\n", data->pl->x, data->pl->y);
 	data->pl->th = position_to_degree(data->file.map.p_direction);
 }
 

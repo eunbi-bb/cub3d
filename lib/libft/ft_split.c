@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/10 16:10:04 by eucho         #+#    #+#                 */
-/*   Updated: 2023/01/14 20:16:28 by eunbi         ########   odam.nl         */
+/*   Updated: 2024/02/05 15:55:58 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ char	**ft_split(char const *s, char c)
 			if (str[i - 1] == NULL)
 				return (free_pointer_array(str - (i - 1)));
 	}
-	str[i] = 0;
+	str[i] = '\0';
 	return (str);
 }
