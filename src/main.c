@@ -54,4 +54,5 @@ int	main(int argc, char **argv)
 	free(data.pl);
 	clean_textures(&data);
 	mlx_terminate(data.mlx);
+	exit(EXIT_SUCCESS);
 }

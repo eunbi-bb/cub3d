@@ -107,7 +107,10 @@ void	key_press(void *game_data)
 
 	data = (t_data *)game_data;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+	{
+		mlx_terminate(data->mlx);
 		exit(EXIT_SUCCESS);
+	}
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_W))
 		player_move_render(data, MLX_KEY_W);
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_A))

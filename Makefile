@@ -68,13 +68,15 @@ CYAN		=	\033[0;96m
 GREEN_B		=	\033[1;32m
 DEFAULT		=	\033[0m
 
-all: libmlx $(NAME)
+LIBMLX42 = $(LIBMLX)/build/libmlx42.a
 
-libmlx:
+all: $(LIBMLX42) $(NAME)
+
+$(LIBMLX42):
 	@git submodule update --init --recursive
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && cmake --build $(LIBMLX)/build -j4
 
-$(NAME): $(OBJ) $(OBJF)
+$(NAME): $(OBJ) $(OBJF) $(LIBMLX42)
 		@make -C $(LIBFT)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT)/libft.a -o $(NAME) $(MATH)
 		@echo "$(CYAN_B) - cub3d is compiled - $(DEFAULT)"
