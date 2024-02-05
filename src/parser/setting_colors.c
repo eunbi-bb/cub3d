@@ -54,8 +54,22 @@ static int	set_ceiling(t_file *file, char *content, char **texture_arr)
 	return (EXIT_FAILURE);
 }
 
+void	sign_checker(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (ft_isdigit(line[i]) == 0 && line[i] != ',')
+			err_msg("Invalid sign in the identifiers");
+		i++;
+	}
+}
+
 void	set_colors(t_file *file, char *content, char **texture_arr)
 {
+	sign_checker(texture_arr[1]);
 	if (set_floor(file, content, texture_arr) == 0)
 	{
 		if (valid_floor_color(file) == false)

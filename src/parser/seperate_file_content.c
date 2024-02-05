@@ -39,6 +39,25 @@ bool	identifiers_complete(t_file *file)
 		|| file->identifier.ceiling_set == false);
 }
 
+void	comma_counter(char *line)
+{
+	int	i;
+	int	comma;
+
+	i = 0;
+	comma = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '.')
+			err_msg("Invalid sign in the identifiers");
+		if (line[i] == ',')
+			comma++;
+		i++;
+	}
+	if (comma != 2)
+		err_msg("Color value error");
+}
+
 /*
 ** Traverse in file content array (char arr) and seperates
 ** identifier information and creates map array
@@ -50,17 +69,14 @@ int	handle_content(t_file *file, int r, int row)
 	temp_arr = NULL;
 	while (file->content_arr[r] != NULL)
 	{
+		//comma_counter(file->content_arr[r]);
 		temp_arr = ft_split(file->content_arr[r], ' ');
 		if (temp_arr == NULL)
 			return (EXIT_FAILURE);
 		if (is_texture_type(temp_arr[0]) == 1)
-		{
 			set_textures(file, temp_arr);
-		}
 		else if (is_color_type(temp_arr[0]) == 1)
-		{
 			set_colors(file, file->content_arr[r], temp_arr);
-		}
 		else
 			create_map(file, file->content_arr[r], &row);
 		free_arr(temp_arr);

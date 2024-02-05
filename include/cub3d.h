@@ -184,6 +184,8 @@ bool			is_texture_type(char *texture);
 bool			is_color_type(char *color);
 bool			identifiers_complete(t_file *file);
 int				handle_content(t_file *file, int r, int row);
+void			comma_counter(char *line);
+
 
 /*** setting_texture_paths.c ***/
 void			set_textures(t_file *file, char **texture_arr);

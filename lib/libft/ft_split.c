@@ -78,6 +78,6 @@ char	**ft_split(char const *s, char c)
 			if (str[i - 1] == NULL)
 				return (free_pointer_array(str - (i - 1)));
 	}
-	str[i] = '\0';
+	str[i] = NULL;
 	return (str);
 }
