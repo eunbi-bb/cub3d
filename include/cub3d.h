@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/01 12:55:38 by eucho         #+#    #+#                 */
-/*   Updated: 2024/02/06 13:39:28 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/06 14:43:40 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # define _2PI		6.28318530717958647692  /* 360 degrees */
 # define ROT_UNIT	0.03	/* in radian */
-# define MOVE_UNIT	0.3
+# define MOVE_UNIT	0.33
 
 typedef enum t_line
 {
