@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   setting_colors.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gozturk <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 12:05:21 by gozturk           #+#    #+#             */
-/*   Updated: 2024/01/31 12:05:24 by gozturk          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   setting_colors.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gozturk <marvin@42.fr>                       +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/31 12:05:21 by gozturk       #+#    #+#                 */
+/*   Updated: 2024/02/06 13:43:57 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ static int	set_floor(t_file *file, char *content, char **texture_arr)
 {
 	char	**color_arr;
 	char	*temp_arr;
+	char	*temp;
 
 	if (ft_strsame("F", texture_arr[0]) == 1)
 	{
 		if (file->identifier.floor_set == true)
 			err_msg("Floor is already set");
-		temp_arr = ft_substr(content, 2, ft_strlen(content) - 2);
+		temp = ft_substr(content, 2, ft_strlen(content) - 2);
+		temp_arr = ft_strtrim(temp, " ");
+		free(temp);
+		comma_counter(temp_arr);
 		color_arr = ft_split(temp_arr, ',');
+		sign_checker(temp_arr);
 		free(temp_arr);
 		color_atoi(file, color_arr, 'f');
 		free_arr(color_arr);
@@ -35,13 +40,18 @@ static int	set_ceiling(t_file *file, char *content, char **texture_arr)
 {
 	char	**color_arr;
 	char	*temp_arr;
+	char	*temp;
 
 	if (ft_strsame("C", texture_arr[0]) == 1)
 	{
 		if (file->identifier.ceiling_set == true)
 			err_msg("Ceiling is already set");
-		temp_arr = ft_substr(content, 2, ft_strlen(content) - 2);
+		temp = ft_substr(content, 2, ft_strlen(content) - 2);
+		temp_arr = ft_strtrim(temp, " ");
+		free(temp);
+		comma_counter(temp_arr);
 		color_arr = ft_split(temp_arr, ',');
+		sign_checker(temp_arr);
 		free(temp_arr);
 		color_atoi(file, color_arr, 'c');
 		if (file->identifier.c_r == file->identifier.f_r
@@ -59,6 +69,8 @@ void	sign_checker(char *line)
 	int	i;
 
 	i = 0;
+	if (line == NULL)
+		err_msg("Empty color value");
 	while (line[i] != '\0')
 	{
 		if (ft_isdigit(line[i]) == 0 && line[i] != ',')
@@ -69,7 +81,6 @@ void	sign_checker(char *line)
 
 void	set_colors(t_file *file, char *content, char **texture_arr)
 {
-	sign_checker(texture_arr[1]);
 	if (set_floor(file, content, texture_arr) == 0)
 	{
 		if (valid_floor_color(file) == false)

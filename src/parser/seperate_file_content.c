@@ -6,24 +6,40 @@
 /*   By: gozturk <marvin@42.fr>                       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/31 12:05:12 by gozturk       #+#    #+#                 */
-/*   Updated: 2024/02/05 15:56:43 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/06 13:43:41 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool	is_texture_type(char *texture)
+bool	is_texture_type(t_file *file, char *line, char *texture)
 {
-	return (ft_strsame(texture, "NO") == 1
+	if (ft_strsame(texture, line) == 1 && (!file->identifier.floor_set
+			|| !file->identifier.ceiling_set || !file->identifier.no_set
+			|| !file->identifier.so_set || !file->identifier.we_set
+			|| !file->identifier.ea_set))
+	{
+		err_msg("Cannot identify content");
+	}
+	if (ft_strsame(texture, "NO") == 1
 		|| ft_strsame(texture, "SO") == 1
 		|| ft_strsame(texture, "WE") == 1
-		|| ft_strsame(texture, "EA") == 1);
+		|| ft_strsame(texture, "EA") == 1)
+		return (true);
+	return (false);
 }
 
-bool	is_color_type(char *color)
+bool	is_color_type(t_file *file, char *line, char *color)
 {
-	return (ft_strsame(color, "F") == 1
-		|| ft_strsame(color, "C") == 1);
+	if (ft_strsame(color, line) == 1 && (!file->identifier.floor_set
+			|| !file->identifier.ceiling_set || !file->identifier.no_set
+			|| !file->identifier.so_set || !file->identifier.we_set
+			|| !file->identifier.ea_set))
+		err_msg("Cannot identify content");
+	if (ft_strsame(color, "F") == 1
+		|| ft_strsame(color, "C") == 1)
+		return (true);
+	return (false);
 }
 
 /*
@@ -48,8 +64,6 @@ void	comma_counter(char *line)
 	comma = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '.')
-			err_msg("Invalid sign in the identifiers");
 		if (line[i] == ',')
 			comma++;
 		i++;
@@ -69,13 +83,12 @@ int	handle_content(t_file *file, int r, int row)
 	temp_arr = NULL;
 	while (file->content_arr[r] != NULL)
 	{
-		//comma_counter(file->content_arr[r]);
 		temp_arr = ft_split(file->content_arr[r], ' ');
 		if (temp_arr == NULL)
 			return (EXIT_FAILURE);
-		if (is_texture_type(temp_arr[0]) == 1)
+		if (is_texture_type(file, file->content_arr[r], temp_arr[0]) == 1)
 			set_textures(file, temp_arr);
-		else if (is_color_type(temp_arr[0]) == 1)
+		else if (is_color_type(file, file->content_arr[r], temp_arr[0]) == 1)
 			set_colors(file, file->content_arr[r], temp_arr);
 		else
 			create_map(file, file->content_arr[r], &row);

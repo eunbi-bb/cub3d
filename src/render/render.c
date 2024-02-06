@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/22 13:47:09 by eucho         #+#    #+#                 */
-/*   Updated: 2024/02/01 17:40:47 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/06 11:12:32 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,7 @@ void	key_press(void *game_data)
 
 	data = (t_data *)game_data;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-	{
-		mlx_terminate(data->mlx);
-		exit(EXIT_SUCCESS);
-	}
+		terminate_exit(data);
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_W))
 		player_move_render(data, MLX_KEY_W);
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_A))

@@ -6,7 +6,7 @@
 /*   By: eucho <eucho@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/01 12:55:38 by eucho         #+#    #+#                 */
-/*   Updated: 2024/02/02 11:59:16 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/06 13:39:28 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # define _2PI		6.28318530717958647692  /* 360 degrees */
 # define ROT_UNIT	0.03	/* in radian */
-# define MOVE_UNIT	0.2
+# define MOVE_UNIT	0.3
 
 typedef enum t_line
 {
@@ -164,7 +164,6 @@ void			init_file_struct(t_file *file);
 int				parser(int argc, char **argv, t_file *file);
 
 /*** handle_file.c ***/
-int				check_empty_new_line(char *str);
 char			*file_content_arr(t_file *file, t_map *map, int fd);
 int				get_content_from_file(t_file *file, char *file_name);
 bool			empty_line_in_map(char *content, int i);
@@ -180,18 +179,18 @@ void			make_int_arr(t_file *file, int r, int c);
 char			**copy_map(t_file *file);
 
 /*** seperate_file_content.c ***/
-bool			is_texture_type(char *texture);
-bool			is_color_type(char *color);
+bool			is_texture_type(t_file *file, char *line, char *texture);
+bool			is_color_type(t_file *file, char *line, char *color);
 bool			identifiers_complete(t_file *file);
 int				handle_content(t_file *file, int r, int row);
 void			comma_counter(char *line);
-
 
 /*** setting_texture_paths.c ***/
 void			set_textures(t_file *file, char **texture_arr);
 
 /*** setting_colors.c ***/
 void			set_colors(t_file *file, char *content, char **texture_arr);
+void			sign_checker(char *line);
 
 /*** colors.c ***/
 bool			valid_floor_color(t_file *file);
@@ -221,6 +220,7 @@ char			**array_dup(t_file *file, char **arr);
 void			free_arr(char **arr);
 void			free_textures(t_data *data);
 void			clean_textures(t_data *data);
+void			terminate_exit(t_data *data);
 
 /*** draw.c ***/
 void			draw_wall(t_data *data, double wdist, int x, t_dir wall_dir);

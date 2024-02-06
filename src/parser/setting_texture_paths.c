@@ -18,8 +18,6 @@ static int	set_no_texture(t_file *file, char **texture_arr)
 	{
 		if (file->identifier.no_set == true)
 			err_msg("Path NO already set");
-		// if (ft_strlen(texture_arr[1]) <= 0)
-		// 	err_msg("Empty path");
 		file->identifier.path_no = ft_strdup(texture_arr[1]);
 		if (file->identifier.path_no == NULL)
 			err_msg("set_NO_texture() has failed");
@@ -76,7 +74,7 @@ static int	set_ea_texture(t_file *file, char **texture_arr)
 
 void	set_textures(t_file *file, char **texture_arr)
 {
-	if(texture_arr[1] == NULL)
+	if (texture_arr[1] == NULL)
 		err_msg("Empty Path");
 	if (valid_file_extension(".png", texture_arr[1]) == 0)
 		err_msg("Bad file extensiton in a texture path");

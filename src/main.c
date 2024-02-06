@@ -6,7 +6,7 @@
 /*   By: gozturk <marvin@42.fr>                       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/31 12:06:28 by gozturk       #+#    #+#                 */
-/*   Updated: 2024/02/01 16:59:10 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/06 11:11:54 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,5 @@ int	main(int argc, char **argv)
 	mlx_loop(data.mlx);
 	free(data.pl);
 	clean_textures(&data);
-	mlx_terminate(data.mlx);
-	exit(EXIT_SUCCESS);
+	terminate_exit(&data);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gozturk <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 12:05:54 by gozturk           #+#    #+#             */
-/*   Updated: 2024/01/31 12:05:57 by gozturk          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   free.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gozturk <marvin@42.fr>                       +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/31 12:05:54 by gozturk       #+#    #+#                 */
+/*   Updated: 2024/02/06 11:12:03 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,10 @@ void	clean_textures(t_data *data)
 	mlx_delete_texture(data->file.identifier.tex_so);
 	mlx_delete_texture(data->file.identifier.tex_we);
 	mlx_delete_texture(data->file.identifier.tex_ea);
+}
+
+void	terminate_exit(t_data *data)
+{
+	mlx_terminate(data->mlx);
+	exit(EXIT_SUCCESS);
 }
