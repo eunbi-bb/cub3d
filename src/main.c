@@ -6,7 +6,7 @@
 /*   By: gozturk <marvin@42.fr>                       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/31 12:06:28 by gozturk       #+#    #+#                 */
-/*   Updated: 2024/02/06 11:11:54 by eucho         ########   odam.nl         */
+/*   Updated: 2024/02/06 15:09:42 by eucho         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		err_msg("Wrong number of arguments");
+	parser(argc, argv, &data.file);
+	load_textures(&data);
+	init_player(&data);
 	data.mlx = mlx_init(SX, SY, "cub3d", false);
 	if (!data.mlx)
 		return (puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
@@ -45,9 +48,6 @@ int	main(int argc, char **argv)
 		return (close_window(&data));
 	if (mlx_image_to_window(data.mlx, data.image, 0, 0) == -1)
 		return (close_window(&data));
-	parser(argc, argv, &data.file);
-	load_textures(&data);
-	init_player(&data);
 	render(&data);
 	mlx_loop_hook(data.mlx, key_press, &data);
 	mlx_loop(data.mlx);
