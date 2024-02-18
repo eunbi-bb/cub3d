@@ -40,10 +40,12 @@ The parser is detecting misconfiguration of any kind is encounted in the file. F
 - If each type of element can be separated by one or more empty line(s) except for the map content.
 
 ## *Render*
-Representing Ray-casting with the *DDA(Digital Differential Analyzer) as known as the Line Drawing Algorithm*. [Resource for Ray-casting(In Korean)](https://github.com/mathreboot/raycast)
+Representing Ray-casting with the *DDA(Digital Differential Analyzer) as known as the Line Drawing Algorithm*.\
+[Resource for Ray-casting(In Korean)](https://github.com/mathreboot/raycast)
 
-The algorithm is applied to [src/render](src/render).\
-To render the map, first, cast rays form the player's position through each pixel on the screen.\ 
+The algorithm is applied to [src/render](src/render).
+
+To render the map, first, cast rays form the player's position through each pixel on the screen.\
 To check for intersections between the cast rays and the walls in the scene,\
 the DDA algorithm helps stepping through the ray and checking for intersections with walls.\
 In my code, it's applied to [get_intersection](src/render/ray_casting.c).\
@@ -52,4 +54,8 @@ To determine the 'real' wall, find the closest intersection from the player, \
 considering both horizontal and vertical intersections. Once all rays have been cast and intersections checked, \
 use the depth information to determine the height of the wall on the screen.\
 Finally Render the scene by drawing vertical lines based on their height and distance from the player.
+
+---
+## *Other Resources about ray casting*
+[Make Your OWn Raycaster](https://youtu.be/gYRrGTC7GtA?feature=shared)
 
