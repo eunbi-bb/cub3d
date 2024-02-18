@@ -40,40 +40,16 @@ The parser is detecting misconfiguration of any kind is encounted in the file. F
 - If each type of element can be separated by one or more empty line(s) except for the map content.
 
 ## *Render*
-Representing Ray-casting with the *DDA(Digital Differential Analyzer) as known as the Line Drawing Algorithm*. [Resource for Ray-casting(In Korean)](https://github.com/mathreboot/raycast) \
+Representing Ray-casting with the *DDA(Digital Differential Analyzer) as known as the Line Drawing Algorithm*. [Resource for Ray-casting(In Korean)](https://github.com/mathreboot/raycast)
 
-This algorithm is applied to
-```
-bool	get_intersection(t_data *data, t_dir *wall_dir);
-```
-\
-To draw walls, [MLX42](https://github.com/codam-coding-college/MLX42) graphic library functions are used.
-- To draw vertical lines
-```C
-void mlx_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
-```
+The algorithm is applied to [src/render](src/render).\
+To render the map, first, cast rays form the player's position through each pixel on the screen.\ 
+To check for intersections between the cast rays and the walls in the scene,\
+the DDA algorithm helps stepping through the ray and checking for intersections with walls.\
+In my code, it's applied to [get_intersection](src/render/ray_casting.c).\
+The intersections are checked both horizontally and vertically. \
+To determine the 'real' wall, find the closest intersection from the player, \
+considering both horizontal and vertical intersections. Once all rays have been cast and intersections checked, \
+use the depth information to determine the height of the wall on the screen.\
+Finally Render the scene by drawing vertical lines based on their height and distance from the player.
 
-- ##### To load PNG file
-
-```C
-mlx_texture_t* mlx_load_png(const char* path);
-```
-
-- ##### To receive key hook
-```C
-bool mlx_loop_hook(mlx_t* mlx, void (*f)(void*), void* param);
-
-
-```
-#### Additional functions for graphic
-- ##### To apply a light/shade impact depending on distance
-```C
-double	get_luminosity(t_data *data, double dist);
-```
-```C
-int	fade_color(int color, double light);
-```
-- ##### To extract rgba values from a PNG file
-```C
-int	get_png_rgb(int x, int y, mlx_texture_t *image, int max);
-```
