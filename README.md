@@ -21,17 +21,18 @@ Pressing `ESC` or Clicking a `cross button` on the window's frame.
 ## *Parser*
 Parsing all information from a `.cub` file to execute.\
 A `.cub` file contains below informatin.
-  - A map is composed of `1`(wall) and `0`(empty space).
-  - Player's start position and orientation(`N`,`S`,`E` or `W`).
-  - The texture path of each wall according to the direction.\
+  - ##### A map is composed of `1`(wall) and `0`(empty space).
+  - ##### Player's start position and orientation(`N`,`S`,`E` or `W`).
+  - ##### The texture path of each wall according to the direction.\
     North texture : `NO ./path_to_the_north_texture`\
     South texture : `SO ./path_to_the_south_texture`\
     West texture  : `WE ./path_to_the_west_texture`\
     East texture  : `EA ./path_to_the_east_texture`
-  - Floor and Ceiling RGB color
-    Floor color : `F 200,100,0`
-    Ceiling color : `C 225,30,0`\
-*Example of `map.cub`*
+  - ##### Floor and Ceiling RGB color\
+    Floor color : `F 200,100,0`\
+    Ceiling color : `C 225,30,0`
+    
+*Example of `map.cub`* \
 ![image](https://github.com/eunbi0308/cub3d/assets/80834766/903eb2c1-4148-474a-b523-3808f2c22738)
 
 The parser is detecting misconfiguration of any kind is encounted in the file. For example,
