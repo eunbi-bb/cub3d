@@ -20,7 +20,7 @@ Pressing `ESC` or Clicking a `cross button` on the window's frame.
 
 ## *Parser*
 Parsing all information from a `.cub` file to execute.\
-A `.cub` file contains below informatin.
+A `.cub` file contains below information.
   - ##### A map is composed of `1`(wall) and `0`(empty space).
   - ##### Player's start position and orientation(`N`,`S`,`E` or `W`).
   - ##### The texture path of each wall according to the direction.\
@@ -37,7 +37,8 @@ A `.cub` file contains below informatin.
 
 The parser is detecting misconfiguration of any kind is encounted in the file. For example,
 - The map is closed/surreounded by walls.
-- The map is composed of only 6 possible characters : `0`, `1` and `N` `S` `E` or `W`.
+- Texture files pointed at texture path have to be of .png format.
+- The map is composed of only 6 possible characters : `0`, `1` and `N` `S` `E` or `W`. It shoudn't have any other identifier.
 - If each type of element can be separated by one or more empty line(s) except for the map content.
 
 ## *Render*
@@ -59,4 +60,8 @@ Finally Render the scene by drawing vertical lines based on their height and dis
 ---
 ## *Other Resources about ray casting*
 [Make Your OWn Raycaster](https://youtu.be/gYRrGTC7GtA?feature=shared)
+
+## Collabrators *
+@eunbi0308
+@gulsro
 
